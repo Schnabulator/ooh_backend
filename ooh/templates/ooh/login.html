@@ -8,7 +8,9 @@
 
             <div id="login-box" class=""> 
                 <!-- somit würde er nicht in die erste if Bedinung bei LRSwitch -->
-        
+                {% if user.is_authenticated %}
+                    <h2 style="color: white;">Bereits angemeldet</h2> {# //TODOnice machen#}
+                {% else %}
                 <form id="loginRegister" action="#">
                     <h2 style="color: white;"></h2>
                     {% csrf_token %}
@@ -111,6 +113,7 @@
                     
                     <a href="#" onclick="SwitchLR()" style="color: white;"></a>
                 </form>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -126,9 +129,9 @@
         function setValidator() {
             $("#loginRegister").validate({
                 rules: {
-                    passwd: {
+                    password1: {
                         required: true,
-                        minlength: 4
+                        minlength: 4 //used from django standard
                     }
                 }
             });
@@ -154,14 +157,16 @@
             setValidator();
 
             $('#LRSubmit').on('click', function() {
-                if ( $("#loginRegister").valid() === false ) return false;
-
+                console.log("LRSUBMIT");
+                // if ( $("#loginRegister").valid() === false ) return false; //Das ist kaputt gegangen
+                console.log("LRSUBMIT validated");
                 if ( $("#login-box").hasClass("registrieren") && $("#password1").val() != $("#password2").val() ) {
                     $("#passwortHinweis").addClass("show");
                     setTimeout( function() {$("#passwortHinweis").removeClass("show");}, 2000);
                     return false;
                 }
-                
+
+                console.log("LRSUBMIT building formdata");
                 form_data = $("#loginRegister").find(".ed").serialize();
                 form_data = form_data+"&type=loginReg";
                 form_data = form_data+"&csrfmiddlewaretoken={{ csrf_token }}";
@@ -169,6 +174,7 @@
                 form_data = form_data+"&formular="+(( $("#login-box").hasClass("registrieren") ) ? 'reg' : 'login');
                 
                 weiter = false;
+                console.log("Right before ajax");
                 $.ajax({
                     type: "POST",
                     
@@ -177,6 +183,7 @@
                     
                     dataType: "text",
                     success: function(resp){
+                        console.log("Success");
                         ret = jQuery.parseJSON(resp);
             
                         $('#LRSubmit').prop('disabled', true);

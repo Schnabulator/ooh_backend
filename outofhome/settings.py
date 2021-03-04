@@ -25,7 +25,7 @@ SECRET_KEY = ')m5kp$%gxtjlm=t4v6qw5@)3w((a-fm0vpulxk(cxr!&jvs*$3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['oob.amatt.de', 'localhost']
+ALLOWED_HOSTS = ['oob.amatt.de', 'localhost', '192.168.2.110']
 
 
 # Application definition
