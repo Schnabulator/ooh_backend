@@ -9,7 +9,7 @@ urlpatterns = [
     path('login/', views.login, name='loginview'),
     path('locations/', views.EventLocationView.as_view(), name='locations'),
     path('events/', views.EventView.as_view(), name='events'),
-    path('profile/login',    views.UserLoginView.as_view(), name='login'),
-    path('profile/logout',   views.UserLogoutView.as_view(), name='logout'),
+    path('profile/login', views.UserLoginView.as_view(), name='login'),
+    path('profile/logout', views.UserLogoutView.as_view(), name='logout'),
     # path('profile/register', views.RegisterView.as_view(), name='register'),
 ]

@@ -14,7 +14,12 @@
                     {% csrf_token %}
                     <div class="text-box reg">
                         <i class="fa fa-user" aria-hidden="true"></i>
-                        <input id="name" type="text" name="name" placeholder="Name" class="ed">
+                        <input id="firstname" type="text" name="firstname" placeholder="Vorname" class="ed">
+                    </div>
+
+                    <div class="text-box reg">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <input id="lastname" type="text" name="lastname" placeholder="Nachname" class="ed">
                     </div>
 
                     <div class="text-box">
@@ -22,16 +27,22 @@
                         <input id="email" type="text" name="email" placeholder="E-Mail" class="required email ed">
                     </div>
 
+                    <div class="text-box reg">
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                        <input type='date' id='birthday' name='birthday' class="required ed"/>
+                    </div>
+
                     <div class="text-box">
                         <i class="fa fa-lock" aria-hidden="true"></i>
-                        <input id="passwd" type="password" name="passwd" placeholder="Passwort" class="required ed">
+                        <input id="password1" type="password" name="password1" placeholder="Passwort" class="required ed">
                     </div>
 
                     <div class="text-box reg">
                         <i class="fa fa-lock" aria-hidden="true"></i>
-                        <input id="passwdR" type="password" name="passwdR" placeholder="Passwort wiederholen">
+                        <input id="password2" type="password" name="password2" placeholder="Passwort wiederholen" class="required ed">
                         <div id="passwortHinweis" class="showoff">Die beiden Passw&ouml;ter stimmen nicht überein.</div>
                     </div>
+                    
 
                     <button id="LRSubmit" class="button" type="button">
                         <svg id="svgLoading" width="50px"  height="50px"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" style="background: none;"><g transform="rotate(0 50 50)">
@@ -126,7 +137,7 @@
         $("#svgLoading").hide();
 
         function SwitchLR() {
-            if ( $("#login-box").hasClass("registrieren") ) {
+            if ($("#login-box").hasClass("registrieren") ) {
                 $("#loginRegister").find(".reg input").removeClass("required")
                 $("#login-box").removeClass("registrieren");
             } else {
@@ -145,7 +156,7 @@
             $('#LRSubmit').on('click', function() {
                 if ( $("#loginRegister").valid() === false ) return false;
 
-                if ( $("#login-box").hasClass("registrieren") && $("#passwd").val() != $("#passwdR").val() ) {
+                if ( $("#login-box").hasClass("registrieren") && $("#password1").val() != $("#password2").val() ) {
                     $("#passwortHinweis").addClass("show");
                     setTimeout( function() {$("#passwortHinweis").removeClass("show");}, 2000);
                     return false;
@@ -153,7 +164,7 @@
                 
                 form_data = $("#loginRegister").find(".ed").serialize();
                 form_data = form_data+"&type=loginReg";
-                // form_data = form_data+"&csrfmiddlewaretoken={{ csrf_token }}";
+                form_data = form_data+"&csrfmiddlewaretoken={{ csrf_token }}";
                 form_data = form_data+"&next={{ next }}";
                 form_data = form_data+"&formular="+(( $("#login-box").hasClass("registrieren") ) ? 'reg' : 'login');
                 
@@ -161,8 +172,7 @@
                 $.ajax({
                     type: "POST",
                     
-                    // url: "{% url 'login' %}"
-                    url: "{% url 'django.contrib.auth.views.login' %}",
+                    url: "{% url 'ooh:login' %}",
                     data: form_data,
                     
                     dataType: "text",
@@ -184,8 +194,8 @@
                                 setTimeout( function() {
                                     $("#loginRegister").remove();
                                     $("#login-box").html('<div id="loginRegister" style="color:white;">'+ret.success+'</div>');    
-                                }, 1000);                 
-                                setTimeout( function() {window.location.replace("/index.html");}, 3000);
+                                }, 500);                 
+                                setTimeout( function() {window.location.replace("{{next}}");}, 1000);
                             } else
                                 alert("Bei der Datenübergabe ist ein Fehler aufgetreten.\n\nBitte wiederholen Sie den Vorgang noch einmal.");
                             }

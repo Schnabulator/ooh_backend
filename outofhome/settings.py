@@ -124,3 +124,4 @@ STATIC_URL = '/static/'
 
 # Custom User
 AUTH_USER_MODEL = 'ooh.OohUser'
+LOGOUT_REDIRECT_URL = "/"

@@ -16,7 +16,7 @@ class OohUser(AbstractBaseUser, PermissionsMixin):
     email    = models.EmailField(_('email address'),unique=True)
     firstname = models.CharField(max_length=100)
     lastname = models.CharField(max_length=100)
-    birthday = models.DateField()
+    birthday = models.DateField(null=True)
     REQUIRED_FIELDS = ['firstname', 'lastname', 'birthday',]
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)

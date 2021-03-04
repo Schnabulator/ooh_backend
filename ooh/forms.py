@@ -21,9 +21,9 @@ class RegLoginSwitch(forms.Form):
 class UserLoginForm(forms.Form):
     # user = forms.CharField(required=False)
     email = forms.EmailField()
-    passwd = forms.CharField(max_length=32, widget=forms.PasswordInput)
+    password1 = forms.CharField(max_length=32, widget=forms.PasswordInput)
 
-class UserRegisterForm(forms.Form):
+class UserRegisterForm(UserCreationForm):
     user = forms.CharField(required=False)
     email = forms.EmailField()
-    passwd = forms.CharField(max_length=32, widget=forms.PasswordInput)
+    password = forms.CharField(max_length=32, widget=forms.PasswordInput)
