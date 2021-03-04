@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<!-- saved from url=(0017)http://localhost/ -->
+<html class="no-js wf-barlowsemicondensed-n1-active wf-barlowsemicondensed-n3-active wf-barlowsemicondensed-n4-active wf-barlowsemicondensed-n7-active wf-active menu_altern" lang="de"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Out of Home</title>
+
+    <meta name="keywords" content="ausgehen, trinken, saufen, bier">
+    <meta name="description" content="Über Outofhome können Angebote von Lokalen in der Nähe gefunden werden">
+    <meta name="copyright" content="Out of Home">
+    <meta name="author" content="Ryan, Andy, Max, Igor, Laura, Alina">
+    <meta name="audience" content="All"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'img-dsg/favicon.ico' %}" type="image/x-icon">
+
+    <link id="css_screen" media="screen" href="{% static 'ooh/css/style.css' %}" rel="stylesheet">
+    <link id="css_screen_add" media="screen" href="{% static 'ooh/css/style_add.css' %}" rel="stylesheet">
+
+    
+    
+    <!--[if IE]>       <meta http-equiv="imagetoolbar" content="no"><![endif]-->
+    <!--[if lt IE 9]>
+    <link id="screen_ie8" href="/css/ie8-styles.css" rel="stylesheet"><![endif]-->
+    <!--[if IE 9]>
+    <link id="screen_ie9" href="/css/ie9-styles.css" rel="stylesheet"><![endif]-->
+
+    
+    <script src="{% static 'ooh/js/libs/jquery-1.8.3.min.js' %}"></script>    
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script> <!-- Wird über Google geladen, da diese die Lizenzen bezahlen -->
+    <!-- <link rel="stylesheet" href="./A2B Zweirad_files/css" media="all"> -->
+</head>
+
+<body class="de" id="{{ body_id }}">
+
+
+
+<!--[if lte IE 9]><p class="browseralt" style="margin-top: 200px;">Ihr Webbrowser ist <em>veraltet</em> wodurch Darstellungs- und Sicherheitsprobleme auftreten können. <a href="http://browsehappy.com/">Bitte installieren Sie sich einen aktuellen Browser – hier finden Sie eine Auswahl.</a> <br>You are using an <em>outdated browser</em> which may cause security or display problems. <a href="http://browsehappy.com/">Please upgrade to a newer browser – here is a selection.</a></p><![endif]-->
+
+<div id="wrapper">
+
+    <header>
+        <div class="inner"><div id="menubutton"><div id="balken"><div id="mb1" class="menueBalken mb1"></div><div id="mb2" class="menueBalken mb2"></div><div id="mb3" class="menueBalken mb3"></div></div></div>
+            <h1> <a href="/"><img src="{% static 'ooh/img/logoOutOfHome.png'%}" alt="Logo" title=""><span>A2B Zweirad</span></a> </h1>
+        </div>
+    </header>
+
+    <nav id="nav1">
+        <div class="inner">
+            <ul class="navlist">
+                
+                <li id="n_home" class="aktiv"><a href="/"><span>Home</span></a></li>
+                <li id="" class="">
+                    {# Login und Logout switch #}
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'logout' %} "><span>
+                        Logout {{ user.firstname }}
+                        </span></a>
+                    {% else %}
+                    <a href="{% url 'ooh:loginview' %}?next={{request.path}}"><span>
+                        Login
+                        </span></a>
+                    {% endif %}
+                </li>                
+                <li  class=""><a href="content/inhalt.html"><span id ="inhalt">Inhalt</span></a></li>
+                <li class=""><a href="http://localhost/kontakt.html"><span>Kontakt</span></a></li>
+            <li id="" class="fnav"><a href="http://localhost/impressum.html"><span>Impressum</span></a></li><li id="" class="fnav"><a href="http://localhost/kontakt.html"><span>Kontakt</span></a></li><li id="" class="fnav"><a href="http://localhost/newsletter.html"><span>Newsletter</span></a></li></ul>
+        </div>
+    </nav>
+    
+    <!-- // SECTION // -->
+    {% block content %}{% endblock %}
+
+
+    <footer>
+        <div class="inner">
+            <p class="copyright navlist" id="copyright">&copy; OutOfBib </p>
+            <ul class="navlist" id="nav_social">
+                <li id="n_facebook"><a href="https://www.facebook.com/" target="_blank"><span>Facebook</span></a></li>
+                <li id="n_twitter"><a href="https://www.twitter.com/" target="_blank"><span>Twitter</span></a></li>
+                <li id="n_youtube"><a href="https://www.youtube.com/" target="_blank"><span>YouTube</span></a></li>
+                <li id="n_xing"><a href="https://www.xing.com/" target="_blank"><span>Xing</span></a></li>
+                <li id="n_linkedin"><a href="https://de.linkedin.com/" target="_blank"><span>LinkedIn</span></a></li>
+                <li id="n_instagram"><a href="https://www.instagram.com/" target="_blank"><span>Instagram</span></a></li>
+            </ul>
+            <ul class="navlist opt">
+                <li><a href="impressum.html"><span>Impressum</span></a></li>
+                <li><a><span>|</span></a></li>
+                <li><a href="newsletter.html"><span>Newsletter</span></a></li>
+            </ul>
+        </div>
+    </footer>
+    
+    <div id="cookieConsent">
+        <div id="closeCookieConsent">x</div>
+        Diese Website benutzt Cookies. Falls Sie mehr zum Thema Cookies erfahren wollen, dann klicken Sie hier: <a href="https://de.wikipedia.org/wiki/HTTP-Cookie" target="_blank">Was sind Cookies?</a>
+        <a class="cookieConsentOK" onclick="document.cookie = 'cookiesaccepted=1;path=/;'">Nicht nochmal anzeigen</a>
+        <script type="text/javascript">
+    
+            $(document).ready(function(){   
+                var path = window.location.pathname;
+                var page = path.split("/").pop();
+                page = page.toLowerCase();
+            
+    
+                $("#copyright").append(new Date().getFullYear());
+                
+                if(document.cookie.indexOf('cookiesaccepted=1') != -1){
+                    return false;
+                }else{
+                    setTimeout(function () {
+                        $("#cookieConsent").fadeIn(200);
+                    }, 200);
+                    $("#closeCookieConsent, .cookieConsentOK").click(function() {
+                        $("#cookieConsent").fadeOut(200);
+                    });
+                }
+            }); 
+    
+            
+    
+        </script>
+    </div>
+
+    <!-- scripts -->
+    <script src="{% static 'ooh/js/jquery.validate.pack.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js" integrity="sha256-lPE3wjN2a7ABWHbGz7+MKBJaykyzqCbU96BJWjio86U=" crossorigin="anonymous"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    
+    <script src="{% static 'ooh/js/script.js'%}"></script>
+    <script> //wird über Google geladen, da diese die Lizenzen bezahlen
+        WebFont.load({
+            google: { families: ['Barlow+Semi+Condensed:100,300,400,700:latin,latin-ext'] }
+        });
+    </script>
+    
+    <!-- ENDE scripts -->
+    
+    </div>
+    </body>
+</html>

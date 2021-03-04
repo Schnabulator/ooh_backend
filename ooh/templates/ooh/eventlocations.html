@@ -1,0 +1,20 @@
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>DJJAAAANGOO</title>
+        
+    </head>
+    <body>
+    {% if near_eventlocations %}
+        <p>Diese Eventlocations existieren in deiner Umgebung: </p>
+        <ul>
+        {% for location in near_eventlocations %}
+            <li>{{ location.name }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Keine Locations gefunden. :(</p>
+    {% endif %}
+    </body>
+</html>

@@ -1,0 +1,757 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+#menubutton {
+    height: 0;
+    top: -50px;
+    position: fixed;
+}
+
+
+.menueBalken {
+    width: 28px;
+    position: absolute;
+    margin: 0 auto;
+    border-top: #76A709 solid 3px;
+    margin-left: 5px;
+}
+
+.balken {
+    padding-top: 1px;
+}
+
+.mb1.active {
+    margin-top: 9px;
+    -webkit-transform: rotate(+45deg);
+    transform: rotate(+45deg);
+}
+
+.mb2.active {
+    margin-top: 9px;
+    width: 0;
+    margin-left: 14px;
+}
+
+.mb3.active {
+    margin-top: 9px;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+.mb1, .mb3 {
+    -moz-transition:  margin-top .3s .3s, -moz-transform .3s 0s;
+    -o-transition:  margin-top .3s .3s, -o-transform .3s 0s;
+    -webkit-transition: margin-top .3s .3s, -webkit-transform .3s 0s;
+    transition: margin-top .3s .3s, transform .3s 0s;
+}
+
+.mb2 {
+    -moz-transition: margin-top .3s .3s, width .3s .3s, margin-left .3s .3s;
+    -o-transition: margin-top .3s .3s, width .3s .3s, margin-left .3s .3s;
+    -webkit-transition: margin-top .3s .3s, width .3s .3s, margin-left .3s .3s;
+    transition: margin-top .3s .3s, width .3s .3s, margin-left .3s .3s;
+}
+
+.mb1.active, .mb3.active {
+    -moz-transition: margin-top .3s 0s;
+    -o-transition: margin-top .3s 0s;
+    -webkit-transition: margin-top .3s 0s, -webkit-transform .3s .3s;
+    transition: margin-top .3s 0s, transform .3s .3s;
+}
+
+.mb2.active {
+    -moz-transition: margin-top .3s 0s, width .2s .2s, margin-left .3s .3s;
+    -o-transition: margin-top .3s 0s, width .2s .2s, margin-left .3s .3s;
+    -webkit-transition: margin-top .3s 0s, width .2s .2s, margin-left .3s .3s;
+    transition: margin-top .3s 0s, width .2s .2s, margin-left .3s .3s;
+}
+
+.mb1 {
+    margin-top: 1px;
+}
+
+.mb2 {
+    margin-top: 10.5px;
+}
+
+.mb3 {
+    margin-top: 20px;
+}
+
+
+
+body{
+    min-width: 0;
+}
+
+header>div.inner,
+#nav1>.inner,
+#content>.section>.inner,
+#slideshow .slidebox>.sb_inner,
+footer>.inner{
+    width: auto;
+    max-width: 1380px;
+}
+
+
+header,
+#nav1,
+#content>.section,
+footer{
+    padding-left:  2%;
+    padding-right: 2%;
+}
+
+#content>.section#sc_home_einleitung,
+#content>.section#sc_aw-einstiege,
+#sc_maps.section{
+    padding: 0;
+}
+
+#menubutton{
+    display: none;
+}
+
+
+
+@media (min-width: 1300px) and (min-height: 600px) {
+
+    /* Modifikationen Header und Navi für Home bei entsprechender Größe */
+    html:not(.menu_altern) #b_home header{
+        background: transparent;
+        border-bottom: 1px solid rgba(118,167,9,0);
+    }
+
+    html:not(.menu_altern) #b_home header>.inner{
+        height: 220px;
+    }
+
+    html:not(.menu_altern) #b_home header h1 a {
+        margin: 38px 0 0 1.08695652173913%;
+
+        margin-top: 70px;
+        width: 400px;
+        height: 114px;
+    }
+
+    html:not(.menu_altern) #b_home #content{
+        padding-top: 0;
+        margin-top: -220px;
+    }
+
+    html:not(.menu_altern) #b_home #nav1 ul.navlist {
+        margin-top: 125px;
+    }
+    html:not(.menu_altern) #b_home #nav1 ul.navlist > li > ul,
+    html:not(.menu_altern) #b_home #nav1 ul.navlist > li#n_suche > div#suche_inner{
+        top: 70px;
+    }
+
+    html:not(.menu_altern) #b_home #slideshow .slidebox .bild::before{
+        margin-top: 0;
+    }
+
+}
+/*
+		ANFANG Angebotsseite
+***********************************************/
+@media only screen and (min-width:540px){
+    .listing-item {
+		display: block;
+		width: -webkit-calc(100%/3);
+		width: -moz-calc(100%/3);
+		width: calc(100%/3);
+    }
+}
+@media only screen and (min-width:1024px){
+    .hover-table-layout{
+        padding: 30px;
+    }
+}
+/*
+		ENDE Angebotsseite
+***********************************************/
+
+
+@media (max-width: 1454px) {
+
+    #slideshow .slidebox .text {
+        font-size: 1.37vw;
+        line-height: 1.2em;
+    }
+}
+
+
+
+@media (max-width: 1350px) {
+
+    #content div#sc_aw-einstiege ul#bereiche li {
+        font-size: 0.8em;
+        line-height: 1.5em;
+    }
+
+}
+
+
+
+@media (max-width: 1150px) {
+
+    #wrapper {
+        padding-top: 100px;
+    }
+
+    header div.inner {
+        height: 100px;
+    }
+
+    header h1 a {
+        margin-top: 28px;
+        width: 200px;
+        height: 58px;
+    }
+
+    #menubutton {
+        width: 40px;
+        height: 40px;
+        background-size: 34px auto;
+        filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.2));
+        position: fixed;
+        top: 0;
+        right: 3.07%;
+        z-index: 100;
+        cursor: pointer;
+        display: block;
+        margin-top: 33px;
+    }
+
+    #nav1 ul.navlist > li#n_suche > .a-subst {
+        display: none;
+    }
+
+    .mbutton {
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        height: 57px;
+        width: 40px;
+        cursor: pointer;
+        text-align: center;
+        padding: 0 0 0 0;
+
+    }
+
+    .mbutton:before {
+        content: "+";
+        color: #76A709;
+        font-size: 2em;
+        line-height: 50px;
+        font-weight: 700;
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 0;
+        margin: 0 0 0 0;
+        padding: 0 0;
+    }
+
+    #nav1 {
+        position: absolute;
+        z-index: 20;
+        padding: 0;
+        height: auto;
+        top: 0;
+    }
+
+    #nav1 .inner {
+        margin: 0;
+    }
+
+    #nav1 ul.navlist {
+        float: none;
+        display: block;
+        list-style: none;
+        overflow: hidden;
+        margin: 0;
+        padding: 0 3.07%;
+        max-height: 0;
+        background: #102423;
+        transition: 0.1s;
+        opacity: 0;
+    }
+
+    #nav1 ul.navlist li:hover {
+        background-color: #76A709;
+    }
+
+    #nav1 ul.navlist li > a > span:hover {
+        color: #ffffff;
+    }
+
+    #nav1.open ul.navlist {
+        max-height: 2000px;
+        transition: 0.3s;
+        opacity: 1;
+        padding-top: 100px;
+        padding-bottom: 30px;
+        box-shadow: 0 11px 10px rgba(0, 0, 0, 0.2)
+    }
+
+    #nav1 ul.navlist > li {
+        float: none;
+        display: block;
+        position: relative;
+        margin: 0;
+        padding: 5px 0;
+        border-top: 1px solid rgba(118, 167, 9, 0.5);
+
+        overflow: hidden;
+    }
+
+    #nav1 ul.navlist li.fnav {
+        display: block;
+    }
+
+    #nav1 ul.navlist > li > a,
+    #nav1 ul.navlist > li > a:link,
+    #nav1 ul.navlist > li > a:visited {
+        display: block;
+        font-size: 1em;
+        line-height: 1.2em;
+        font-weight: 700;
+        color: #ffffff !important;
+        text-transform: uppercase;
+        padding: 0.6em 60px 0.5em 1em;
+    }
+
+    #nav1 ul.navlist > li > a:hover,
+    #nav1 ul.navlist > li.aktiv > a:hover {
+        color: #ffffff !important;
+        background: #436516;
+        background: rgba(118, 167, 9, 0.5);
+    }
+
+    #nav1 ul.navlist > li > a:hover:after {
+        display: none;
+    }
+
+    #nav1 ul.navlist > li.aktiv > a,
+    #nav1 ul.navlist > li.aktiv > a:link,
+    #nav1 ul.navlist > li.aktiv > a:visited {
+        color: #ffffff !important;
+        background: #436516;
+        background: rgba(118, 167, 9, 0.5);
+    }
+
+    #nav1 ul.navlist > li.aktiv > a:before,
+    #nav1 ul.navlist > li.aktiv > a:after {
+        display: none;
+    }
+
+    ul.open + .mbutton:before {
+        content: "–";
+        line-height: 48px;
+        /*padding-left: 1px;*/
+    }
+
+    #b_home #content {
+        margin-top: -100px;
+    }
+
+    footer ul.navlist.opt {
+        display: none;
+    }
+
+}
+
+
+
+@media (max-width: 1000px) {
+
+    #content div#sc_aw-einstiege ul#bereiche li{
+        font-size: 1em;
+        line-height: 1.5em;
+
+        float: left;
+        display: inline-block;
+        width: calc(50% + 4px);
+        height: 200px;
+        margin: -2px;
+        transition: 0.3s;
+    }
+    #content div#sc_aw-einstiege ul#bereiche li:nth-child(2n-1){
+        clear: left;
+    }
+    #content div#sc_aw-einstiege ul#bereiche li:hover{
+        margin-top: -12px;
+        margin-bottom: -12px;
+        height: 220px;
+    }
+
+    #content div#sc_aw-einstiege ul#bereiche li>a{
+        display: block;
+        height: 100%;
+        padding: 1.5em 10%;
+        border: 4px solid #ffffff;
+
+    }
+
+    #content div#sc_aw-einstiege ul#bereiche li>a::after{
+        content:"";
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 40px;
+        height: 40px;
+        margin: 50px 30px 30px 0;
+        border-radius: 4px;
+        background: #76A709 url('../img-dsg/fa/chevron-right_ws.svg') no-repeat 50% center;
+        background-size: auto 18px;
+        transition: right 1s;
+    }
+
+    #content div#sc_aw-einstiege ul#bereiche li>a:hover{
+        text-decoration: none;
+        z-index: 10;
+        box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
+        transform-origin: center bottom;
+        margin: 0 -5%;
+        padding-left: 15%;
+        padding-right: 15%;
+        border-radius: 4px;
+    }
+
+    #content div#sc_aw-einstiege ul#bereiche li>a:hover::after{
+        right: 4.5%;
+        background-color: #ffffff;
+        background-image: url('../img-dsg/fa/chevron-right_gn.svg')
+    }
+
+
+    #content div#sc_aw-einstiege ul#bereiche li>a>.bild::after{
+        height: 70%;
+    }
+
+
+
+    .mgl_logo {
+        width: 100%;
+        max-width: 250px;
+    }
+    .mgl_logo img{
+        max-height: 100px;
+    }
+
+    .mgl_datenblock,
+    .mgl_textblock{
+        clear: both;
+        float: none;
+        display: block;
+        width: auto;
+    }
+
+    .mgl_datenblock{
+        margin-bottom: 3em;
+    }
+
+    .mgl_datenblock .bild{
+        max-width: 315px;
+        float: right;
+        display: inline-block;
+        margin: 0 0 4px 1em;
+        height: auto;
+        padding: 0;
+    }
+
+    /*
+		ANFANG Inhaltsseite
+    ***********************************************/
+    .page	{
+		grid-template-columns: 5% 1fr 5%;
+		grid-template-rows: 1fr 1fr;
+		align-items: center;
+	}
+	.hero{
+		grid-column: 2/3;
+		height: auto;
+		align-self: flex-start;
+		justify-self: center;
+	}
+	.hero img{
+		
+		height: 350px;
+		width: 1024px;
+	}
+	.details{
+		grid-row: 2/3;
+		grid-column: 2/3;
+		text-align: center;
+		justify-self: center;
+	}
+	.page-nav{
+		right: 3%;
+		top: 40%;
+	}
+	.page-nav p{
+		font-size: 20px;
+		padding: 15px;
+    }
+    
+    .back-content{
+        width: 60%;
+        /* font-size: 18px; */
+    }
+
+    /*
+		ENDE Inhaltsseite
+    ***********************************************/
+}
+
+
+@media (max-width: 850px) {
+
+    #slideshow .slidebox .text{
+        float: none;
+        display: block;
+        width: auto;
+        max-height: none;
+        /**/
+        font-size: 1em;
+        line-height: 1.2em;
+
+        margin: 10px;
+        margin-bottom: 50px;
+
+        padding: 10px;
+    }
+
+    #slideshow .slidebox .text h2{
+        font-size: 1em;
+        line-height: 1.2em;
+        font-weight: 700;
+    }
+
+    #slideshow .slidebox .text p {
+        font-size: 1.2rem;
+        line-height: 1.2em;
+        margin: 0;
+    }
+
+    #slideshow .slidebox .text p.mehr{
+        margin-top: 1em;
+    }
+
+    #slideshow-seitenanzeige{
+        margin: 0;
+        margin-top: 0;
+    }
+
+     /* Login und Registrierung*/
+     #loginRegister {
+        top: 30%;
+        width: 100% !important;
+    }
+
+    /* Canvas ErrorDocument*/
+    #canvasID {
+		display: none;
+    }
+     /*
+		ANFANG Inhaltsseite
+    ***********************************************/
+    .page{
+		grid-template-rows: 1fr 1fr;
+	}
+
+	.hero img{
+		width: 768px;
+	}
+	.page-nav{
+		right: 1%;
+	}
+
+	.page-nav p{
+		font-size: 18px;
+		padding: 8px;
+	}
+	
+	.page-nav svg{
+		width: 10px;
+		height: 10px;
+    }
+
+    .back-content{
+        width: 50%;
+    }
+    
+    /*
+		ENDE Inhaltsseite
+    ***********************************************/
+}
+
+
+
+@media (max-width: 700px) {
+
+    #content > .section > .inner {
+        padding: 40px 0;
+    }
+
+    .section#einleitung #hl_main {
+        float: none;
+        display: block;
+        width: auto;
+    }
+    .section#einleitung .textblock {
+        float: none;
+        display: block;
+        width: auto;
+
+    }
+
+    /***************
+        ANFANG Kontakt Formular
+    */
+    .contact-formular {
+		flex-direction: column;
+	}
+	.contact-form{
+		width: 100%;
+	}
+	.map{
+		height: 300px;
+		margin-top: 20px;
+		width: 400px;
+	}
+	#canvas-container{
+		height: inherit;
+    }
+    /***************
+       ENDE Kontakt Formular
+    */
+
+   
+
+}
+
+
+@media (max-width: 600px) {
+
+    #wrapper{
+        padding-top: 75px;
+    }
+
+    header div.inner {
+        height: 75px;
+    }
+
+    header h1 a {
+        margin-top: 22px;
+        width: 150px;
+        height: 44px;
+    }
+
+    #menubutton{
+        margin-top: 18px;
+    }
+
+    #nav1.open ul.navlist{
+        padding-top: 75px;
+    }
+
+
+    #content{
+        font-size: 0.8em;
+        line-height: 1.5em;
+    }
+
+    #b_home #content{
+        margin-top: -75px;
+    }
+}
+
+
+
+@media (max-width: 500px) {
+
+    header,
+    #content>.section,
+    footer{
+        padding-left:  10px;
+        padding-right: 10px;
+    }
+
+
+    #content{
+        font-size: 0.7em;
+        line-height: 1.5em;
+    }
+
+
+    footer ul#nav_social{
+        float: none;
+        display: block;
+        clear: both;
+
+    }
+
+
+
+
+    .bildblock{
+        float: none;
+        display: block;
+        clear: both;
+        width: auto;
+        margin: 0 1.08695652173913%;
+        margin-bottom: 4em;
+    }
+
+
+}
+
+
+
+@media (max-width: 400px) {
+
+    #content div#sc_aw-einstiege ul#bereiche{
+        border: 0;
+    }
+
+    #content div#sc_aw-einstiege ul#bereiche li{
+        font-size: 1em;
+        line-height: 1.5em;
+
+        width: auto;
+        float: none;
+        display: block;
+        clear: left;
+
+        height: 200px;
+        margin: -4px 0;
+        transition: 0.3s;
+    }
+    .no-touch #content div#sc_aw-einstiege ul#bereiche li:hover{
+        margin-top: -12px;
+        margin-bottom: -12px;
+        height: 250px;
+    }
+
+    #content div#sc_aw-einstiege ul#bereiche li>a{
+        border: 4px solid #ffffff;
+        border-left: 0;
+        border-right: 0;
+    }
+
+
+    #slideshow{
+        height: 100vh;
+        max-height: 800px;
+        margin-bottom: 4px;
+    }
+    #slideshow-buttons{
+        display: none;
+    }
+
+}

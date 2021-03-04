@@ -1,0 +1,203 @@
+{% extends 'ooh/base.html' %}
+
+<!--[if lte IE 9]><p class="browseralt" style="margin-top: 200px;">Ihr Webbrowser ist <em>veraltet</em> wodurch Darstellungs- und Sicherheitsprobleme auftreten können. <a href="http://browsehappy.com/">Bitte installieren Sie sich einen aktuellen Browser – hier finden Sie eine Auswahl.</a> <br>You are using an <em>outdated browser</em> which may cause security or display problems. <a href="http://browsehappy.com/">Please upgrade to a newer browser – here is a selection.</a></p><![endif]-->
+{% block content %}
+<div id="content">
+    <div id="container-login" class="section sc_b">
+        <div class="inner">
+
+            <div id="login-box" class=""> 
+                <!-- somit würde er nicht in die erste if Bedinung bei LRSwitch -->
+        
+                <form id="loginRegister" action="#">
+                    <h2 style="color: white;"></h2>
+                    {% csrf_token %}
+                    <div class="text-box reg">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <input id="name" type="text" name="name" placeholder="Name" class="ed">
+                    </div>
+
+                    <div class="text-box">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <input id="email" type="text" name="email" placeholder="E-Mail" class="required email ed">
+                    </div>
+
+                    <div class="text-box">
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                        <input id="passwd" type="password" name="passwd" placeholder="Passwort" class="required ed">
+                    </div>
+
+                    <div class="text-box reg">
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                        <input id="passwdR" type="password" name="passwdR" placeholder="Passwort wiederholen">
+                        <div id="passwortHinweis" class="showoff">Die beiden Passw&ouml;ter stimmen nicht überein.</div>
+                    </div>
+
+                    <button id="LRSubmit" class="button" type="button">
+                        <svg id="svgLoading" width="50px"  height="50px"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" style="background: none;"><g transform="rotate(0 50 50)">
+                            <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#fce111">
+                                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.6s" begin="-1.4933333333333334s" repeatCount="indefinite"></animate>
+                            </rect>
+                            </g><g transform="rotate(24 50 50)">
+                            <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#fce111">
+                                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.6s" begin="-1.3866666666666667s" repeatCount="indefinite"></animate>
+                            </rect>
+                            </g><g transform="rotate(48 50 50)">
+                            <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#fce111">
+                                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.6s" begin="-1.2800000000000002s" repeatCount="indefinite"></animate>
+                            </rect>
+                            </g><g transform="rotate(72 50 50)">
+                            <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#fce111">
+                                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.6s" begin="-1.1733333333333333s" repeatCount="indefinite"></animate>
+                            </rect>
+                            </g><g transform="rotate(96 50 50)">
+                            <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#fce111">
+                                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.6s" begin="-1.0666666666666667s" repeatCount="indefinite"></animate>
+                            </rect>
+                            </g><g transform="rotate(120 50 50)">
+                            <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#fce111">
+                                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.6s" begin="-0.9600000000000001s" repeatCount="indefinite"></animate>
+                            </rect>
+                            </g><g transform="rotate(144 50 50)">
+                            <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#fce111">
+                                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.6s" begin="-0.8533333333333334s" repeatCount="indefinite"></animate>
+                            </rect>
+                            </g><g transform="rotate(168 50 50)">
+                            <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#fce111">
+                                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.6s" begin="-0.7466666666666667s" repeatCount="indefinite"></animate>
+                            </rect>
+                            </g><g transform="rotate(192 50 50)">
+                            <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#fce111">
+                                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.6s" begin="-0.6400000000000001s" repeatCount="indefinite"></animate>
+                            </rect>
+                            </g><g transform="rotate(216 50 50)">
+                            <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#fce111">
+                                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.6s" begin="-0.5333333333333333s" repeatCount="indefinite"></animate>
+                            </rect>
+                            </g><g transform="rotate(240 50 50)">
+                            <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#fce111">
+                                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.6s" begin="-0.4266666666666667s" repeatCount="indefinite"></animate>
+                            </rect>
+                            </g><g transform="rotate(264 50 50)">
+                            <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#fce111">
+                                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.6s" begin="-0.32000000000000006s" repeatCount="indefinite"></animate>
+                            </rect>
+                            </g><g transform="rotate(288 50 50)">
+                            <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#fce111">
+                                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.6s" begin="-0.21333333333333335s" repeatCount="indefinite"></animate>
+                            </rect>
+                            </g><g transform="rotate(312 50 50)">
+                            <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#fce111">
+                                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.6s" begin="-0.10666666666666667s" repeatCount="indefinite"></animate>
+                            </rect>
+                            </g><g transform="rotate(336 50 50)">
+                            <rect x="47" y="24" rx="9.4" ry="4.8" width="6" height="12" fill="#fce111">
+                                <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.6s" begin="0s" repeatCount="indefinite"></animate>
+                            </rect>
+                            </g>
+                        </svg>
+                    </button>                
+                    
+                    <a href="#" onclick="SwitchLR()" style="color: white;"></a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        // Send Form when enter is pressed while form is in focus
+        $("#loginRegister").keyup(function(event){
+            if (event.which == 13){
+                //  Enter pressed
+                $("#LRSubmit").click();
+            }
+        });
+        function setValidator() {
+            $("#loginRegister").validate({
+                rules: {
+                    passwd: {
+                        required: true,
+                        minlength: 4
+                    }
+                }
+            });
+        }
+
+        $("#svgLoading").hide();
+
+        function SwitchLR() {
+            if ( $("#login-box").hasClass("registrieren") ) {
+                $("#loginRegister").find(".reg input").removeClass("required")
+                $("#login-box").removeClass("registrieren");
+            } else {
+                $("#loginRegister").find(".reg input").addClass("required")
+                $("#login-box").addClass("registrieren");
+            }
+        }
+        
+        $(document).ready(function(){
+            
+            $.validator.messages.required = "Bitte angeben.";
+            $.validator.messages.email = "Bitte gültige E-Mail angeben.";
+
+            setValidator();
+
+            $('#LRSubmit').on('click', function() {
+                if ( $("#loginRegister").valid() === false ) return false;
+
+                if ( $("#login-box").hasClass("registrieren") && $("#passwd").val() != $("#passwdR").val() ) {
+                    $("#passwortHinweis").addClass("show");
+                    setTimeout( function() {$("#passwortHinweis").removeClass("show");}, 2000);
+                    return false;
+                }
+                
+                form_data = $("#loginRegister").find(".ed").serialize();
+                form_data = form_data+"&type=loginReg";
+                // form_data = form_data+"&csrfmiddlewaretoken={{ csrf_token }}";
+                form_data = form_data+"&formular="+(( $("#login-box").hasClass("registrieren") ) ? 'reg' : 'login');
+                
+                weiter = false;
+                $.ajax({
+                    type: "POST",
+                    
+                    url: "{% url 'login' %}",
+                    data: form_data,
+                    
+                    dataType: "text",
+                    success: function(resp){
+                        ret = jQuery.parseJSON(resp);
+            
+                        $('#LRSubmit').prop('disabled', true);
+                        $("#svgLoading").show();
+
+                        setTimeout( function() {
+                            $("#svgLoading").hide();
+                            $('#LRSubmit').prop('disabled', false);
+                        }, 1000);
+
+                        if (ret.error && ret.error.length > 0) {
+                            alert (ret.error);
+                        } else {
+                            if (ret.success) {
+                                setTimeout( function() {
+                                    $("#loginRegister").remove();
+                                    $("#login-box").html('<div id="loginRegister" style="color:white;">'+ret.success+'</div>');    
+                                }, 1000);                 
+                                setTimeout( function() {window.location.replace("/index.html");}, 3000);
+                            } else
+                                alert("Bei der Datenübergabe ist ein Fehler aufgetreten.\n\nBitte wiederholen Sie den Vorgang noch einmal.");
+                            }
+                        },
+                    error: function(msg) {
+                        alert (msg);
+                    }
+                })
+                return false; 
+            });
+        });
+        
+    </script>
+
+</div> <!-- End content -->
+
+{% endblock %}
