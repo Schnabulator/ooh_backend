@@ -128,10 +128,11 @@
         });
         function setValidator() {
             $("#loginRegister").validate({
+                debug: true,
                 rules: {
-                    password1: {
+                    passwd: {
                         required: true,
-                        minlength: 4 //used from django standard
+                        minlength: 4
                     }
                 }
             });
