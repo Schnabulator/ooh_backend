@@ -154,13 +154,15 @@
                 form_data = $("#loginRegister").find(".ed").serialize();
                 form_data = form_data+"&type=loginReg";
                 // form_data = form_data+"&csrfmiddlewaretoken={{ csrf_token }}";
+                form_data = form_data+"&next={{ next }}";
                 form_data = form_data+"&formular="+(( $("#login-box").hasClass("registrieren") ) ? 'reg' : 'login');
                 
                 weiter = false;
                 $.ajax({
                     type: "POST",
                     
-                    url: "{% url 'login' %}",
+                    // url: "{% url 'login' %}"
+                    url: "{% url 'django.contrib.auth.views.login' %}",
                     data: form_data,
                     
                     dataType: "text",

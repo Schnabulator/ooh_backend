@@ -50,20 +50,20 @@
         <div class="inner">
             <ul class="navlist">
                 
-                <li id="n_home" class="aktiv"><a href="/"><span>Home</span></a></li>
-                <li id="" class="">
-                    {# Login und Logout switch #}
+                <li id="n_home" class="{% if request.path == '/' %}aktiv{%else%}{nicht_aktiv}{%endif%}"><a href="/"><span>Home</span></a></li>
+                <li id="" class="{%if request.path == '/'%}{aktiv}{%endif%}">
+                    {# Login und Logout switch doenst work#}
                     {% if user.is_authenticated %}
-                        <a href="{% url 'logout' %} "><span>
+                        <a href="{% url 'ooh:logout' %} "><span>
                         Logout {{ user.firstname }}
                         </span></a>
                     {% else %}
-                    <a href="{% url 'ooh:loginview' %}?next={{request.path}}"><span>
+                    <a href="{% url 'ooh:login' %}?next={{request.path}}"><span>
                         Login
                         </span></a>
                     {% endif %}
                 </li>                
-                <li  class=""><a href="content/inhalt.html"><span id ="inhalt">Inhalt</span></a></li>
+                <li  class=""><a href="content/inhalt.html"><span id ="inhalt">Über uns</span></a></li>
                 <li class=""><a href="http://localhost/kontakt.html"><span>Kontakt</span></a></li>
             <li id="" class="fnav"><a href="http://localhost/impressum.html"><span>Impressum</span></a></li><li id="" class="fnav"><a href="http://localhost/kontakt.html"><span>Kontakt</span></a></li><li id="" class="fnav"><a href="http://localhost/newsletter.html"><span>Newsletter</span></a></li></ul>
         </div>

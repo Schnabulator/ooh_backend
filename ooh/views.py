@@ -7,6 +7,7 @@ from .forms import UserLoginForm, UserRegisterForm, RegLoginSwitch
 from django.contrib.auth import authenticate, login
 
 from django.contrib.auth import get_user_model
+from django.contrib.auth.views import LoginView, LogoutView#, RegisterView
 
 
 User = get_user_model()
@@ -16,14 +17,20 @@ User = get_user_model()
 
 def index(request):
     # return HttpResponse("Bämski Index.")
-    context = {"body_id": "b_home", "user": User}
+    context = {"body_id": "b_home"} #, "user": User}
     return render(request, 'ooh/index.html', context=context)
 
-def login(request):
-    if request.method == 'GET':
-        context = {"body_id": "b_content", "user": User}
+class UserLogoutView(LogoutView):
+    pass
+
+class UserLoginView(LoginView):
+    form_class = UserLoginForm
+    template_name = 'ooh/login.html'
+    def get(self, request, *args, **kwargs):
+        context = {"body_id": "b_content"}
         return render(request, 'ooh/login.html', context=context)
-    elif request.method == 'POST':
+
+    def post(self, request, *args, **kwargs):
         print("Login Post request.")
         form = RegLoginSwitch(request.POST)
         if form.is_valid():
@@ -55,23 +62,11 @@ def login(request):
                         print("Successful logged in "+ user.get_email())
                 else:
                     print(form.errors)
-            
-            
-            # 
-            # user = authenticate(username='john', password='secret')
-            # if user is not None:
-            #     # A backend authenticated the credentials
-            # else:
-            #     # No backend authenticated the credentials
-        else:
+        else: 
             print(form.errors)
         print(request.POST)
 
         return JsonResponse({'foo': 'bar'})
-    # else:
-    #     return Hea
-
-# class IndexView(request):
     
 
 class EventLocationView(generic.ListView):

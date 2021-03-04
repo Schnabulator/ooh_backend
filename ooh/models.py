@@ -30,7 +30,7 @@ class OohUser(AbstractBaseUser, PermissionsMixin):
 
 class Location(models.Model):
     # locationID = models.AutoField() # auto increment integer key
-    name = models.CharField(max_length=255)
+    cityname = models.CharField(max_length=255)
     plz = models.IntegerField()
     bundesland = models.CharField(max_length=50)
     def __str__(self):
@@ -90,14 +90,14 @@ class Event(models.Model):
     # eventID = models.AutoField()
     name = models.TextField()
     description = models.TextField()
-    
+    organizer = models.ForeignKey(Organizer, on_delete=models.CASCADE)
+
     takeplace = models.BooleanField(default=True)
     cost = models.IntegerField()
     promoted = models.BooleanField(default=False)
     starttime = models.DateTimeField()
     endtime = models.DateTimeField()
     mininumage = models.PositiveSmallIntegerField()
-    organizer = models.ForeignKey(Organizer, on_delete=models.CASCADE)
     category = models.ManyToManyField(Category)
     def __str__(self):
         return self.name + " [%s]".format(self.organizer__name)
