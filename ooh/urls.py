@@ -11,5 +11,7 @@ urlpatterns = [
     path('events/', views.EventView.as_view(), name='events'),
     path('profile/login', views.UserLoginView.as_view(), name='login'),
     path('profile/logout', views.UserLogoutView.as_view(), name='logout'),
+    path('profile/', views.UserProfile, name='profile')
+
     # path('profile/register', views.RegisterView.as_view(), name='register'),
 ]

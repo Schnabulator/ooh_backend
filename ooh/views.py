@@ -9,6 +9,9 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView, LogoutView #, RegisterView
 from django.views.generic.edit import ProcessFormView
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
 
 User = get_user_model()
 # Create your views here.
@@ -111,4 +114,13 @@ class EventView(generic.ListView):
         # return EventLocation.objects.filter(locationID__plz=68159)
         return Event.objects.all
 
-# class UserLoginView(generic.Loginview)
+# @method_decorator(login_required, name='as_view')
+# class UserProfileView(generic.DetailView):
+#     template_name = "ooh/profile.html"
+#     def get_queryset(self):
+#         return self.request.user
+@login_required()
+def UserProfile(request):
+    template_name = "ooh/profile.html"
+    context = {"body_id": "b_content"} #, "user": User}
+    return render(request, template_name, context=context)

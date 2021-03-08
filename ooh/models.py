@@ -36,11 +36,12 @@ class Location(models.Model):
     plz = models.CharField(max_length=10)
     bundesland = models.CharField(max_length=50)
     def __str__(self):
-        return str(self.plz) +" "+ self.name
+        return str(self.plz) +" "+ self.cityname
 
 class EventLocation(models.Model):
     # eventLocationID =  models.AutoField()
-    street	= models.CharField(max_length=50)	
+    street	= models.CharField(max_length=50)
+    housenumber = models.CharField(max_length=10, blank=True)
     name	= models.CharField(max_length=100)
     room	= models.CharField(max_length=100, blank=True)
     locationID = models.ForeignKey(Location, on_delete=models.PROTECT)
