@@ -119,8 +119,12 @@ class EventView(generic.ListView):
 #     template_name = "ooh/profile.html"
 #     def get_queryset(self):
 #         return self.request.user
-@login_required()
-def UserProfile(request):
+
+class UserProfile(generic.DetailView):
     template_name = "ooh/profile.html"
-    context = {"body_id": "b_content"} #, "user": User}
-    return render(request, template_name, context=context)
+    
+    @method_decorator(login_required(login_url="/profile/login"))
+    def get(self, request, *args, **kwargs):
+        # userloc = request.user.locationID
+        context = {"body_id": "b_content"} 
+        return render(self.request, template_name=self.template_name, context=context)

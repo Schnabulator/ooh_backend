@@ -7,15 +7,17 @@
         <div class="user-container">
             <div class="profile-header">
                 <div class="profile-img">
-                    <img src="./img/ryan.png" width="200" alt="">
+                    <img src="{% static 'ooh/img/avatar.png'%}" width="200" alt="">
                 </div>
                 <div class="profile-nav-info">
                     <h4 class="user-name">
-                        Ryan Schwarzkopf
+                        {{ user.firstname }} {{ user.lastname }} 
                     </h4>
                     <div class="address">
-                        <p class="state">New York</p>
-                        <span class="country"> USA</span>
+                        <!-- <p class="state">{{ user.locationID__plz }} {{ user.locationID__cityname}}</p>
+                        <span class="country"> {{ user.locationID__bundesland}}</span>  -->
+                        <p class="state">{{ user.street}} {{user.housenumber}}</p>
+                        <span class="country">, {{ user.locationID }} </span> 
                     </div>
     
                 </div>
@@ -36,8 +38,18 @@
                         </p>
                         <p class="user-mail">
                             <i class="fa fa-envelope"></i>
-                            test@gmail.com
+                            {{ user.email }}
                         </p>
+                        {% if user.is_staff or user.is_superuser %}
+                        <p class="user-status">
+                            <i class="fa fa-id-card-o" aria-hidden="true"></i>
+                            {% if user.is_superuser  %}
+                            Admin
+                            {% elif user.is_staff %}
+                            Mitarbeiter von ooh
+                            {% endif %}
+                        </p>
+                        {% endif %}
                         <div class="user-bio">
                             <h4>Bio</h4>
                             <p class="bio" id="bio">
@@ -65,14 +77,22 @@
                                 <span class="no-user"><span>123</span>&nbsp;&nbsp;reviews</span>
                             </div>
                         </div>
+                        
+                        <div class="logout">
+                            <form action="{% url 'ooh:logout' %}" method="get">
+                                {% csrf_token %}
+                                <input id="logout" class="logout-btn" type="submit" value="Abmelden" />
+                            </form>
+                            
+                        </div>
                     </div>
                 </div>
                <div class="right-side">
                    <div class="nav-right">
                        <ul>
-                           <li onclick="tabs(0)" class="user-post active">Posts</li>
-                           <li onclick="tabs(1)" class="user-review">Reviews</li>
-                           <li onclick="tabs(2)" class="user-setting">Settings</li>
+                           <li onclick="tabs(0)" class="user-post active" style="margin-bottom: 0em;">Posts</li>
+                           <li onclick="tabs(1)" class="user-review" style="margin-bottom: 0em;">Reviews</li>
+                           <li onclick="tabs(2)" class="user-setting" style="margin-bottom: 0em;">Settings</li>
                        </ul>
                    </div>
                    <div class="profile-body">
@@ -94,4 +114,38 @@
         </div>
     </div>
 </div> <!-- #content -->
+
+
+<script>
+    $('.nav-right ul li').click(function(){
+        $(this).addClass("active").siblings().removeClass('active');
+        })
+
+
+        const tabBtn = document.querySelectorAll('.nav-right ul li');
+        const tab = document.querySelectorAll('.tab');
+
+        function tabs(panelIndex){
+            tab.forEach(function(node){
+                node.style.display = 'none';
+            });
+            tab[panelIndex].style.display = 'block';
+        }
+        tabs(0);
+
+        let bio = document.querySelector('.bio');
+        let bioOld = bio.innerText;
+
+        function bioText(){
+            bio.innerText = bio.innerText.substring(0, 100) + "...";
+            bio.innerHTML += "&nbsp;" + "<span onclick='addLength()' id='see-more-bio'> [See More]</span>";
+        }
+        bioText();
+
+        function addLength(){
+            bio.innerHTML = bioOld;
+            bio.innerHTML += "&nbsp;" + "<span onclick='bioText()' id='see-less-bio'> [See Less]</span>";
+        }
+</script>
+
 {%endblock%}    

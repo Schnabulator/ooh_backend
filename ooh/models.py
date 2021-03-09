@@ -11,20 +11,7 @@ from .managers import OohUserManager
 
 
 
-# Authentication shit
-class OohUser(AbstractBaseUser, PermissionsMixin):
-    USERNAME_FIELD = "email"
-    EMAIL_FIELD    = "email"
-    email    = models.EmailField(_('email address'),unique=True)
-    firstname = models.CharField(max_length=100)
-    lastname = models.CharField(max_length=100)
-    birthday = models.DateField(null=True)
-    REQUIRED_FIELDS = ['firstname', 'lastname', 'birthday',]
-    is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
-    last_login = models.DateTimeField(default=timezone.now)
-    date_joined = models.DateTimeField(default=timezone.now)
-    objects = OohUserManager()
+
 
 
 
@@ -37,6 +24,7 @@ class Location(models.Model):
     bundesland = models.CharField(max_length=50)
     def __str__(self):
         return str(self.plz) +" "+ self.cityname
+
 
 class EventLocation(models.Model):
     # eventLocationID =  models.AutoField()
@@ -116,3 +104,21 @@ class EventLocationRating(models.Model):
     def __str__(self):
         return "{0}_{1}-{2}: {3}".format(self.eventlocationID__name, self.customerID__userID__email, self.description[:75] + (self.description[75:] and '..'))
 
+# Authentication shit
+class OohUser(AbstractBaseUser, PermissionsMixin):
+    USERNAME_FIELD = "email"
+    EMAIL_FIELD    = "email"
+    email    = models.EmailField(_('email address'),unique=True)
+    firstname = models.CharField(max_length=100)
+    lastname = models.CharField(max_length=100)
+    birthday = models.DateField(null=True)
+    REQUIRED_FIELDS = ['firstname', 'lastname', 'birthday',]
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    last_login = models.DateTimeField(default=timezone.now)
+    date_joined = models.DateTimeField(default=timezone.now)
+    street = models.CharField(max_length=50, default='abc')
+    housenumber = models.CharField(max_length=10, default='-1')
+    locationID = models.ForeignKey(Location, on_delete=models.PROTECT)    
+    
+    objects = OohUserManager()
