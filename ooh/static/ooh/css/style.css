@@ -239,9 +239,11 @@ header h1 a span {
 	left: -99999px;
 }
 
+/* //TODO logo should be placed better */
 header h1 img {
-	display: block;
-	width: 63%;
+	/* display: block; */
+	height: 110px;
+	/* margin-bottom: 0em; */
 	filter: drop-shadow(0 0 5px rgba(16, 36, 35, 0.2));
 }
 
