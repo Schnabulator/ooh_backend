@@ -7,7 +7,8 @@ from .models import OohUser
 class OohUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm):
         model = OohUser
-        fields = ('email', )
+        # All fields, that have to be saved --> update for location! //TODO
+        fields = ('email', 'firstname', 'lastname', 'birthday', )
 
 
 class OohUserChangeForm(UserChangeForm):

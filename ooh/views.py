@@ -58,18 +58,20 @@ class UserLoginView(LoginView, ProcessFormView):
                     #     print("Successful")
                     form.save()
                     return JsonResponse({'success': 'Registrierung war erfolgreich.'})
-                    email = form.cleaned_data.get('email')
-                    pw = form.cleaned_data.get('password1')
-                    user = authenticate(request,username=email,password=pw)
-                    if user is not None:
-                        # login(request)
-                        login(request, user)
-                        print("Successful logged in and registered "+ user.email)
-                        return redirect('index')
-                        return JsonResponse({'success': 'Registrierung war erfolgreich.'})
-                    else:
-                        print("Hm.... user is None!")
-                        return JsonResponse({'error': 'Login erfolglos.'})
+
+                    # Cant Login user when he must confirm his email in future!
+                    # email = form.cleaned_data.get('email')
+                    # pw = form.cleaned_data.get('password1')
+                    # user = authenticate(request,username=email,password=pw)
+                    # if user is not None:
+                    #     # login(request)
+                    #     login(request, user)
+                    #     print("Successful logged in and registered "+ user.email)
+                    #     # return redirect('index')
+                    #     return JsonResponse({'success': 'Registrierung war erfolgreich.'})
+                    # else:
+                    #     print("Hm.... user is None!")
+                    #     return JsonResponse({'error': 'Login erfolglos.'})
                 else:
                     print("ELSE")
                     print(form.errors)

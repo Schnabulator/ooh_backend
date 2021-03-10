@@ -114,6 +114,7 @@
                             <h4>Account Settings</h4>
                             <h3>Profil vervollständigen</h3>
                             {% if user.location  %}
+                            {#//TODO das ganze sollte über ein ausklappbares menü dargestellt werden, damit es nicht so wirkt, als müsste es ausgefüllt werden#}
                             <form method=post action=".">
                                 {% csrf_token %}
                                 
