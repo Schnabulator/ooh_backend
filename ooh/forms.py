@@ -7,7 +7,7 @@ from .models import OohUser
 class OohUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm):
         model = OohUser
-        fields = ('email',)
+        fields = ('email', )
 
 
 class OohUserChangeForm(UserChangeForm):
@@ -24,6 +24,18 @@ class UserLoginForm(forms.Form):
     password1 = forms.CharField(max_length=32, widget=forms.PasswordInput)
 
 class UserRegisterForm(UserCreationForm):
-    user = forms.CharField(required=False)
+    firstname = forms.CharField(required=False)
+    lastname =  forms.CharField(required=False)
     email = forms.EmailField()
     password = forms.CharField(max_length=32, widget=forms.PasswordInput)
+    plz  = forms.CharField(required=True)
+    cityname = forms.CharField(required=True)
+    street = forms.CharField(required=True)
+    housenumber = forms.IntegerField()
+
+class UserLocation(forms.Form):
+    data = forms.CharField(required=True)
+    plz  = forms.CharField(required=True)
+    cityname = forms.CharField(required=True)
+    street = forms.CharField(required=True)
+    housenumber = forms.IntegerField()

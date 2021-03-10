@@ -24,8 +24,25 @@
                         <input id="lastname" type="text" name="lastname" placeholder="Nachname" class="ed">
                     </div>
 
+                    <!-- <div class="text-box reg">
+                        <i class="fas fa-home" aria-hidden="true"></i>
+                        <input id="locationID" type="text" name="locationID" placeholder="locationID" class="ed">
+                    </div>-->
+
+                    <!-- <div class="text-box reg">
+                        <i class="fas fa-home" aria-hidden="true"></i>
+                        <input id="plz" type="text" name="plz" placeholder="PLZ" class="ed">
+                        <input id="cityname" type="text" name="cityname" placeholder="Stadt" class="ed">
+                    </div>
+
+                    <div class="text-box reg">
+                        <i class="fas fa-home" aria-hidden="true"></i>
+                        <input id="street" type="text" name="street" placeholder="Straße" class="ed">
+                        <input id="housenumber" type="text" name="housenumber" placeholder="Hausnr" class="ed">
+                    </div>  -->
+
                     <div class="text-box">
-                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
                         <input id="email" type="text" name="email" placeholder="E-Mail" class="required email ed">
                     </div>
 
@@ -203,7 +220,7 @@
                                     $("#loginRegister").remove();
                                     $("#login-box").html('<div id="loginRegister" style="color:white;">'+ret.success+'</div>');    
                                 }, 500);                 
-                                setTimeout( function() {window.location.replace("{{next}}");}, 1000);
+                                setTimeout( function() {window.location.replace("/");}, 1000);
                             } else
                                 alert("Bei der Datenübergabe ist ein Fehler aufgetreten.\n\nBitte wiederholen Sie den Vorgang noch einmal.");
                             }

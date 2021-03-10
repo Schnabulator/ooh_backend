@@ -506,6 +506,25 @@ footer{
     /*
 		ENDE Inhaltsseite
     ***********************************************/
+
+    /*
+            ANFANG User Account
+    ***********************************************/
+
+    .profile-side{
+        width: 250px;
+        padding: 90px 15px 20px;
+    }
+    .profile-img img{
+        height: 200px;
+        width: 200px;
+        left: 50px;
+        top: 50px;
+    }
+
+    /*
+            Ende User Account
+    ***********************************************/
 }
 
 
@@ -587,6 +606,63 @@ footer{
     
     /*
 		ENDE Inhaltsseite
+    ***********************************************/
+
+    /*
+    		ANFANG User Account
+    ***********************************************/
+
+    .user-container{
+        margin: 0 20px;
+    }
+    .profile-header{
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+        text-align: center;
+        padding-bottom: 20px;
+    }
+
+    .profile-img{
+        float: left;
+        width: 100%;
+        height: 200px;
+    }
+    .profile-img img{
+        position: relative;
+        left: 0;
+        /* height: 200px;
+        width: 200px; */
+    }
+    .profile-nav-info{
+        text-align: center;
+    }
+
+    .profile-nav-info .address{
+        justify-content: center;
+    }
+
+    .profile-option{
+        right: 20px;
+        top: 75%;
+        transform: translateY(50%);
+    }
+    .main-bd{
+        flex-direction: column;
+        padding-right: 0px;
+    }
+    .profile-side{
+        width: 100%;
+        text-align: center;
+        padding: 20px;
+        margin: 5px 0;
+    }
+    .user-rating{
+        justify-content: center;
+    }    
+
+    /*
+            Ende User Account
     ***********************************************/
 }
 
@@ -754,4 +830,38 @@ footer{
         display: none;
     }
 
+    /*
+            ANFANG User Account
+    ***********************************************/
+
+    .user-container{
+        margin: 5px;
+    }
+    .profile-header h4{
+        font-size: 1.7rem;
+    }
+    .profile-header p, .profile-header span{
+        font-size: .9rem;
+    }
+    .profile-option{
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        right: 15px;
+        top:83%;
+    }
+    .profile-option .notification .alert-message{
+        top: -3px;
+        right: -4px;
+        padding: 4px;
+        height: 15px;
+        width: 15px;
+        font-size: .7rem;
+    }
+
+
+    /*
+            Ende User Account
+    ***********************************************/
 }
+

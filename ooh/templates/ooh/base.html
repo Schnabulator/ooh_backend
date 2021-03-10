@@ -50,7 +50,7 @@
         <div class="inner">
             <ul class="navlist">
                 {# //TODO aktiv class machen #}
-                <li id="n_home" class="{% if request.path == '/' %}aktiv{%else%}{nicht_aktiv}{%endif%}"><a href="/"><span>Home</span></a></li>
+                <li id="n_home" class="{% if request.path == '/' %} aktiv {% else %} unaktiv {% endif %}"><a href="/"><span>Home</span></a></li>
                 <li  class=""><a href="{% url 'ooh:events' %}"><span>Events</span></a></li>
                 <li  class=""><a href="{% url 'ooh:locations' %}"><span>Locations</span></a></li>
                 <li id="" class="{% if request.path == '/' %}{aktiv}{%endif%}">

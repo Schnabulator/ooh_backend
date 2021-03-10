@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views import generic
 from django.template import Context
 from .models import Location, EventLocation, Event, OohUser, Participate
-from .forms import UserLoginForm, UserRegisterForm, RegLoginSwitch, OohUserCreationForm
+from .forms import UserLoginForm, UserRegisterForm, RegLoginSwitch, OohUserCreationForm, UserLocation
 from django.contrib.auth import authenticate, login
 
 from django.contrib.auth import get_user_model
@@ -65,6 +65,7 @@ class UserLoginView(LoginView, ProcessFormView):
                         # login(request)
                         login(request, user)
                         print("Successful logged in and registered "+ user.email)
+                        return redirect('index')
                         return JsonResponse({'success': 'Registrierung war erfolgreich.'})
                     else:
                         print("Hm.... user is None!")
@@ -84,6 +85,7 @@ class UserLoginView(LoginView, ProcessFormView):
                         # login(request)
                         login(request,user)
                         print("Successful logged in "+ user.email)
+                        # return redirect('index')
                         return JsonResponse({'success': 'Login war erfolgreich.'})
                     else:
                         print("User isnt authenticated")
@@ -108,7 +110,7 @@ class EventLocationView(generic.ListView):
         return EventLocation.objects.all
     
 class EventView(generic.ListView):
-    template_name = 'ooh/eventlocations.html'
+    template_name = 'ooh/events.html'
     context_object_name = 'near_eventlocations'
     def get_queryset(self):
         # return EventLocation.objects.filter(locationID__plz=68159)
@@ -126,5 +128,29 @@ class UserProfile(generic.DetailView):
     @method_decorator(login_required(login_url="/profile/login"))
     def get(self, request, *args, **kwargs):
         # userloc = request.user.locationID
+        context = {"body_id": "b_content"} 
+        return render(self.request, template_name=self.template_name, context=context)
+
+    @method_decorator(login_required(login_url="/profile/login"))
+    def post(self, request, *args, **kwargs):
+        form = UserLocation(request.POST)
+        if form.is_valid():
+            print("Valid Form for new location of user "+request.user.email)
+            plz = form.cleaned_data['plz']
+            cityname = form.cleaned_data['cityname']
+            street = form.cleaned_data['street']
+            housenumber = form.cleaned_data['housenumber']
+            
+            location = Location.objects.get(plz=plz, cityname=cityname)
+            if(location is None):
+                # //TODO Make a error message in se formular
+                context = {"body_id": "b_content"} 
+                return render(self.request, template_name=self.template_name, context=context)
+            print(location)
+            request.user.location = location
+            request.user.street = street
+            request.user.housenumber = housenumber
+            request.user.save()
+            pass
         context = {"body_id": "b_content"} 
         return render(self.request, template_name=self.template_name, context=context)

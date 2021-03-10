@@ -16,8 +16,10 @@
                     <div class="address">
                         <!-- <p class="state">{{ user.locationID__plz }} {{ user.locationID__cityname}}</p>
                         <span class="country"> {{ user.locationID__bundesland}}</span>  -->
+                        {% if user.location %}
                         <p class="state">{{ user.street}} {{user.housenumber}}</p>
-                        <span class="country">, {{ user.locationID }} </span> 
+                        <span class="country">, {{ user.location }} </span> 
+                        {%endif%}
                     </div>
     
                 </div>
@@ -42,11 +44,15 @@
                         </p>
                         {% if user.is_staff or user.is_superuser %}
                         <p class="user-status">
-                            <i class="fa fa-id-card-o" aria-hidden="true"></i>
+                            <i class="fa fa-id-card-o" ></i>
                             {% if user.is_superuser  %}
                             Admin
                             {% elif user.is_staff %}
                             Mitarbeiter von ooh
+                            {% elif user.admin %}
+                            Moderator
+                            {% else %}
+                            Benutzer
                             {% endif %}
                         </p>
                         {% endif %}
@@ -90,9 +96,9 @@
                <div class="right-side">
                    <div class="nav-right">
                        <ul>
-                           <li onclick="tabs(0)" class="user-post active" style="margin-bottom: 0em;">Posts</li>
-                           <li onclick="tabs(1)" class="user-review" style="margin-bottom: 0em;">Reviews</li>
-                           <li onclick="tabs(2)" class="user-setting" style="margin-bottom: 0em;">Settings</li>
+                           <li onclick="tabs(0)" class="user-post active" style="margin-bottom: 0em;  list-style-type: none;">Posts</li>
+                           <li onclick="tabs(1)" class="user-review" style="margin-bottom: 0em;list-style-type: none;">Reviews</li>
+                           <li onclick="tabs(2)" class="user-setting" style="margin-bottom: 0em;list-style-type: none;">Settings</li>
                        </ul>
                    </div>
                    <div class="profile-body">
@@ -106,6 +112,32 @@
                         </div>
                         <div class="profile-setting tab">
                             <h4>Account Settings</h4>
+                            <h3>Profil vervollständigen</h3>
+                            {% if user.location  %}
+                            <form method=post action=".">
+                                {% csrf_token %}
+                                
+                                <input name=data value="chgloc" type="hidden"/>
+                                <input name=plz id=plz placeholder="Postleitzahl" value="{{ user.location.plz }}" />
+                                <input name=cityname id=cityname placeholder="Stadtname" value="{{ user.location.cityname }}"/><br/>
+                                <input name=street id=street placeholder="Straße" value="{{ user.street }}">
+                                <input name=housenumber id=housenumber placeholder="Hausnr" value="{{ user.housenumber }}"><br/>
+                                <input id="allowedit" name="allowedit"  type="checkbox" required />
+                                <label for="allowedit">Wirklich ändern?</label>
+                                <input type=submit value="Addresse ändern">
+                            </form>
+                            {% else %}
+                            <form method=post action=".">
+                                {% csrf_token %}
+                                <input name=data value="addloc" type="hidden"/>
+                                <input name=plz id=plz  placeholder="Postleitzahl">
+                                <!-- Stadtname sollte automatisch auf Basis der PLZ gesetzt werden-->
+                                <input name=cityname id=cityname placeholder="Stadtname"><br/>
+                                <input name=street id=street placeholder="Straße" value="" >
+                                <input name=housenumber id=housenumber placeholder="Hausnr"><br/>
+                                <input type=submit value="Addresse hinzufügen">
+                            </form>
+                            {%endif%}
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, quia sunt explicabo eveniet quod soluta nam nostrum ut tempore! Veritatis itaque repudiandae harum ex facilis. Doloribus ipsam a dolore unde!</p>
                         </div>
                    </div>
