@@ -19,7 +19,9 @@
 
     <section class="cd-gallery">
         <ul>
-            <li class="mix heute">
+            <!-- Begin first Event entry -->
+            {% for ev in recommended_events %}
+            <li class="mix {{ ev.timecheck }}">
                 <div class="container">	
                        
                     <!-- Start	Product details -->
@@ -27,17 +29,18 @@
                             
                             <!-- 	Product Name -->
                         <div>
-                                <h1>Bar</h1>
+                                <h1>{{ev.name}}</h1>
                                 <!-- 		<span class="hint new">New</span> -->
                                 <!-- 		<span class="hint free-shipping">Free Shipping</span> -->
                                 <!-- 		the Product rating -->
                                 <br>
                                 <span class="hint-star star">
-                                    <i class="fa fa-star checked"></i>
-                                    <i class="fa fa-star checked"></i>
-                                    <i class="fa fa-star checked"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+                                    {# das muss komplex abgebildet werden #}
+                                    <i class="fa fa-star {% if ev.calculatedratings.0 >= 0 %} checked {%endif%}"></i>
+                                    <i class="fa fa-star {% if ev.calculatedratings.0 >= 1 %} checked {%endif%}"></i>
+                                    <i class="fa fa-star {% if ev.calculatedratings.0 >= 2 %} checked {%endif%}"></i>
+                                    <i class="fa fa-star {% if ev.calculatedratings.0 >= 3 %} checked {%endif%}"></i>
+                                    <i class="fa fa-star {% if ev.calculatedratings.0 >= 4 %} checked {%endif%}"></i>
                                 </span>
                         </div>     
                                     
@@ -46,7 +49,7 @@
         
                             </div>
                             <!-- The most important information about the product -->
-                            <p class="information">Vollsuff am Wochenende und auch unter der Woche. Hier gibts leckere Shots.</p>
+                            <p class="information">{{ev.street}}{{ev.housenumber}}<br/>{{ev.location}}</p>
                             
                                     
                                     
@@ -69,8 +72,8 @@
                     <!-- 	End	Product details   -->
                         
                     <div class="product-image">
-                        
-                        <img src="{% static 'ooh/img/locations/filmriss.jpg' %}" alt="Omar Dsoky">
+                        {# //TODO add location photos #}
+                        <img src="{% static 'ooh/img/locations/dummy.jpg' %}" alt="Omar Dsoky">
                         
                     <!-- 	product Information-->
                         <div class="info">
@@ -96,270 +99,9 @@
                     
                 </div>
             </li>
-            
-            <li class="mix morgen">
-                <div class="container">	
-
-                    <!-- Start	Product details -->
-                    <div class="product-details">
-                            
-                            <!-- 	Product Name -->
-                   <div>
-                        <h1>Restaurant</h1>
-                        <!-- 		<span class="hint new">New</span> -->
-                        <!-- 		<span class="hint free-shipping">Free Shipping</span> -->
-                        <!-- 		the Product rating -->
-                        <br>
-                        <span class="hint-star star">
-                            <i class="fa fa-star checked"></i>
-                            <i class="fa fa-star checked"></i>
-                            <i class="fa fa-star checked"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </span>
-                   </div>     
-                            
-                        
-                    <div>
-
-                    </div>
-                    <!-- The most important information about the product -->
-                    <p class="information">Vollsuff am Wochenende und auch unter der Woche. Hier gibts leckere Shots.</p>
-                    
-                            
-                            
-                    <!-- 		Control -->
-                    <div class="control">
-                        
-                    <!-- Start Button buying -->
-                    <button class="btn">
-                    <!-- 		the Price -->
-                       <span class="shopping-cart"><i class="fa fa-bookmark"></i></span>
-                    <!-- 		Buy Now / ADD to Cart-->
-                       <span class="buy">Participate</span>
-                     </button>
-                        <!-- End Button buying -->
-                        
-                    </div>
-                                
-                    </div>
-                        
-                    <!-- 	End	Product details   -->
-                        
-                        
-                        
-                    <!-- 	Start product image & Information -->
-                        
-                    <div class="product-image">
-                        
-                        <img src="{% static 'ooh/img/locations/filmriss.jpg' %}" alt="Omar Dsoky">
-                        
-                    <!-- 	product Information-->
-                        <div class="info">
-                            <h4>The Description</h4>
-                            <p>Street: Coblitzalle</p>
-                            <p>Bla bla</p>
-                            <ul>
-                                <li>Sun Needs: Full Sun</li>
-                                <li>Soil Needs: Damp</li>
-                                <li>Zones: 9 - 11</li>
-                                <li>Height: 2 - 3 feet</li>
-                                <li>Blooms in: Mid‑Summer - Mid‑Fall</li>
-                                <li>Features: Tolerates heat</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!--  End product image  -->
-                    
-                    
-                </div>
-            </li>
-            
-            <li class="mix nächstesWochenende">
-                <div class=" container">	
-
-                    <!-- Start	Product details -->
-                    <div class="product-details">
-                            
-                            <!-- 	Product Name -->
-                   <div>
-                        <h1>Club</h1>
-                        <!-- 		<span class="hint new">New</span> -->
-                        <!-- 		<span class="hint free-shipping">Free Shipping</span> -->
-                        <!-- 		the Product rating -->
-                        <br>
-                        <span class="hint-star star">
-                            <i class="fa fa-star checked"></i>
-                            <i class="fa fa-star checked"></i>
-                            <i class="fa fa-star checked"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </span>
-                   </div>     
-                            
-                        
-                    <div>
-
-                    </div>
-                    <!-- The most important information about the product -->
-                    <p class="information">Vollsuff am Wochenende und auch unter der Woche. Hier gibts leckere Shots.</p>
-                    
-                            
-                            
-                    <!-- 		Control -->
-                    <div class="control">
-                        
-                    <!-- Start Button buying -->
-                    <button class="btn">
-                    <!-- 		the Price -->
-                       <span class="shopping-cart"><i class="fa fa-bookmark"></i></span>
-                    <!-- 		Buy Now / ADD to Cart-->
-                       <span class="buy">Participate</span>
-                     </button>
-                        <!-- End Button buying -->
-                        
-                    </div>
-                                
-                    </div>
-                        
-                    <!-- 	End	Product details   -->
-                        
-                        
-                        
-                    <!-- 	Start product image & Information -->
-                        
-                    <div class="product-image">
-                        
-                        <img src="{% static 'ooh/img/locations/filmriss.jpg' %}" alt="Omar Dsoky">
-                        
-                    <!-- 	product Information-->
-                        <div class="info">
-                            <h4>The Description</h4>
-                            <p>Street: Coblitzalle</p>
-                            <p>Bla bla</p>
-                            <ul>
-                                <li>Sun Needs: Full Sun</li>
-                                <li>Soil Needs: Damp</li>
-                                <li>Zones: 9 - 11</li>
-                                <li>Height: 2 - 3 feet</li>
-                                <li>Blooms in: Mid‑Summer - Mid‑Fall</li>
-                                <li>Features: Tolerates heat</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!--  End product image  -->
-                    
-                    
-                </div>
-            </li>
-            
-            <li class="mix nächstesWochenende">
-                <div class="container">	
-
-                    <!-- Start	Product details -->
-                    <div class="product-details">
-                            
-                            <!-- 	Product Name -->
-                   <div>
-                        <h1>Club 2</h1>
-                        <!-- 		<span class="hint new">New</span> -->
-                        <!-- 		<span class="hint free-shipping">Free Shipping</span> -->
-                        <!-- 		the Product rating -->
-                        <br>
-                        <span class="hint-star star">
-                            <i class="fa fa-star checked"></i>
-                            <i class="fa fa-star checked"></i>
-                            <i class="fa fa-star checked"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </span>
-                   </div>     
-                            
-                        
-                    <div>
-
-                    </div>
-                    <!-- The most important information about the product -->
-                    <p class="information">Vollsuff am Wochenende und auch unter der Woche. Hier gibts leckere Shots.</p>
-                    
-                            
-                            
-                    <!-- 		Control -->
-                    <div class="control">
-                        
-                    <!-- Start Button buying -->
-                    <button class="btn">
-                    <!-- 		the Price -->
-                       <span class="shopping-cart"><i class="fa fa-bookmark"></i></span>
-                    <!-- 		Buy Now / ADD to Cart-->
-                       <span class="buy">Participate</span>
-                     </button>
-                        <!-- End Button buying -->
-                        
-                    </div>
-                                
-                    </div>
-                        
-                    <!-- 	End	Product details   -->
-                        
-                        
-                        
-                    <!-- 	Start product image & Information -->
-                        
-                    <div class="product-image">
-                        
-                        <img src="{% static 'ooh/img/locations/filmriss.jpg' %}" alt="Omar Dsoky">
-                        
-                    <!-- 	product Information-->
-                        <div class="info">
-                            <h4>The Description</h4>
-                            <p>Street: Coblitzalle</p>
-                            <p>Bla bla</p>
-                            <ul>
-                                <li>Sun Needs: Full Sun</li>
-                                <li>Soil Needs: Damp</li>
-                                <li>Zones: 9 - 11</li>
-                                <li>Height: 2 - 3 feet</li>
-                                <li>Blooms in: Mid‑Summer - Mid‑Fall</li>
-                                <li>Features: Tolerates heat</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!--  End product image  -->
-                    
-                    
-                </div>
-            </li>
-            
-            <!-- <div class="event-container">
-                <div>
-                    <img class="event-img" src="./img/ryan.png" alt="">
-                </div>
-                <div class="event-information">
-                    <div class="event-header">
-                        <h3>Überschrift</h3>
-                    </div>
-                    <div class="event-rating">
-                        <div>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                        <div>
-                            <p class="event-rating-count">(25)</p>
-                        </div>
-                    </div>
-                    <div class="event-description">
-                        Beschreibung
-                    </div>
-                </div>
-                <div class="event-distance">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <p>Entfernung</p>
-                </div>
-            </div> -->
+            {% empty %}
+            <p>Bitte warte bis wir unser Angebot auf deine Umgebung ausgeweitet haben. Gerne kannst du uns einen Vorschlag für deine Gegend machen!</p>
+            {% endfor %}
         
         </ul>
         <div class="cd-fail-message">No results found</div>

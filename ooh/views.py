@@ -117,16 +117,12 @@ class EventLocationView(generic.ListView):
     
 class EventView(generic.ListView):
     template_name = 'ooh/events.html'
-    context_object_name = 'near_eventlocations'
+    context_object_name = 'recommended_events'
     def get_queryset(self):
+        ev = Event.objects.get(name='Schnitzeltag')
+        print(ev.calculatedratings())
         # return EventLocation.objects.filter(locationID__plz=68159)
         return Event.objects.all
-
-# @method_decorator(login_required, name='as_view')
-# class UserProfileView(generic.DetailView):
-#     template_name = "ooh/profile.html"
-#     def get_queryset(self):
-#         return self.request.user
 
 class UserProfile(generic.DetailView):
     template_name = "ooh/profile.html"

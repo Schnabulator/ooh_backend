@@ -22,9 +22,26 @@ class EventLocation(models.Model):
     # eventLocationID =  models.AutoField()
     street	= models.CharField(max_length=50)
     housenumber = models.CharField(max_length=10, blank=True)
+    # //TODO coordinates = 
     name	= models.CharField(max_length=100)
     room	= models.CharField(max_length=100, blank=True)
     locationID = models.ForeignKey(Location, on_delete=models.PROTECT)
+    # //TODO picture = models.FileField 
+    # //TODO periodically running functions to calculate rating
+    #  //TODO tut nicht
+    def calculatedratings(self):
+        return [3,1]
+        rat = EventLocationRating.objects.get(eventlocationID=self.locationID)
+        
+        if len(rat) == 0:
+            print("No Ratings available")
+            return [0, 0]
+        summedrating = 0
+        for rating in rat:
+            summedrating += rating.rating
+        print("Average rating: "+str(summedrating))
+        return [summedrating/len(rat), len(rat)]
+        pass
     def sameplz(self, plz):
         print("Called near method")
         return self.locationID__plz == plz
@@ -42,11 +59,12 @@ class OohUser(AbstractBaseUser, PermissionsMixin):
     firstname = models.CharField(max_length=100)
     lastname = models.CharField(max_length=100)
     birthday = models.DateField(null=True)
-    REQUIRED_FIELDS = ['firstname', 'lastname', 'birthday',]
+    
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     last_login = models.DateTimeField(default=timezone.now)
     date_joined = models.DateTimeField(default=timezone.now)
+    # //TODO coordinates for calculating distance
     street = models.CharField(max_length=50, blank=True)
     housenumber = models.CharField(max_length=10, blank=True)
     location = models.ForeignKey(Location, on_delete=models.PROTECT, blank=True, null=True)    
@@ -73,6 +91,7 @@ class Event(models.Model):
     endtime = models.DateTimeField()
     mininumage = models.PositiveSmallIntegerField()
     category = models.ManyToManyField(Category)
+    # //TODO periodically running functions to calculate reting
     def __str__(self):
         return self.name + " [{0}]".format(self.location)
 
