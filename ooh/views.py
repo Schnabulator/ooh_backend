@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views import generic
 from django.template import Context
 from .models import Location, EventLocation, Event, OohUser, Participate
-from .forms import UserLoginForm, UserRegisterForm, RegLoginSwitch, OohUserCreationForm, UserLocation
+from .forms import UserLoginForm, RegLoginSwitch, OohUserCreationForm, UserLocation
 from django.contrib.auth import authenticate, login
 
 from django.contrib.auth import get_user_model
@@ -49,14 +49,18 @@ class UserLoginView(LoginView, ProcessFormView):
                 if form.is_valid():
                     print("Valid form")
                     print(request.POST)
-                    # user = form.cleaned_data['email']
-                    # email = form.cleaned_data['email']
-                    # pw = form.cleaned_data['passwd']
-                    # user = create_user(username=user,password=pw, email=email)
-                    # if user is not None:
-                    #     login(request)
-                    #     print("Successful")
+                    
+                    # plz = form.cleaned_data['plz']
+                    # cityname = form.cleaned_data['cityname']
+                    plz = request.POST['plz']
+                    cityname = request.POST['cityname']
+                    location = Location.objects.get(plz=plz, cityname=cityname)
+                    # print(location)
                     form.save()
+                    # get User back to save location
+                    us = OohUser.objects.get(email=form.cleaned_data['email'])
+                    us.location = location
+                    us.save()
                     return JsonResponse({'success': 'Registrierung war erfolgreich.'})
 
                     # Cant Login user when he must confirm his email in future!

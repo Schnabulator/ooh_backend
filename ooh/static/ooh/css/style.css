@@ -1144,12 +1144,32 @@ header {
 /********************************
 		Anfang Login und Registrieren
 */
+/* .content {
+	position: absolute;
+	top: 113px;
+	bottom: 132px;
+	width: 100%;
+	
+} */
+
 #container-login {
 	position: relative;
-	background: url('/img/login-background.jpg') no-repeat center center !important;
+	background: url('../img/login-background.jpg') no-repeat center center !important;
 	background-size: cover !important;
 	min-height: 70%;
-	height: 650px;
+	height: 800px;
+}
+
+#street, #cityname {
+	width: 60%;
+}
+
+#plz, #housenumber{
+	width: 25%;
+}
+
+#birthday{
+	width: 30%;
 }
 
 #loginRegister {
@@ -1170,6 +1190,7 @@ header {
 	padding: 6px 0;
 } 
 
+
 .text-box{
 	width: 100%;
     overflow: hidden;
@@ -1183,6 +1204,11 @@ header {
 	width: 5%;
 	float: left;
 	text-align: center;
+	color: white;
+}
+
+::-webkit-calendar-picker-indicator {
+    filter: invert(1);
 }
 
 .text-box input{

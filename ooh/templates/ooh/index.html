@@ -2,121 +2,124 @@
 {% load static %}
 
 {% block content %}
-<div id="content">
-    <div class="section" id="sc_home_einleitung">
+<!-- // SECTION // -->
+    <div id="content">
+        <div class="section" id="sc_home_einleitung">
+    
 
-        <div id="slideshow">
-            <div class="slidebox altern" style="display: block;">
-                <div class="bild"> <img src="{% static 'ooh/img/slideshow/w1650h880/e-mobility.jpg'%}" alt=""> </div>
-                <div class="sb_inner">
-                    <div class="text">
-                        <p>Wir reden nicht über Umweltschonend, wir leben es.</p>
-                        <p class="mehr"><a href="inhalt.html">Mehr erfahren</a></p>
+            <!-- //TODO Links auf enstprechend gefilterte kacke machen -->
+            <div id="slideshow">
+                <div class="slidebox altern" style="display: block;">
+                    <div class="bild"> <img src="{% static 'ooh/img/slideshow/people-2557396_1280.jpg' %}" alt=""> </div>
+                    <div class="sb_inner">
+                        <div class="text">
+                            <p>Ihr wollt nicht nur Zuhause sitzen, sondern Spaß haben? Dann nutzt Out of Home!</p>
+                            <p class="mehr"><a href="inhalt.html">Mehr erfahren</a></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="slidebox altern" style="display: block;">
-                <div class="bild"> <img src="{% static 'ooh/img/slideshow/w1650h880/segway-2.jpg'%}" alt=""> </div>
-                <div class="sb_inner">
-                    <div class="text">
-                        <p>Mit dem Segway die Umgebung erkunden, gemeinsam mit Ihren Freunden.</p>
-                        <p class="mehr"><a href="http://localhost/inhalt.html">Mehr erfahren</a></p>
+                <div class="slidebox altern" style="display: block;">
+                    <div class="bild"> <img src="{% static 'ooh/img/slideshow/event-party-3005668_1280.jpg' %}" alt=""> </div>
+                    <div class="sb_inner">
+                        <div class="text">
+                            <p>In dem Club treffen und ordentlich abfeiern.</p>
+                            <p class="mehr"><a href="inhalt.html">Mehr erfahren</a></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="slidebox altern" style="display: block;">
-                <div class="bild"> <img src="{% static 'ooh/img/slideshow/w1650h880/e-roller.jpg'%}" alt=""> </div>
-                <div class="sb_inner">
-                    <div class="text">
-                        <p>Soll es mal schneller gehen, können Sie bei uns einen E-Roller mieten.</p>
-                        <p class="mehr"><a href="http://localhost/inhalt.html">Mehr erfahren</a></p>
+                <div class="slidebox altern" style="display: block;">
+                    <div class="bild"> <img src="{% static 'ooh/img/slideshow/restaurant-690975_1280.jpg' %}" alt=""> </div>
+                    <div class="sb_inner">
+                        <div class="text">
+                            <p>Oder einen gemütlichen Abend in einem Restaurant verbringen.</p>
+                            <p class="mehr"><a href="inhalt.html">Mehr erfahren</a></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="slidebox" style="display: block;">
-                <div class="bild"> <img src="{% static 'ooh/img/slideshow/w1650h880/e-scooter.jpg'%}" alt=""> </div>
-                <div class="sb_inner">
-                    <div class="text">
-                        <p>Sie können auch jederzeit einen der allseits beliebten E-Scooter mieten!</p>
-                        <p class="mehr"><a href="http://localhost/inhalt.html">Mehr erfahren</a></p>
+                <div class="slidebox" style="display: block;">
+                    <div class="bild"> <img src="{% static 'ooh/img/slideshow/bar-209148_1280.jpg' %}" alt=""> </div>
+                    <div class="sb_inner">
+                        <div class="text">
+                            <p>Sie können auch jederzeit Ihren Abend in einer Bar genießen!</p>
+                            <p class="mehr"><a href="inhalt.html">Mehr erfahren</a></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="slidebox obersteebene" style="display: block;">
-                <div class="bild"> <img src="{% static 'ooh/img/slideshow/w1650h880/e-bike.jpg'%}" alt=""> </div>
-                <div class="sb_inner">
-                    <div class="text">
-                        <p>Bei uns können Sie über komfortable bis hin zu sportlich ambitionierte E-Bikes erhalten.</p>
-                        <p class="mehr"><a href="http://localhost/inhalt.html">Mehr erfahren</a></p>
+                <div class="slidebox obersteebene" style="display: block;">
+                    <div class="bild"> <img src="{% static 'ooh/img/slideshow/cheers-839865_1280.jpg' %}" alt=""> </div>
+                    <div class="sb_inner">
+                        <div class="text">
+                            <p>Für was auch immer Sie sich entscheiden: Prost!</p>
+                            <p class="mehr"><a href="inhalt.html">Mehr erfahren</a></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        <div id="slideshow-seitenanzeige"><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class="aktiv"></span></div><div id="slideshow-buttons"><div id="slider-bt-prev"></div><div id="slider-bt-next"></div></div></div>
-        <!-- Ende #slideshow -->
-
-    </div>
-    <!-- Ende .section -->
-
-
-    <div class="section" id="sc_aw-einstiege">
-
-        <ul id="bereiche">
-            <li>
-                <a href="http://localhost/angebot.html#segway-container">
-                    <h3>Segway</h3>
-                    <div class="bild">
-                        <img src="{% static 'ooh/img/slideshow/w1650h880/segway.jpg'%}" alt="">
-                    </div>
-                </a>
-            </li>
-
-            <li>
-                <a href="http://localhost/angebot.html#eroller-container">
-                    <h3>E-Roller</h3>
-                    <div class="bild">
-                        <img src="{% static 'ooh/img-dsg/aw-einstiege/roller.png'%}" alt="">
-                    </div>
-                </a>
-            </li>
-
-            <li>
-                <a href="http://localhost/angebot.html#escooter-container">
-                    <h3>E-Scooter</h3>
-                    <div class="bild">
-                        <img src="{% static 'ooh/img/slideshow/w1650h880/e-scooter.jpg'%}" alt="">
-                    </div>
-                </a>
-            </li>
-
-            <li>
-                <a href="http://localhost/angebot.html#Fahrrad-Container">
-                    <h3>E-Bike</h3>
-                    <div class="bild">
-                        <img src="{% static 'ooh/img-dsg/aw-einstiege/e-bike.png'%}" alt="">
-                    </div>
-                </a>
-            </li>
-        </ul>
-
-    </div>
-    <!-- Ende .section -->
-
-
-    <div class="section sc_b" id="sc_home-aktuell">
-        <div class="inner">
-            <div class="textblock">
-                <h2>Unsere Leidenschaft sind die Zweiräder</h2>
-                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                    Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-                    Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
-                    Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-                    Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis.
-                    At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur</p>
-            </div>
-        </div> <!-- Ende .inner -->
-
-    </div> <!-- Ende .section -->
-</div><!-- Ende #content -->
+            <div id="slideshow-seitenanzeige"><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class="aktiv"></span></div><div id="slideshow-buttons"><div id="slider-bt-prev"></div><div id="slider-bt-next"></div></div></div>
+            <!-- Ende #slideshow -->
+    
+        </div>
+        <!-- Ende .section -->
+    
+    
+        <div class="section" id="sc_aw-einstiege">
+    
+            <ul id="bereiche">
+                <li>
+                    <a href="angebot.html#segway-container">
+                        <h3>Bier</h3>
+                        <div class="bild">
+                            <img src="{% static 'ooh/img/bier.jpg' %}" alt="">
+                        </div>
+                    </a>
+                </li>
+    
+                <li>
+                    <a href="angebot.html#eroller-container">
+                        <h3>Cocktails</h3>
+                        <div class="bild">
+                            <img src="{% static 'ooh/img/cocktail.jpg' %}" alt="">
+                        </div>
+                    </a>
+                </li>
+    
+                <li>
+                    <a href="angebot.html#escooter-container">
+                        <h3>Burger</h3>
+                        <div class="bild">
+                            <img src="{% static 'ooh/img/burger.jpg' %}" alt="">
+                        </div>
+                    </a>
+                </li>
+    
+                <li>
+                    <a href="angebot.html#Fahrrad-Container">
+                        <h3>Whisky</h3>
+                        <div class="bild">
+                            <img src="{% static 'ooh/img/whiskey.jpg' %}" alt="">
+                        </div>
+                    </a>
+                </li>
+            </ul>
+    
+        </div>
+        <!-- Ende .section -->
+    
+    
+        <div class="section sc_b" id="sc_home-aktuell">
+            <div class="inner">
+                <div class="textblock">
+                    <h2>Unsere Leidenschaft ist die Gastronomie</h2>
+                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                        Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                        Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+                        Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+                        Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis.
+                        At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur</p>
+                </div>
+            </div> <!-- Ende .inner -->
+    
+        </div> <!-- Ende .section -->
+    </div><!-- Ende #content -->
 
 
 </div>
