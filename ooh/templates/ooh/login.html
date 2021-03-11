@@ -223,7 +223,7 @@
                                     $("#loginRegister").remove();
                                     $("#login-box").html('<div id="loginRegister" style="color:white;">'+ret.success+'</div>');    
                                 }, 500);                 
-                                setTimeout( function() {window.location.replace("/");}, 1000);
+                                setTimeout( function() {window.location.replace("{{ next |default:'/profile/' }}");}, 1000);
                             } else
                                 alert("Bei der Datenübergabe ist ein Fehler aufgetreten.\n\nBitte wiederholen Sie den Vorgang noch einmal.");
                             }

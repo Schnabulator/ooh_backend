@@ -723,7 +723,7 @@ footer{
     }
 
     header h1 a {
-        margin-top: 22px;
+        /* margin-top: 22px; */
         width: 150px;
         height: 44px;
     }
