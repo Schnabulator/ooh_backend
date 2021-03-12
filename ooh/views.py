@@ -119,8 +119,8 @@ class EventView(generic.ListView):
     template_name = 'ooh/events.html'
     context_object_name = 'recommended_events'
     def get_queryset(self):
-        ev = Event.objects.get(name='Schnitzeltag')
-        print(ev.calculatedratings())
+        # ev = Event.objects.get(name='Schnitzeltag')
+        # print(ev.calculatedratings())
         # return EventLocation.objects.filter(locationID__plz=68159)
         return Event.objects.all
 

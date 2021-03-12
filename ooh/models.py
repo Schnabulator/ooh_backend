@@ -28,11 +28,10 @@ class EventLocation(models.Model):
     locationID = models.ForeignKey(Location, on_delete=models.PROTECT)
     # //TODO picture = models.FileField 
     # //TODO periodically running functions to calculate rating
-    #  //TODO tut nicht
+    # //TODO tut nicht
     def calculatedratings(self):
-        return [3,1]
-        rat = EventLocationRating.objects.get(eventlocationID=self.locationID)
-        
+        # return [3,1]
+        rat = EventLocationRating.objects.get(eventlocationID=self.locationID.id)
         if len(rat) == 0:
             print("No Ratings available")
             return [0, 0]
@@ -41,7 +40,6 @@ class EventLocation(models.Model):
             summedrating += rating.rating
         print("Average rating: "+str(summedrating))
         return [summedrating/len(rat), len(rat)]
-        pass
     def sameplz(self, plz):
         print("Called near method")
         return self.locationID__plz == plz
@@ -92,6 +90,20 @@ class Event(models.Model):
     mininumage = models.PositiveSmallIntegerField()
     category = models.ManyToManyField(Category)
     # //TODO periodically running functions to calculate reting
+    def calculatedratings(self):
+        # return [3,1]
+        # rat = EventRating.objects.get(eventID=self.id)
+        rat = EventRating.objects.filter(eventID=self.id)
+
+        if len(rat) == 0:
+            print("No Ratings available")
+            return [0, 0]
+        summedrating = 0
+        for rating in rat:
+            summedrating += rating.rating
+        print("Average rating: "+str(summedrating))
+        return [(summedrating/len(rat)), len(rat)]
+    
     def __str__(self):
         return self.name + " [{0}]".format(self.location)
 
@@ -111,7 +123,7 @@ class EventRating(models.Model):
     user = models.ForeignKey(OohUser, on_delete=models.SET_NULL, null=True)
     eventID = models.ForeignKey(Event, on_delete=models.CASCADE)
     def __str__(self):
-        return "{0}_{1}-{2}: {3}".format(self.eventID__name, self.customerID__userID__email, self.description[:75] + (self.description[75:] and '..'))
+        return "{0}@{1} | {2}".format(self.eventID.name, self.eventID.location.name, self.user.email) # , self.description[:75] + (self.description[75:] and '..'))
 
 class EventLocationRating(models.Model):
     # ratingID = models.AutoField()
@@ -120,5 +132,5 @@ class EventLocationRating(models.Model):
     user = models.ForeignKey(OohUser, on_delete=models.SET_NULL, null=True)
     eventlocationID = models.ForeignKey(EventLocation, on_delete=models.CASCADE)
     def __str__(self):
-        return "{0}_{1}-{2}: {3}".format(self.eventlocationID__name, self.customerID__userID__email, self.description[:75] + (self.description[75:] and '..'))
+        return "{0} | {1}".format(self.eventlocationID.name, self.user.email) #, self.description[:75] + (self.description[75:] and '..'))
 

@@ -104,7 +104,76 @@
         </div>
         <!-- Ende .section -->
     
-    
+        {% if user.is_authenticated %}
+        <ul>
+            <!-- Begin first Event entry -->
+            {% for ev in recommended_events %}
+            <li class="mix {{ ev.timecheck }}">
+                <div class="container">	
+                    <!-- Start	Product details -->
+                    <div class="product-details">
+                            <!-- 	Event Name -->
+                        <div>
+                                <h1>{{ev.name}}</h1>
+                                <!-- 		<span class="hint new">New</span> -->
+                                <!-- 		<span class="hint free-shipping">Free Shipping</span> -->
+                                <!-- 		the Product rating -->
+                                <br>
+                                <span class="hint-star star">
+                                    {# das muss komplex abgebildet werden #}
+                                    <i class="fa fa-star {% if ev.calculatedratings.0 >= 0 %} checked {%endif%}"></i>
+                                    <i class="fa fa-star {% if ev.calculatedratings.0 >= 1 %} checked {%endif%}"></i>
+                                    <i class="fa fa-star {% if ev.calculatedratings.0 >= 2 %} checked {%endif%}"></i>
+                                    <i class="fa fa-star {% if ev.calculatedratings.0 >= 3 %} checked {%endif%}"></i>
+                                    <i class="fa fa-star {% if ev.calculatedratings.0 >= 4 %} checked {%endif%}"></i>
+                                </span>
+                        </div>     
+
+                        <div></div>
+                        <!-- The most important information about the product -->
+                        {#Das steht in der Desktop view links#}
+                        <p class="information">{{ev.street}}{{ev.housenumber}}<br/>{{ev.location}}</p>
+
+                            <!-- 		Control -->
+                        <div class="control">
+                            <!-- Start Button buying -->
+                            <button class="btn">
+                                <!-- 		the Price -->
+                                <!-- Evtl ein onClick auf das Icon und dann noch den button clickable machen? oder das bookmark einfach oben anzeigen -->
+                                <span class="shopping-cart"><i class="fa fa-bookmark"></i></span>
+                                <!-- 		Buy Now / ADD to Cart-->
+                                <span class="buy">Participate</span>
+                            </button>
+                            <!-- End Button buying -->        
+                        </div>    
+                    </div> <!-- Ende Product details -->
+                        
+                    <div class="product-image">
+                        {# //TODO add location photos #}
+                        <img src="{% static 'ooh/img/locations/dummy.jpg' %}" alt="Omar Dsoky">
+                        <!-- 	product Information seen when hovering over picture-->
+                        <div class="info">
+                            <h4>The Description</h4>
+                            <p>Street: Coblitzalle</p>
+                            <p>Bla bla</p>
+                            <ul>
+                                <li>Sun Needs: Full Sun</li>
+                                <li>Soil Needs: Damp</li>
+                                <li>Zones: 9 - 11</li>
+                                <li>Height: 2 - 3 feet</li>
+                                <li>Blooms in: Mid‑Summer - Mid‑Fall</li>
+                                <li>Features: Tolerates heat</li>
+                            </ul>
+                        </div>
+                    </div> <!-- End Product image -->
+                </div> <!-- End Container -->
+            </li> <!-- Single List item end -->
+            {% empty %}
+                <p>Bitte warte bis wir unser Angebot auf deine Umgebung ausgeweitet haben. Gerne kannst du uns einen Vorschlag für deine Gegend machen!</p>
+            {% endfor %}
+        
+        </ul>
+        {% else %}
         <div class="section sc_b" id="sc_home-aktuell">
             <div class="inner">
                 <div class="textblock">
@@ -112,8 +181,9 @@
                     <p>{% lorem 3 %}</p>
                 </div>
             </div> <!-- Ende .inner -->
-    
         </div> <!-- Ende .section -->
+        {% endif %}
+
     </div><!-- Ende #content -->
 
 
