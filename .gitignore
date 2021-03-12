@@ -3,3 +3,4 @@
 __pycache__/
 zuordnung_plz_ort.csv
 *.old
+db.sqlite3
