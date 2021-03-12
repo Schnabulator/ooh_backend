@@ -76,25 +76,19 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-class Event(models.Model):
-    # eventID = models.AutoField()
+class EventTemplate(models.Model):
     name = models.TextField()
     description = models.TextField()
-    organizer = models.ForeignKey(OohUser, on_delete=models.CASCADE)
-    location = models.ForeignKey(EventLocation, on_delete=models.CASCADE)
-    takeplace = models.BooleanField(default=True)
     cost = models.IntegerField(default=0)
-    promoted = models.BooleanField(default=False)
-    starttime = models.DateTimeField()
-    endtime = models.DateTimeField()
     mininumage = models.PositiveSmallIntegerField()
     category = models.ManyToManyField(Category)
+    location = models.ForeignKey(EventLocation, on_delete=models.CASCADE)
+    organizer = models.ForeignKey(OohUser, on_delete=models.CASCADE)
     # //TODO periodically running functions to calculate reting
+    def __str__(self):
+        return self.name + " [{0}]".format(self.location)
     def calculatedratings(self):
-        # return [3,1]
-        # rat = EventRating.objects.get(eventID=self.id)
         rat = EventRating.objects.filter(eventID=self.id)
-
         if len(rat) == 0:
             print("No Ratings available")
             return [0, 0]
@@ -103,11 +97,15 @@ class Event(models.Model):
             summedrating += rating.rating
         print("Average rating: "+str(summedrating))
         return [(summedrating/len(rat)), len(rat)]
-    
-    def __str__(self):
-        return self.name + " [{0}]".format(self.location)
 
-
+class Event(models.Model):
+    # eventID = models.AutoField()
+    data = models.ForeignKey(EventTemplate, on_delete=models.CASCADE)
+    takeplace = models.BooleanField(default=True)
+    promoted = models.BooleanField(default=False)
+    starttime = models.DateTimeField()
+    endtime = models.DateTimeField()
+    interval = models.IntegerField(blank=True, null=True)
 
 class Participate(models.Model):
     customerID = models.ForeignKey(OohUser, on_delete=models.CASCADE)
@@ -121,7 +119,7 @@ class EventRating(models.Model):
     rating = models.PositiveSmallIntegerField()
     description = models.TextField()
     user = models.ForeignKey(OohUser, on_delete=models.SET_NULL, null=True)
-    eventID = models.ForeignKey(Event, on_delete=models.CASCADE)
+    eventID = models.ForeignKey(EventTemplate, on_delete=models.CASCADE)
     def __str__(self):
         return "{0}@{1} | {2}".format(self.eventID.name, self.eventID.location.name, self.user.email) # , self.description[:75] + (self.description[75:] and '..'))
 
