@@ -79,7 +79,7 @@ class Category(models.Model):
 class Event(models.Model):
     # eventID = models.AutoField()
     name = models.TextField()
-    description = models.TextField()
+    description = models.TextField(null=True)
     organizer = models.ForeignKey(OohUser, on_delete=models.CASCADE)
     location = models.ForeignKey(EventLocation, on_delete=models.CASCADE)
     takeplace = models.BooleanField(default=True)
