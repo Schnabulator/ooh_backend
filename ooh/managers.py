@@ -1,4 +1,5 @@
 from django.contrib.auth.models import BaseUserManager
+from django.utils.translation import ugettext_lazy as _
 
 class OohUserManager(BaseUserManager):
     def create_user(self, email, firstname, lastname, birthday, password, **extra_fields):
@@ -9,7 +10,7 @@ class OohUserManager(BaseUserManager):
         user.set_password(password)
         user.save()
         return user
-    def create_superuser(self, email, firstname, lastname, birthday, password, **extra_fields):
+    def create_superuser(self, email, password, firstname='super', lastname='user', birthday='1000-01-01',  **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_active', True)
