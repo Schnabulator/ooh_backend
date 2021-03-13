@@ -100,7 +100,7 @@ class EventTemplate(models.Model):
 
 class Event(models.Model):
     # eventID = models.AutoField()
-    data = models.ForeignKey(EventTemplate, on_delete=models.CASCADE)
+    template = models.ForeignKey(EventTemplate, on_delete=models.CASCADE, null=True, blank=True)
     takeplace = models.BooleanField(default=True)
     promoted = models.BooleanField(default=False)
     starttime = models.DateTimeField()
