@@ -48,7 +48,7 @@ class UserLoginView(LoginView, ProcessFormView):
                 form = OohUserCreationForm(request.POST)
                 if form.is_valid():
                     print("Valid form")
-                    print(request.POST)
+                    # print(request.POST)
                     
                     # plz = form.cleaned_data['plz']
                     # cityname = form.cleaned_data['cityname']

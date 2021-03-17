@@ -18,7 +18,12 @@ class Location(models.Model):
     def __str__(self):
         return str(self.plz) +" "+ self.cityname
 
-class LocationCategorie(models.Model):
+class LocationCategory(models.Model):
+    name = models.CharField(max_length=100)
+    def __str__(self):
+        return self.name
+
+class EventCategory(models.Model):
     name = models.CharField(max_length=100)
     def __str__(self):
         return self.name
@@ -29,12 +34,12 @@ class EventLocation(models.Model):
     locationID = models.ForeignKey(Location, on_delete=models.PROTECT)
     street	= models.CharField(max_length=50)
     housenumber = models.CharField(max_length=10, blank=True)
-    # //TODO coordinates = 
     room	= models.CharField(max_length=100, blank=True)
     description = models.TextField(blank=True)
-    categories = models.ManyToManyField(LocationCategorie)
+    categories = models.ManyToManyField(LocationCategory)
     picture = models.ImageField(blank=True, null=True) #//TODO
-     
+    pricecat = models.IntegerField(default=0) # the higher the more expensive (0=nonrated)
+    
     # //TODO periodically running functions to calculate rating
     def calculatedratings(self):
         # return [3,1]
@@ -52,9 +57,6 @@ class EventLocation(models.Model):
         return self.locationID__plz == plz
     def __str__(self):
         return self.name #+ " [%s]".format(self.locationID__name)
-        
-        # l = Location.objects.all()
-        # print(self.location_set.all())
         
 # Authentication shit
 class OohUser(AbstractBaseUser, PermissionsMixin):
@@ -78,20 +80,16 @@ class OohUser(AbstractBaseUser, PermissionsMixin):
 
     objects = OohUserManager()
 
-class Category(models.Model):
-    name = models.CharField(max_length=100)
-    def __str__(self):
-        return self.name
-
 class EventTemplate(models.Model):
-    name = models.TextField()
+    name = models.CharField(max_length=100)
     description = models.TextField()
     cost = models.IntegerField(default=0)
     mininumage = models.PositiveSmallIntegerField()
-    category = models.ManyToManyField(Category)
+    category = models.ManyToManyField(EventCategory)
     location = models.ForeignKey(EventLocation, on_delete=models.CASCADE)
     organizer = models.ForeignKey(OohUser, on_delete=models.CASCADE)
-    # //TODO periodically running functions to calculate reting
+    pricecat = models.IntegerField(default=0) # the higher the more expensive (0=nonrated)
+    # //TODO periodically running functions to calculate rating
     def __str__(self):
         return self.name + " [{0}]".format(self.location)
     def calculatedratings(self):
