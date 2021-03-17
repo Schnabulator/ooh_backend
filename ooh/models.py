@@ -18,17 +18,24 @@ class Location(models.Model):
     def __str__(self):
         return str(self.plz) +" "+ self.cityname
 
+class LocationCategorie(models.Model):
+    name = models.CharField(max_length=100)
+    def __str__(self):
+        return self.name
+
 class EventLocation(models.Model):
     # eventLocationID =  models.AutoField()
+    name	= models.CharField(max_length=100)
+    locationID = models.ForeignKey(Location, on_delete=models.PROTECT)
     street	= models.CharField(max_length=50)
     housenumber = models.CharField(max_length=10, blank=True)
     # //TODO coordinates = 
-    name	= models.CharField(max_length=100)
     room	= models.CharField(max_length=100, blank=True)
-    locationID = models.ForeignKey(Location, on_delete=models.PROTECT)
-    # //TODO picture = models.FileField 
+    description = models.TextField(blank=True)
+    categories = models.ManyToManyField(LocationCategorie)
+    picture = models.ImageField(blank=True, null=True) #//TODO
+     
     # //TODO periodically running functions to calculate rating
-    # //TODO tut nicht
     def calculatedratings(self):
         # return [3,1]
         rat = EventLocationRating.objects.get(eventlocationID=self.locationID.id)
