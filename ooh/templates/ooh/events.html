@@ -32,7 +32,7 @@
                     <div class="product-details">
                             <!-- 	Event Name -->
                         <div>
-                                <h1>{{ev.name}}</h1>
+                                <h1>{{ev.template.name}}</h1>
                                 <!-- 		<span class="hint new">New</span> -->
                                 <!-- 		<span class="hint free-shipping">Free Shipping</span> -->
                                 <!-- 		the Product rating -->
@@ -42,11 +42,11 @@
                                     {% comment "das muss komplex abgebildet werden" %}{% endcomment %}
                                     
                                     <i class="fa fa-star {% if ev.calculatedratings.0 > 0.5 %} checked {%endif%}"></i>
-                                    <i class="fa fa-star {% if ev.calculatedratings.0 >= 1.5 %} checked {%endif%}"></i>
-                                    <i class="fa fa-star {% if ev.calculatedratings.0 >= 2.5 %} checked {%endif%}"></i>
-                                    <i class="fa fa-star {% if ev.calculatedratings.0 >= 3.5 %} checked {%endif%}"></i>
-                                    <i class="fa fa-star {% if ev.calculatedratings.0 >= 4.5 %} checked {%endif%}"></i>
-                                    <i>({{ev.calculatedratings.1}})</i>
+                                    <i class="fa fa-star {% if ev.template.calculatedratings.0 >= 1.5 %} checked {%endif%}"></i>
+                                    <i class="fa fa-star {% if ev.template.calculatedratings.0 >= 2.5 %} checked {%endif%}"></i>
+                                    <i class="fa fa-star {% if ev.template.calculatedratings.0 >= 3.5 %} checked {%endif%}"></i>
+                                    <i class="fa fa-star {% if ev.template.calculatedratings.0 >= 4.5 %} checked {%endif%}"></i>
+                                    <i>({{ev.template.calculatedratings.1}})</i>
                                     <!-- <i class="fa fa-star checked"></i>
                                     <i class="fa fa-star checked"></i>
                                     <i class="fa fa-star checked"></i>
@@ -59,7 +59,7 @@
                         <div></div>
                         <!-- The most important information about the product -->
                         {#Das steht in der Desktop view links#}
-                        <p class="information">{{ev.street}}{{ev.housenumber}}<br/>{{ev.location}}</p>
+                        <p class="information">{{ev.template.location.street}} {{ev.template.location.housenumber}}<br/>{{ev.template.location.locationID}}</p>
 
                             <!-- 		Control -->
                         <div class="control">
