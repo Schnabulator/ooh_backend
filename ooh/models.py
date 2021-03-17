@@ -78,14 +78,7 @@ class Category(models.Model):
 
 class EventTemplate(models.Model):
     name = models.TextField()
-<<<<<<< HEAD
-    description = models.TextField(null=True)
-    organizer = models.ForeignKey(OohUser, on_delete=models.CASCADE)
-    location = models.ForeignKey(EventLocation, on_delete=models.CASCADE)
-    takeplace = models.BooleanField(default=True)
-=======
     description = models.TextField()
->>>>>>> dev-eventtemplates
     cost = models.IntegerField(default=0)
     mininumage = models.PositiveSmallIntegerField()
     category = models.ManyToManyField(Category)
