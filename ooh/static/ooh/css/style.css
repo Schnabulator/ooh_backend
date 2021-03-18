@@ -3118,3 +3118,360 @@ button.chatbtn i, button.createbtn i{
 ***********************************************/
 
 
+/*
+		Anfang Fragen-Seite
+***********************************************/
+
+.qu-container{
+	position: relative;
+	height: 110vh;
+	background-color: #e7e7e7;
+	display: flex;
+	flex-direction: column;
+	/* justify-content: center; */
+	align-items: center;
+}
+
+/* .qu-box{
+	height: 60%;
+	width: 60%;
+	margin: 0 auto;
+	background-color: rgb(252, 252, 252);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1%;
+	align-self: center;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	position: relative;
+	box-shadow: 10px 10px 4px rgba(0, 0, 0, 0.171);
+
+} */
+
+.qu-box {
+	margin-top: 40px;
+	margin-bottom: 40px;
+	padding: 1%;
+	/* height: 90%; */
+	width: 65%;
+	display: flex;
+	box-shadow: 10px 10px 4px rgba(0, 0, 0, 0.171);
+	background-color: rgb(252, 252, 252);
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: column;
+}
+  
+.qu-container h3 {
+	/* margin: 0 0 80px 0; */
+	color: #ff6a00;
+	font-size: 30px;
+	font-family: "Raleway", sans-serif;
+	font-weight: 400;
+}
+  
+.radio-buttons {
+	width: 100%;
+	margin: 0 auto;
+	padding-top: 20px;
+	padding-bottom: 10px;
+	text-align: center;
+}
+  
+.custom-radio input {
+	display: none;
+}
+  
+.radio-btn {
+	margin: 10px;
+	width: 180px;
+	height: 200px;
+	border: 3px solid transparent;
+	display: inline-block;
+	border-radius: 10px;
+	position: relative;
+	text-align: center;
+	box-shadow: 0 0 20px #c3c3c367;
+	cursor: pointer;
+}
+  
+.radio-btn > i {
+	color: #ffffff;
+	background-color: #ff6a00;
+	font-size: 20px;
+	position: absolute;
+	top: -15px;
+	left: 50%;
+	transform: translateX(-50%) scale(4);
+	border-radius: 50px;
+	padding: 3px;
+	transition: 0.2s;
+	pointer-events: none;
+	opacity: 0;
+}
+  
+.radio-btn .hobbies-icon {
+	width: 80px;
+	height: 80px;
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+  
+.radio-btn .hobbies-icon i {
+	color: #ff6a00;
+	line-height: 80px;
+	font-size: 60px;
+}
+  
+.radio-btn .hobbies-icon h4 {
+	color: #ff6a00;
+	font-family: "Raleway", sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	text-transform: uppercase;
+}
+
+.custom-radio input:checked + .radio-btn {
+	border: 3px solid #ff6a00;
+}
+
+.custom-radio input:checked + .radio-btn > i {
+	opacity: 1;
+	transform: translateX(-50%) scale(1);
+}
+
+/* .qu-answers-box{
+	width: 80%;
+}
+
+.qu-answers{
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	justify-content: space-between;
+}
+
+.qu-answers p{
+	font-size: 24px;
+	font-weight: 400;
+}
+
+.qu-answers p input{
+	color: #ff6a00;
+} */
+
+/* .progress-button  {
+	padding:  5px  10px;
+	border:  1px  solid  black;
+	transition:  250ms background-color;
+}
+
+.progress-button:hover  {
+	cursor:  pointer;
+	background-color:  black;
+	color:  white;
+}
+
+.progress-button:disabled:hover  {
+	opacity:  0.6;
+	cursor:  not-allowed;
+} */
+
+.text-center  {
+	text-align:  center;
+}
+  
+.progress-container  {
+	align-self: center;
+	width: 100%;
+	/* margin:  0  auto; */
+	margin-top:  20px;
+	/* padding:  40px; */
+}
+
+#progress-main{
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	margin-bottom: 40px;
+}
+
+.progress-button{
+	/* position: relative; */
+	/* transform: translate(-50%, -50%); */
+	/* align-self: center; */
+	background: #ff6a00;
+	border: none;
+	color: white;
+	text-align: center;
+	font-weight: bold;
+	font-size: 20px;
+	padding: 15px;
+	width: 150px;
+	cursor: pointer;
+	transition: all .5s;
+}
+
+.progress-button span{
+	cursor: pointer;
+	display: inline-block;
+	position: relative;
+	transition: .5s;
+}
+
+#previousBtn span:after{
+	content: "\000AB";
+	position: absolute;
+	opacity: 0;
+	top: 0px;
+	right: -20px;
+	transition: .5s;
+}
+
+
+#nextBtn span:after{
+	content: "\00bb";
+	position: absolute;
+	opacity: 0;
+	top: 0px;
+	right: -20px;
+	transition: .5s;
+}
+
+#previousBtn:hover span{
+	padding-right: 25px;
+}
+
+#nextBtn:hover span{
+	padding-right: 25px;
+}
+
+#previousBtn:hover span:after{
+	opacity: 1;
+	right: 0px;
+}
+
+#nextBtn:hover span:after{
+	opacity: 1;
+	right: 0px;
+}
+
+.finish-button{
+	display: inline-block;
+	width: 220px;
+	height: 60px;
+	border: 2px solid #929292;
+	color: #929292;
+	font-size: 20px;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-align: center;
+	text-decoration: none;
+	/* cursor: pointer; */
+	line-height: 56px;
+	box-sizing: border-box;
+	border-radius: 40px;
+	background-color: transparent;
+	outline: none;
+	transition: all .5s ease;
+}
+
+.finish-active{
+	font-size: 0;
+	width: 50px;
+	height: 50px;
+	border-radius: 10px;
+	border-left-color: transparent;
+	animation: rotate 1.4s ease .5s infinite;
+}
+
+@keyframes rotate{
+	0%{
+		transform: rotate(360deg);
+	}
+}
+
+.finish-success{
+	position: relative;
+	background-color: #ff6a00;
+	animation: bounce .3s ease-in;
+}
+
+@keyframes bounce{
+	0%{
+		transform: scale(0.9);
+	}
+}
+
+.finish-success:before{
+	content: "";
+	position: absolute;
+	background: url(../img/check-solid.svg) no-repeat;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	width: 31px;
+	height: 31px;
+	line-height: 31px;
+	top: 8px;
+}
+
+#stepProgressBar  {
+	display:  flex;
+	justify-content:  space-between;
+	align-items:  flex-end;
+	width:  90%;
+	margin:  0  auto;
+	/* margin-bottom:  40px; */
+}
+
+.step  {
+	text-align:  center;
+}
+
+.step-text  {
+	margin-bottom:  10px;
+	color:  #ff6a00;
+}
+
+.bullet {
+	border: 1px solid #ff6a00;
+	height: 30px;
+	width: 30px;
+	border-radius: 100%;
+	color: #ff6a00;
+	display: inline-block;
+	position: relative;
+	transition: background-color 500ms;
+  	line-height:20px;
+}
+
+.bullet.completed  {
+	color:  white;
+	background-color:  #ff6a00;
+}
+
+.bullet.completed::after {
+	content: '';
+	position: absolute;
+	right: -190px;
+	bottom: 10px;
+	height: 1px;
+	width: 180px;
+	background-color: #ff6a00;
+}
+
+/* Base styles and helper stuff */
+.hidden  {
+	display:  none;
+}
+
+/*
+		Ende Fragen-Seite
+***********************************************/
