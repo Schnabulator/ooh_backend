@@ -23,6 +23,11 @@ def index(request):
     context = {"body_id": "b_home"} #, "user": User}
     return render(request, 'ooh/index.html', context=context)
 
+def fragen(request):
+    # return HttpResponse("Bämski Index.")
+    context = {"body_id": "b_content"} #, "user": User}
+    return render(request, 'ooh/fragen.html', context=context)
+
 class UserLogoutView(LogoutView):
     template_name = 'ooh/logout.html'
     def get(self, request, *args, **kwargs):
