@@ -13,7 +13,7 @@
     width: 28px;
     position: absolute;
     margin: 0 auto;
-    border-top: #76A709 solid 3px;
+    border-top: #ff6a00 solid 3px;
     margin-left: 5px;
 }
 
@@ -244,7 +244,7 @@ footer{
 
     .mbutton:before {
         content: "+";
-        color: #76A709;
+        color: #ff6a00;
         font-size: 2em;
         line-height: 50px;
         font-weight: 700;
@@ -276,13 +276,13 @@ footer{
         margin: 0;
         padding: 0 3.07%;
         max-height: 0;
-        background: #102423;
+        background: #291000;
         transition: 0.1s;
         opacity: 0;
     }
 
     #nav1 ul.navlist li:hover {
-        background-color: #76A709;
+        background-color: #ff6a00;
     }
 
     #nav1 ul.navlist li > a > span:hover {
@@ -304,7 +304,7 @@ footer{
         position: relative;
         margin: 0;
         padding: 5px 0;
-        border-top: 1px solid rgba(118, 167, 9, 0.5);
+        border-top: 1px solid rgba(255, 106, 0, 1);
 
         overflow: hidden;
     }
@@ -328,8 +328,8 @@ footer{
     #nav1 ul.navlist > li > a:hover,
     #nav1 ul.navlist > li.aktiv > a:hover {
         color: #ffffff !important;
-        background: #436516;
-        background: rgba(118, 167, 9, 0.5);
+        background: #ff6a00;
+        background: rgba(255, 106, 0, 0.5);
     }
 
     #nav1 ul.navlist > li > a:hover:after {
@@ -340,8 +340,8 @@ footer{
     #nav1 ul.navlist > li.aktiv > a:link,
     #nav1 ul.navlist > li.aktiv > a:visited {
         color: #ffffff !important;
-        background: #436516;
-        background: rgba(118, 167, 9, 0.5);
+        background: #ff6a00f1;
+        background: rgba(255, 106, 0, 0.5);
     }
 
     #nav1 ul.navlist > li.aktiv > a:before,
@@ -406,7 +406,7 @@ footer{
         height: 40px;
         margin: 50px 30px 30px 0;
         border-radius: 4px;
-        background: #76A709 url('../img-dsg/fa/chevron-right_ws.svg') no-repeat 50% center;
+        background: #ff6a00 url('../img-dsg/fa/chevron-right_ws.svg') no-repeat 50% center;
         background-size: auto 18px;
         transition: right 1s;
     }
@@ -723,7 +723,7 @@ footer{
     }
 
     header h1 a {
-        /* margin-top: 22px; */
+        margin-top: 22px;
         width: 150px;
         height: 44px;
     }
