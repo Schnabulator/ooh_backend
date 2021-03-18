@@ -1100,7 +1100,7 @@ header {
 	width: 100%;
 	box-sizing: border-box;
 	border-bottom: 1px solid #ff6a00;
-	background: rgba(16,36,35,1);
+	/* background: rgba(16,36,35,1); */
 	box-shadow: 0 0 20px rgba(0,0,0,0.2);
 	-moz-transition: background-color 1s, border-bottom-color 1s;
     -o-transition: background-color 1s, border-bottom-color 1s;
