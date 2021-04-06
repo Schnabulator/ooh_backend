@@ -137,3 +137,17 @@ class EventLocationRating(models.Model):
     def __str__(self):
         return "{0} | {1}".format(self.eventlocationID.name, self.user.email) #, self.description[:75] + (self.description[75:] and '..'))
 
+class Question(models.Model):
+    name = models.CharField(max_length=100)
+    objects = models.Manager()
+    def __str__(self):
+        return str(self.pk)+" | "+ self.name
+
+class ChoiceOption(models.Model):
+    text = models.CharField(max_length=100)
+    class_names = models.CharField(max_length=100)
+    nextQuestion = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='nextQuestion', default=1)
+    prevQuestion = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='prevQuestion', default=1)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='question')
+    def __str__(self):
+        return self.text

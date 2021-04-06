@@ -6,54 +6,32 @@
 
 <div class="qu-container">
     <div class="qu-box">
-        <h3>Question 1?</h3>
-        <div class="radio-buttons">
+        <h3>{{ question.name }}</h3>
+        <div id="choices" class="radio-buttons">
+        <form id="einsNiceForm" action="{% url 'ooh:questions' nextpage %}" method="GET">
+        {% for key, value in request.GET.items %}
+            <input type="hidden" name="{{ key }}" value="{{ value }}">
+        {% endfor %}
+        {% for choice in question.choiceoption_set.all %}
             <label class="custom-radio">
-                <input type="radio" name="radio" checked />
+                <input type="radio" name="q{{question.id}}" value="{{ choice.text }}" required/>
                 <span class="radio-btn">
                     <i class="fas fa-check"></i>
                     <div class="hobbies-icon">
-                        <i class="fas fa-beer"></i>
-                        <h4>Bar</h4>
+                        <i class="{{ choice.class_names }}"></i>
+                        <h4>{{ choice.text }}</h4>
                     </div>
                 </span>
             </label>
-            <label class="custom-radio">
-                <input type="radio" name="radio" />
-                <span class="radio-btn">
-                    <i class="fas fa-check"></i>
-                    <div class="hobbies-icon">
-                        <i class="fa fa-utensils"></i>
-                        <h4>Restaurant</h4>
-                    </div>
-                </span>
-            </label>
-            <label class="custom-radio">
-                <input type="radio" name="radio" />
-                <span class="radio-btn">
-                    <i class="fa fa-check"></i>
-                    <div class="hobbies-icon">
-                        <i class="fa fa-glass-cheers"></i>
-                        <h4>Club</h4>
-                    </div>
-                </span>
-            </label>
-            <label class="custom-radio">
-                <input type="radio" name="radio" />
-                <span class="radio-btn">
-                    <i class="fa fa-check"></i>
-                    <div class="hobbies-icon">
-                        <i class="fas fa-ellipsis-h"></i>
-                        <h4>Other</h4>
-                    </div>
-                </span>
-            </label>
+        {% endfor %}
+        </form>    
         </div>
+        
         <div class="progress-container">
             <div id="progress-main">
                 <!-- <p id="progress-content"  class="text-center">Step Number 1</p> -->
                 <div class="">
-                    <button class="progress-button" id="previousBtn" ><span>Previous</span></button>
+                    <button class="progress-button" id="previousBtn" {% if question.id == 1 %} disabled {% endif %}><span>Previous</span></button>
                 </div>
                 <div>
                     <button class="progress-button" id="nextBtn"><span>Next</span></button>
@@ -64,42 +42,32 @@
             </div>
             <div id="stepProgressBar">
                 <div class="step">
-                    <p class="step-text">About</p>
+                    <!-- <p class="step-text">About</p> -->
                     <div class="bullet"></div>
                 </div>
                 <div class="step">
-                    <p class="step-text">Contact</p>
+                    <!-- <p class="step-text">Contact</p> -->
                     <div class="bullet"></div>
                 </div>
                 <div class="step">
-                    <p class="step-text">Step 3</p>
+                    <!-- <p class="step-text">Step 3</p> -->
                     <div class="bullet"></div>
                 </div>
                 <div class="step">
-                    <p class="step-text">Step 4</p>
+                    <!-- <p class="step-text">Step 4</p> -->
+                    <div class="bullet "></div>
+                </div>
+                <div class="step">
+                    <!-- <p class="step-text">Step 4</p> -->
+                    <div class="bullet "></div>
+                </div>
+                #<div class="step">
+                    <!-- <p class="step-text">Step 4</p> -->
                     <div class="bullet "></div>
                 </div>
             </div>
         </div>
     </div>
-        <!-- <div class="qu-answers-box">
-            <div class="qu-answers">
-                <p>
-                    <input type="radio" name="question1" id="">
-                    Bier
-                </p>
-                <p>
-                    <input type="radio" name="question1" id="">
-                    Schnitzel
-                </p>
-                <p>
-                    <input type="radio" name="question1" id="">
-                    Pommes
-                </p>
-            </div>
-        </div> -->
-        
-    <!-- </div> -->
     
 </div>
 
@@ -111,36 +79,33 @@
         const  content  =  document.getElementById('progress-content');
         const  bullets  =  [...document.querySelectorAll('.bullet')];
 
-        const MAX_STEPS = 4;
-        let currentStep = 1;
+        let currentStep = {{question.id}};
+        const MAX_STEPS = 6;
+        
+        for (var i=0; i<currentStep; i++) {
+           bullets[i].classList.add('completed');
+        }
+
+        if (currentStep  ===  MAX_STEPS) {
+            finishBtn.style.cursor = "pointer";
+            finishBtn.style.border = "2px solid #ff6a00";
+            finishBtn.style.color = "#ff6a00";
+            nextBtn.disabled  =  true;
+            finishBtn.disabled  =  false;
+        }
 
         nextBtn.addEventListener('click',  ()  =>  {
-            bullets[currentStep  -  1].classList.add('completed');
-            currentStep  +=  1;
-            previousBtn.disabled  =  false;
-            if  (currentStep  ===  MAX_STEPS)  {
-                finishBtn.style.cursor = "pointer";
-                finishBtn.style.border = "2px solid #ff6a00";
-                finishBtn.style.color = "#ff6a00";
-                nextBtn.disabled  =  true;
-                finishBtn.disabled  =  false;
-            }
+            url = "{% url 'ooh:questions' nextpage %}"
+            document.getElementById("einsNiceForm").submit();
         });
 
 
         previousBtn.addEventListener('click',  ()  =>  {
             bullets[currentStep  -  2].classList.remove('completed');
             currentStep  -=  1;
-            nextBtn.disabled  =  false;
-            finishBtn.disabled  =  true;
-            if  (currentStep  ===  1)  {
-                previousBtn.disabled  =  true;
-            }
-            if(currentStep != MAX_STEPS){
-                finishBtn.style.border = "2px solid #929292";
-                finishBtn.style.color = "#929292";
-                finishBtn.style.cursor = "";
-            }
+            url = "{% url 'ooh:questions' prevpage %}"+window.location.search;
+            window.open(url+"", name="_self" );
+            
         });
 
         finishBtn.addEventListener('click',  ()  =>  {

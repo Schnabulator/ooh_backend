@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views import generic
 from django.template import Context
-from .models import Location, EventLocation, Event, OohUser, Participate
+from .models import Location, EventLocation, Event, OohUser, Participate, Question, ChoiceOption
 from .forms import UserLoginForm, RegLoginSwitch, OohUserCreationForm, UserLocation
 from django.contrib.auth import authenticate, login
 
@@ -23,10 +23,21 @@ def index(request):
     context = {"body_id": "b_home"} #, "user": User}
     return render(request, 'ooh/index.html', context=context)
 
-def fragen(request):
+def question(request, question_id):
     # return HttpResponse("Bämski Index.")
-    context = {"body_id": "b_content"} #, "user": User}
+    if question_id is None or question_id < 0:
+        question_id = 0
+    question = get_object_or_404(Question, pk=question_id) #Question.objects.get(pk=question_id)
+    # choices = ChoiceOption.objects.quer
+    print(question.name)
+    # print(question.choice_set.all)
+    context = {"body_id": "b_content", "question": question, "nextpage": question_id+1, "prevpage":  question_id-1} 
     return render(request, 'ooh/fragen.html', context=context)
+
+# class Question(generic.DetailView):
+#     template_name="ooh/fragen.html"
+#     model = Question
+#     context_object_name = "question"
 
 class UserLogoutView(LogoutView):
     template_name = 'ooh/logout.html'
