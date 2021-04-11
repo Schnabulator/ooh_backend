@@ -20,10 +20,23 @@ User = get_user_model()
 
 
 
-def index(request):
-    # return HttpResponse("Bämski Index.")
-    context = {"body_id": "b_home"} #, "user": User}
-    return render(request, 'ooh/index.html', context=context)
+# def index(request):
+#     # return HttpResponse("Bämski Index.")
+#     context = {"body_id": "b_home"} #, "user": User}
+#     return render(request, 'ooh/index.html', context=context)
+
+class index(generic.ListView):
+    template_name = 'ooh/index.html'
+    context_object_name = 'recommended_events'
+    def get_queryset(self):
+        # //TODO filter from user has to be set here!
+        return Event.objects.filter(Q(starttime__gte=datetime.date.today())).order_by('starttime')
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context["body_id"] = "b_home"
+        return context
 
 def question(request, question_id):
     # return HttpResponse("Bämski Index.")
