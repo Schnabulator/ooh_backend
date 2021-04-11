@@ -11,7 +11,6 @@ from .managers import OohUserManager
 
 
 class Location(models.Model):
-    # locationID = models.AutoField() # auto increment integer key
     cityname = models.CharField(max_length=255)
     plz = models.CharField(max_length=10)
     bundesland = models.CharField(max_length=50)
@@ -29,9 +28,8 @@ class EventCategory(models.Model):
         return self.name
 
 class EventLocation(models.Model):
-    # eventLocationID =  models.AutoField()
     name	= models.CharField(max_length=100)
-    locationID = models.ForeignKey(Location, on_delete=models.PROTECT)
+    location = models.ForeignKey(Location, on_delete=models.PROTECT)
     street	= models.CharField(max_length=50)
     housenumber = models.CharField(max_length=10, blank=True)
     room	= models.CharField(max_length=100, blank=True)
@@ -85,8 +83,8 @@ class EventTemplate(models.Model):
     description = models.TextField()
     cost = models.IntegerField(default=0)
     mininumage = models.PositiveSmallIntegerField()
-    category = models.ManyToManyField(EventCategory)
-    location = models.ForeignKey(EventLocation, on_delete=models.CASCADE)
+    eventCategory = models.ManyToManyField(EventCategory)
+    eventLocation = models.ForeignKey(EventLocation, on_delete=models.CASCADE)
     organizer = models.ForeignKey(OohUser, on_delete=models.CASCADE)
     pricecat = models.IntegerField(default=0) # the higher the more expensive (0=nonrated)
     # //TODO periodically running functions to calculate rating
@@ -104,36 +102,35 @@ class EventTemplate(models.Model):
         return [(summedrating/len(rat)), len(rat)]
 
 class Event(models.Model):
-    # eventID = models.AutoField()
-    template = models.ForeignKey(EventTemplate, on_delete=models.CASCADE, null=True, blank=True)
+    eventTemplate = models.ForeignKey(EventTemplate, on_delete=models.CASCADE, null=True, blank=True)
     takeplace = models.BooleanField(default=True)
     promoted = models.BooleanField(default=False)
     starttime = models.DateTimeField()
     endtime = models.DateTimeField()
-    interval = models.IntegerField(blank=True, null=True)
+    # intervalOffset = models.CharField(max_length=3, blank=True, null=True) # to seperate between weekly, monthly, ... events
+    intervalInDays = models.IntegerField(blank=True, null=True) # after how many days should the next event be generated
 
 class Participate(models.Model):
-    customerID = models.ForeignKey(OohUser, on_delete=models.CASCADE)
-    eventID = models.ForeignKey(Event, on_delete=models.CASCADE)
+    user = models.ForeignKey(OohUser, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
     probability = models.PositiveSmallIntegerField()
     def __str__(self):
         return "{0}_{1}".format(self.eventID__name, self.probability)
 
 class EventRating(models.Model):
-    # ratingID = models.AutoField()
     rating = models.PositiveSmallIntegerField()
     description = models.TextField()
     user = models.ForeignKey(OohUser, on_delete=models.SET_NULL, null=True)
-    eventID = models.ForeignKey(EventTemplate, on_delete=models.CASCADE)
+    eventTemplate = models.ForeignKey(EventTemplate, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now=True)
     def __str__(self):
         return "{0}@{1} | {2}".format(self.eventID.name, self.eventID.location.name, self.user.email) # , self.description[:75] + (self.description[75:] and '..'))
 
 class EventLocationRating(models.Model):
-    # ratingID = models.AutoField()
     rating = models.PositiveSmallIntegerField()
     description = models.TextField()
     user = models.ForeignKey(OohUser, on_delete=models.SET_NULL, null=True)
-    eventlocationID = models.ForeignKey(EventLocation, on_delete=models.CASCADE)
+    eventlocation = models.ForeignKey(EventLocation, on_delete=models.CASCADE)
     def __str__(self):
         return "{0} | {1}".format(self.eventlocationID.name, self.user.email) #, self.description[:75] + (self.description[75:] and '..'))
 
@@ -146,8 +143,8 @@ class Question(models.Model):
 class ChoiceOption(models.Model):
     text = models.CharField(max_length=100)
     class_names = models.CharField(max_length=100)
-    nextQuestion = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='nextQuestion', default=1)
-    prevQuestion = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='prevQuestion', default=1)
+    nextQuestion = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='nextQuestion', blank=True, null=True)
+    prevQuestion = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='prevQuestion', blank=True, null=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='question')
     def __str__(self):
         return self.text
