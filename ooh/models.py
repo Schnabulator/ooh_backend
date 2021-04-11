@@ -87,6 +87,7 @@ class EventTemplate(models.Model):
     eventLocation = models.ForeignKey(EventLocation, on_delete=models.CASCADE)
     organizer = models.ForeignKey(OohUser, on_delete=models.CASCADE)
     pricecat = models.IntegerField(default=0) # the higher the more expensive (0=nonrated)
+    picture = models.ImageField(blank=True, null=True) #//TODO
     # //TODO periodically running functions to calculate rating
     def __str__(self):
         return self.name + " [{0}]".format(self.location)
