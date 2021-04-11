@@ -15,9 +15,9 @@
                     <a data-type="all" class="cd-a" href="#0">Alle Events</a> <!-- selected option on mobile -->
                 </li> 
                 <li class="filter"><a class="selected" href="#0" data-type="all">Alle Events</a></li>
-                <li class="filter" data-filter=".heute"><a href="#0" class="cd-a" data-type="heute">Heute</a></li>
-                <li class="filter" data-filter=".morgen"><a href="#0" class="cd-a" data-type="morgen">Morgen</a></li>
-                <li class="filter" data-filter=".nächstesWochenende"><a href="#0" class="cd-a" data-type="nächstesWochenende">Nächstes Wochenende</a></li>
+                <li class="filter" data-filter=".today"><a href="#0" class="cd-a" data-type="today">Heute</a></li>
+                <li class="filter" data-filter=".tomorrow"><a href="#0" class="cd-a" data-type="tomorrow">Morgen</a></li>
+                <li class="filter" data-filter=".nextweekend"><a href="#0" class="cd-a" data-type="nextweekend">Nächstes Wochenende</a></li>
             </ul> <!-- cd-filters -->
         </div> <!-- cd-tab-filter -->
     </div> <!-- cd-tab-filter-wrapper -->
@@ -26,27 +26,27 @@
         <ul>
             <!-- Begin first Event entry -->
             {% for ev in recommended_events %}
-            <li class="mix {{ ev.timecheck }}">
+            <li class="mix {{ ev.timecheck }} {{ev.eventTemplate.getCategories}} {{ev.eventTemplate.eventLocation.getCategories}} ">
                 <div class="container">	
                     <!-- Start	Product details -->
                     <div class="product-details">
                             <!-- 	Event Name -->
                         <div>
-                                <h1>{{ev.template.name}}</h1>
+                                <h1>{{ev.eventTemplate.name}}</h1>
+                                <h3>{{ev.eventTemplate.eventLocation}}</h3>
                                 <!-- 		<span class="hint new">New</span> -->
                                 <!-- 		<span class="hint free-shipping">Free Shipping</span> -->
                                 <!-- 		the Product rating -->
-                                <br>
                                 <!-- {{ev.calculatedratings}} -->
                                 <span class="hint-star star">
-                                    {% comment "das muss komplex abgebildet werden" %}{% endcomment %}
-                                    
-                                    <i class="fa fa-star {% if ev.calculatedratings.0 > 0.5 %} checked {%endif%}"></i>
-                                    <i class="fa fa-star {% if ev.template.calculatedratings.0 >= 1.5 %} checked {%endif%}"></i>
-                                    <i class="fa fa-star {% if ev.template.calculatedratings.0 >= 2.5 %} checked {%endif%}"></i>
-                                    <i class="fa fa-star {% if ev.template.calculatedratings.0 >= 3.5 %} checked {%endif%}"></i>
-                                    <i class="fa fa-star {% if ev.template.calculatedratings.0 >= 4.5 %} checked {%endif%}"></i>
-                                    <i>({{ev.template.calculatedratings.1}})</i>
+                                    <!-- <div style="display: flex; flex-direction: row;"> -->
+                                        <i class="fa fa-star {% if ev.eventTemplate.calculatedratings.0 > 0.5 %} checked {%endif%}"></i>
+                                        <i class="fa fa-star {% if ev.eventTemplate.calculatedratings.0 >= 1.5 %} checked {%endif%}"></i>
+                                        <i class="fa fa-star {% if ev.eventTemplate.calculatedratings.0 >= 2.5 %} checked {%endif%}"></i>
+                                        <i class="fa fa-star {% if ev.eventTemplate.calculatedratings.0 >= 3.5 %} checked {%endif%}"></i>
+                                        <i class="fa fa-star {% if ev.eventTemplate.calculatedratings.0 >= 4.5 %} checked {%endif%}"></i>
+                                        <i>({{ev.eventTemplate.calculatedratings.1}})</i>
+                                    <!-- </div> -->
                                     <!-- <i class="fa fa-star checked"></i>
                                     <i class="fa fa-star checked"></i>
                                     <i class="fa fa-star checked"></i>
@@ -59,7 +59,9 @@
                         <div></div>
                         <!-- The most important information about the product -->
                         {#Das steht in der Desktop view links#}
-                        <p class="information">{{ev.template.location.street}} {{ev.template.location.housenumber}}<br/>{{ev.template.location.locationID}}</p>
+                        {#//TODO das muss auf x zeichen beschränkt werden!#}
+                        <p class="information">{{ev.starttime|date:"d.m.Y H:i"}}</p>
+                        <p class="information">{{ev.eventTemplate.description}}</p>
 
                             <!-- 		Control -->
                         <div class="control">
@@ -80,9 +82,11 @@
                         <img src="{% static 'ooh/img/locations/dummy.jpg' %}" alt="Omar Dsoky">
                         <!-- 	product Information seen when hovering over picture-->
                         <div class="info">
-                            <h4>The Description</h4>
-                            <p>Street: Coblitzalle</p>
-                            <p>Bla bla</p>
+                            <p></p>
+                            <h4>Veranstaltungsort</h4>
+                            <p>{{ev.eventTemplate.eventLocation}}</p>
+                            <p>Street: {{ev.eventTemplate.eventLocation.street}} {{ev.eventTemplate.eventLocation.housenumber}}</p>
+                            <p>{{ev.eventTemplate.eventLocation.location}}</p>
                             <ul>
                                 <li>Sun Needs: Full Sun</li>
                                 <li>Soil Needs: Damp</li>
@@ -197,12 +201,16 @@
                     </li>
 
                     <li>
-                        <input class="filter" data-filter=".rauchen" type="radio" name="radioButton" id="radio5">
-                        <label class="radio-label" for="radio5">Raucher</label>
+                        <input class="filter" data-filter=".innersmoking" type="radio" name="radioButton" id="radio5">
+                        <label class="radio-label" for="radio5">Innebereich</label>
                     </li>
 
                     <li>
-                        <input class="filter" data-filter=".nichtrauchen" type="radio" name="radioButton" id="radio6">
+                        <input class="filter" data-filter=".outersmoking" type="radio" name="radioButton" id="radio6">
+                        <label class="radio-label" for="radio6">Außenbereich</label>
+                    </li>
+                    <li>
+                        <input class="filter" data-filter=".nosmoking" type="radio" name="radioButton" id="radio6">
                         <label class="radio-label" for="radio6">Nicht-Raucher</label>
                     </li>
                 </ul> <!-- cd-filter-content -->

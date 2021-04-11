@@ -1959,6 +1959,7 @@ figcaption p{
 	color: white;
 }
 
+
 /*
 		ENDE Angebotsseite
 ***********************************************/
@@ -2299,7 +2300,7 @@ Primary style
 	display: inline-block;
 	margin-left: 0.5em;
 	/* color: #ff6a00 !important; */
-	width: 50%;
+	width: 100%;
 }
 
 .fa-star{
@@ -2845,6 +2846,7 @@ display: block;
 	align-items: center;
 } */
 
+span
 
 
 /*

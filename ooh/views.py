@@ -5,13 +5,15 @@ from django.template import Context
 from .models import Location, EventLocation, Event, OohUser, Participate, Question, ChoiceOption
 from .forms import UserLoginForm, RegLoginSwitch, OohUserCreationForm, UserLocation
 from django.contrib.auth import authenticate, login
+from django.db.models import Q
+
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView, LogoutView #, RegisterView
 from django.views.generic.edit import ProcessFormView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-
+import datetime
 
 User = get_user_model()
 # Create your views here.
@@ -138,7 +140,7 @@ class EventView(generic.ListView):
         # ev = Event.objects.get(name='Schnitzeltag')
         # print(ev.calculatedratings())
         # return EventLocation.objects.filter(locationID__plz=68159)
-        return Event.objects.all
+        return Event.objects.filter(Q(starttime__gte=datetime.date.today())).order_by('starttime')
 
 class UserProfile(generic.DetailView):
     template_name = "ooh/profile.html"

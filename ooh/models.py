@@ -1,5 +1,6 @@
 from django.db import models
 import datetime
+from datetime import date
 from django.utils import timezone
 from django.views import generic
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
@@ -38,6 +39,14 @@ class EventLocation(models.Model):
     picture = models.ImageField(blank=True, null=True) #//TODO
     pricecat = models.IntegerField(default=0) # the higher the more expensive (0=nonrated)
     
+    def getCategories(self):
+        ret = ""
+        qs = self.categories.all()
+        for c in qs:
+            ret += c.__str__().lower().replace(' ', '-') + " "
+        return ret
+        
+
     # //TODO periodically running functions to calculate rating
     def calculatedratings(self):
         # return [3,1]
@@ -90,9 +99,27 @@ class EventTemplate(models.Model):
     picture = models.ImageField(blank=True, null=True) #//TODO
     # //TODO periodically running functions to calculate rating
     def __str__(self):
-        return self.name + " [{0}]".format(self.location)
+        return self.name + " @{0}".format(self.eventLocation)
+    def getCategories(self):
+        ret = ""
+        qs = self.eventCategory.all()
+        for c in qs:
+            ret += c.__str__().lower().replace(' ', '-') + " "
+        # preisklasse
+        if self.pricecat > 0:
+            if self.pricecat == 1:
+                return "preiswert"
+            else:
+                return "gehoben"
+        else:
+            if self.eventLocation.pricecat == 1:
+                return "preiswert"
+            else:
+                return "gehoben"
+        return ret
+
     def calculatedratings(self):
-        rat = EventRating.objects.filter(eventID=self.id)
+        rat = EventRating.objects.filter(eventTemplate=self.id)
         if len(rat) == 0:
             print("No Ratings available")
             return [0, 0]
@@ -110,6 +137,31 @@ class Event(models.Model):
     endtime = models.DateTimeField()
     # intervalOffset = models.CharField(max_length=3, blank=True, null=True) # to seperate between weekly, monthly, ... events
     intervalInDays = models.IntegerField(blank=True, null=True) # after how many days should the next event be generated
+    def __str__(self):
+        return self.eventTemplate.__str__() + " [{0}]".format(self.starttime)
+    def timecheck(self):
+        # //TODO evtl checken ob das auch über Zeitzonen hinweg funzt
+        todaysDate = date.today()
+        eventDate = self.starttime.date()
+        if todaysDate == eventDate:
+            return "today"
+        elif eventDate == todaysDate + datetime.timedelta(days=1):
+            return "tomorrow"
+        weekday = todaysDate.isoweekday()
+        if weekday in (0,1,2,3): # Monday to Thursday
+            # add (4-weekday)
+            fridayoffset = 4 - weekday
+            sundayoffset = 7 - weekday
+            if eventDate >= todaysDate + datetime.timedelta(days=fridayoffset) and eventDate <= todaysDate + datetime.timedelta(days=sundayoffset):
+                return "nextweekend"
+        else: # if today is between friday and sunday, check if it nextweek (+7)
+            fridayoffset = 2 - weekday  # 7 - weekday + 5
+            sundayoffset = weekday      # 7 - weekday + 7
+            if eventDate >= todaysDate + datetime.timedelta(days=fridayoffset) and eventDate <= todaysDate + datetime.timedelta(days=sundayoffset):
+                return "nextweekend"
+
+        
+
 
 class Participate(models.Model):
     user = models.ForeignKey(OohUser, on_delete=models.CASCADE)
@@ -125,7 +177,7 @@ class EventRating(models.Model):
     eventTemplate = models.ForeignKey(EventTemplate, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now=True)
     def __str__(self):
-        return "{0}@{1} | {2}".format(self.eventID.name, self.eventID.location.name, self.user.email) # , self.description[:75] + (self.description[75:] and '..'))
+        return "{0}@{1} | {2}".format(self.eventTemplate.name, self.eventTemplate.eventLocation.name, self.user.email) # , self.description[:75] + (self.description[75:] and '..'))
 
 class EventLocationRating(models.Model):
     rating = models.PositiveSmallIntegerField()
