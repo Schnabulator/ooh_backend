@@ -25,7 +25,7 @@ SECRET_KEY = ')m5kp$%gxtjlm=t4v6qw5@)3w((a-fm0vpulxk(cxr!&jvs*$3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['oob.amatt.de', 'localhost', '192.168.2.110']
+ALLOWED_HOSTS = ['oob.amatt.de', 'ooh.amatt.de', 'localhost', '192.168.2.110']
 
 
 # Application definition
@@ -76,9 +76,17 @@ WSGI_APPLICATION = 'outofhome.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'outofhome',
+        'USER': 'ooh',
+        'PASSWORD': 'IPCU2zLehKXCmhwl9ewY',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
