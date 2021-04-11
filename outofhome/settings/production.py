@@ -1,7 +1,7 @@
 from .base import *
 
 
-ALLOWED_HOSTS = ["ooh.amatt.de",]
+ALLOWED_HOSTS = ["ooh.amatt.de", "localhost"]
 DEBUG = False
 
 DATABASES = {
