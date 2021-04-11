@@ -26,6 +26,7 @@ User = get_user_model()
 #     return render(request, 'ooh/index.html', context=context)
 
 class index(generic.ListView):
+    model = Event
     template_name = 'ooh/index.html'
     context_object_name = 'recommended_events'
     def get_queryset(self):
