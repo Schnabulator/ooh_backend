@@ -1,5 +1,9 @@
-{% extends 'ooh/base.html'%}
+{% extends 'ooh/base.html' %}
 {% load static %}
+
+{% block additional-includes%}
+<script type=text/javascript src="{%static 'ooh/js/jquery.mixitup.js'%}"></script>
+{% endblock %}
 
 {% block content %}
 <!-- // SECTION // -->
@@ -9,7 +13,7 @@
 
             <!-- //TODO Links auf enstprechend gefilterte kacke machen -->
             <div id="slideshow">
-                <div class="slidebox altern" style="display: block;">
+                <div class="slidebox obersteebene" style="display: block;">
                     <div class="bild"> <img src="{% static 'ooh/img/slideshow/people-2557396_1280.jpg' %}" alt=""> </div>
                     <div class="sb_inner">
                         <div class="text">
@@ -19,10 +23,10 @@
                     </div>
                 </div>
                 <div class="slidebox altern" style="display: block;">
-                    <div class="bild"> <img src="{% static 'ooh/img/slideshow/event-party-3005668_1280.jpg' %}" alt=""> </div>
+                    <div class="bild"> <img src="{% static 'ooh/img/slideshow/bar-209148_1280.jpg' %}" alt=""> </div>
                     <div class="sb_inner">
                         <div class="text">
-                            <p>In dem Club treffen und ordentlich abfeiern.</p>
+                            <p>Einen entspannten Abend in einer Bar genießen.</p>
                             <p class="mehr"><a href="inhalt.html">Mehr erfahren</a></p>
                         </div>
                     </div>
@@ -36,16 +40,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="slidebox" style="display: block;">
-                    <div class="bild"> <img src="{% static 'ooh/img/slideshow/bar-209148_1280.jpg' %}" alt=""> </div>
+                <div class="slidebox altern" style="display: block;">
+                    <div class="bild"> <img src="{% static 'ooh/img/slideshow/event-party-3005668_1280.jpg' %}" alt=""> </div>
                     <div class="sb_inner">
                         <div class="text">
-                            <p>Sie können auch jederzeit Ihren Abend in einer Bar genießen!</p>
+                            <p>Im Club treffen und ordentlich abfeiern.</p>
                             <p class="mehr"><a href="inhalt.html">Mehr erfahren</a></p>
                         </div>
                     </div>
                 </div>
-                <div class="slidebox obersteebene" style="display: block;">
+                <div class="slidebox altern" style="display: block;">
                     <div class="bild"> <img src="{% static 'ooh/img/slideshow/cheers-839865_1280.jpg' %}" alt=""> </div>
                     <div class="sb_inner">
                         <div class="text">
@@ -62,75 +66,314 @@
 
     
         {% if user.is_authenticated %}
-        <ul>
-            <!-- Begin first Event entry -->
-            {% for ev in recommended_events %}
-            <li class="mix {{ ev.timecheck }}">
-                <div class="container">	
-                    <!-- Start	Product details -->
-                    <div class="product-details">
-                            <!-- 	Event Name -->
-                        <div>
-                                <h1>{{ev.name}}</h1>
-                                <!-- 		<span class="hint new">New</span> -->
-                                <!-- 		<span class="hint free-shipping">Free Shipping</span> -->
-                                <!-- 		the Product rating -->
-                                <br>
-                                <span class="hint-star star">
-                                    {# das muss komplex abgebildet werden #}
-                                    <i class="fa fa-star {% if ev.calculatedratings.0 >= 0 %} checked {%endif%}"></i>
-                                    <i class="fa fa-star {% if ev.calculatedratings.0 >= 1 %} checked {%endif%}"></i>
-                                    <i class="fa fa-star {% if ev.calculatedratings.0 >= 2 %} checked {%endif%}"></i>
-                                    <i class="fa fa-star {% if ev.calculatedratings.0 >= 3 %} checked {%endif%}"></i>
-                                    <i class="fa fa-star {% if ev.calculatedratings.0 >= 4 %} checked {%endif%}"></i>
-                                </span>
-                        </div>     
-
-                        <div></div>
-                        <!-- The most important information about the product -->
-                        {#Das steht in der Desktop view links#}
-                        <p class="information">{{ev.street}}{{ev.housenumber}}<br/>{{ev.location}}</p>
-                        <!-- Ryan ist doof -->
-                        <!-- bla bla bla -->
-                            <!-- 		Control -->
-                        <div class="control">
-                            <!-- Start Button buying -->
-                            <button class="btn">
-                                <!-- 		the Price -->
-                                <!-- Evtl ein onClick auf das Icon und dann noch den button clickable machen? oder das bookmark einfach oben anzeigen -->
-                                <span class="shopping-cart"><i class="fa fa-bookmark"></i></span>
-                                <!-- 		Buy Now / ADD to Cart-->
-                                <span class="buy">Participate</span>
-                            </button>
-                            <!-- End Button buying -->        
-                        </div>    
-                    </div> <!-- Ende Product details -->
+        <div>
+            <main class="cd-main-content">
+                <div class="cd-tab-filter-wrapper">
+                    <div class="cd-tab-filter">
+                        <ul class="cd-filters" style="margin-top: 0%;">
+                            <li class="placeholder"> 
+                                <a data-type="all" class="cd-a" href="#0">Alle Events</a> <!-- selected option on mobile -->
+                            </li> 
+                            <li class="filter"><a class="selected" href="#0" data-type="all">Alle Events</a></li>
+                            <li class="filter" data-filter=".today"><a href="#0" class="cd-a" data-type="today">Heute</a></li>
+                            <li class="filter" data-filter=".tomorrow"><a href="#0" class="cd-a" data-type="tomorrow">Morgen</a></li>
+                            <li class="filter" data-filter=".nextweekend"><a href="#0" class="cd-a" data-type="nextweekend">Nächstes Wochenende</a></li>
+                        </ul> <!-- cd-filters -->
+                    </div> <!-- cd-tab-filter -->
+                </div> <!-- cd-tab-filter-wrapper -->
+            
+                <section class="cd-gallery">
+                    <ul>
+                        <!-- Begin first Event entry -->
+                        {% for ev in recommended_events %}
+                        <li class="mix {{ ev.timecheck }} {{ev.eventTemplate.getCategories}} {{ev.eventTemplate.eventLocation.getCategories}} ">
+                            <div class="container">	
+                                <!-- Start	Product details -->
+                                <div class="product-details">
+                                        <!-- 	Event Name -->
+                                    <div>
+                                            <h1>{{ev.eventTemplate.name}}</h1>
+                                            <h3>{{ev.eventTemplate.eventLocation}}</h3>
+                                            <!-- 		<span class="hint new">New</span> -->
+                                            <!-- 		<span class="hint free-shipping">Free Shipping</span> -->
+                                            <!-- 		the Product rating -->
+                                            <!-- {{ev.calculatedratings}} -->
+                                            <span class="hint-star star">
+                                                <!-- <div style="display: flex; flex-direction: row;"> -->
+                                                    <i class="fa fa-star {% if ev.eventTemplate.calculatedratings.0 > 0.5 %} checked {%endif%}"></i>
+                                                    <i class="fa fa-star {% if ev.eventTemplate.calculatedratings.0 >= 1.5 %} checked {%endif%}"></i>
+                                                    <i class="fa fa-star {% if ev.eventTemplate.calculatedratings.0 >= 2.5 %} checked {%endif%}"></i>
+                                                    <i class="fa fa-star {% if ev.eventTemplate.calculatedratings.0 >= 3.5 %} checked {%endif%}"></i>
+                                                    <i class="fa fa-star {% if ev.eventTemplate.calculatedratings.0 >= 4.5 %} checked {%endif%}"></i>
+                                                    <i>({{ev.eventTemplate.calculatedratings.1}})</i>
+                                                <!-- </div> -->
+                                                <!-- <i class="fa fa-star checked"></i>
+                                                <i class="fa fa-star checked"></i>
+                                                <i class="fa fa-star checked"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i> -->
+                                            </span>
+            
+                                    </div>     
+            
+                                    <div></div>
+                                    <!-- The most important information about the product -->
+                                    {#Das steht in der Desktop view links#}
+                                    {#//TODO das muss auf x zeichen beschränkt werden!#}
+                                    <p class="information">{{ev.starttime|date:"d.m.Y H:i"}}</p>
+                                    <p class="information">{{ev.eventTemplate.description}}</p>
+            
+                                        <!-- 		Control -->
+                                    <div class="control">
+                                        <!-- Start Button buying -->
+                                        <button class="btn">
+                                            <!-- 		the Price -->
+                                            <!-- Evtl ein onClick auf das Icon und dann noch den button clickable machen? oder das bookmark einfach oben anzeigen -->
+                                            <span class="shopping-cart"><i class="fa fa-bookmark"></i></span>
+                                            <!-- 		Buy Now / ADD to Cart-->
+                                            <span class="buy">Participate</span>
+                                        </button>
+                                        <!-- End Button buying -->        
+                                    </div>    
+                                </div> <!-- Ende Product details -->
+                                    
+                                <div class="product-image">
+                                    {# //TODO add location photos #}
+                                    <img src="{% static 'ooh/img/locations/dummy.jpg' %}" alt="Omar Dsoky">
+                                    <!-- 	product Information seen when hovering over picture-->
+                                    <div class="info">
+                                        <p></p>
+                                        <h4>Veranstaltungsort</h4>
+                                        <p>{{ev.eventTemplate.eventLocation}}</p>
+                                        <p>Street: {{ev.eventTemplate.eventLocation.street}} {{ev.eventTemplate.eventLocation.housenumber}}</p>
+                                        <p>{{ev.eventTemplate.eventLocation.location}}</p>
+                                    </div>
+                                </div> <!-- End Product image -->
+                            </div> <!-- End Container -->
+                        </li> <!-- Single List item end -->
+                        {% empty %}
+                            <p>Bitte warte bis wir unser Angebot auf deine Umgebung ausgeweitet haben. Gerne kannst du uns einen Vorschlag für deine Gegend machen!</p>
+                        {% endfor %}
+                    
+                    </ul>
+                    <!-- <div class="cd-fail-message">No results found</div> -->
+                </section> <!-- cd-gallery -->
+            </main> <!-- cd-main-content -->
+            </div>
+            
+            <script>
+                jQuery(document).ready(function($){
+                    //open/close lateral filter
+                    $('.cd-filter-trigger').on('click', function(){
+                        triggerFilter(true);
+                    });
+                    $('.cd-filter .cd-close').on('click', function(){
+                        triggerFilter(false);
+                    });
+            
+                    function triggerFilter($bool) {
+                        var elementsToTrigger = $([$('.cd-filter-trigger'), $('.cd-filter'), $('.cd-tab-filter'), $('.cd-gallery')]);
+                        elementsToTrigger.each(function(){
+                            $(this).toggleClass('filter-is-visible', $bool);
+                        });
+                    }
+            
+                    //mobile version - detect click event on filters tab
+                    var filter_tab_placeholder = $('.cd-tab-filter .placeholder a'),
+                        filter_tab_placeholder_default_value = 'Select',
+                        filter_tab_placeholder_text = filter_tab_placeholder.text();
+                    
+                    $('.cd-tab-filter li').on('click', function(event){
+                        //detect which tab filter item was selected
+                        var selected_filter = $(event.target).data('type');
+                            
+                        //check if user has clicked the placeholder item
+                        if( $(event.target).is(filter_tab_placeholder) ) {
+                            (filter_tab_placeholder_default_value == filter_tab_placeholder.text()) ? filter_tab_placeholder.text(filter_tab_placeholder_text) : filter_tab_placeholder.text(filter_tab_placeholder_default_value) ;
+                            $('.cd-tab-filter').toggleClass('is-open');
+            
+                        //check if user has clicked a filter already selected 
+                        } else if( filter_tab_placeholder.data('type') == selected_filter ) {
+                            filter_tab_placeholder.text($(event.target).text());
+                            $('.cd-tab-filter').removeClass('is-open');	
+            
+                        } else {
+                            //close the dropdown and change placeholder text/data-type value
+                            $('.cd-tab-filter').removeClass('is-open');
+                            filter_tab_placeholder.text($(event.target).text()).data('type', selected_filter);
+                            filter_tab_placeholder_text = $(event.target).text();
+                            
+                            //add class selected to the selected filter item
+                            $('.cd-tab-filter .selected').removeClass('selected');
+                            $(event.target).addClass('selected');
+                        }
+                    });
+                    
+                    //close filter dropdown inside lateral .cd-filter 
+                    $('.cd-filter-block h4').on('click', function(){
+                        $(this).toggleClass('closed').siblings('.cd-filter-content').slideToggle(300);
+                    })
+            
+                    //fix lateral filter and gallery on scrolling
+                    $(window).on('scroll', function(){
+                        (!window.requestAnimationFrame) ? fixGallery() : window.requestAnimationFrame(fixGallery);
+                    });
+            
+                    function fixGallery() {
+                        var offsetTop = $('.cd-main-content').offset().top,
+                            scrollTop = $(window).scrollTop();
+                        ( scrollTop >= offsetTop ) ? $('.cd-main-content').addClass('is-fixed') : $('.cd-main-content').removeClass('is-fixed');
+                    }
+            
+                    /************************************
+                        MitItUp filter settings
+                        More details: 
+                        https://mixitup.kunkalabs.com/
+                        or:
+                        http://codepen.io/patrickkunka/
+                    *************************************/
+            
+                    buttonFilter.init();
+                    $('.cd-gallery ul').mixItUp({
+                        controls: {
+                            enable: false
+                        },
+                        callbacks: {
+                            onMixStart: function(){
+                                $('.cd-fail-message').fadeOut(200);
+                            },
+                            onMixFail: function(){
+                                $('.cd-fail-message').fadeIn(200);
+                            }
+                        }
+                    });
+            
+                    //search filtering
+                    //credits http://codepen.io/edprats/pen/pzAdg
+                    var inputText;
+                    var $matching = $();
+            
+                    var delay = (function(){
+                        var timer = 0;
+                        return function(callback, ms){
+                            clearTimeout (timer);
+                            timer = setTimeout(callback, ms);
+                        };
+                    })();
+            
+                    $(".cd-filter-content input[type='search']").keyup(function(){
+                        // Delay function invoked to make sure user stopped typing
+                        delay(function(){
+                            inputText = $(".cd-filter-content input[type='search']").val().toLowerCase();
+                            // Check to see if input field is empty
+                            if ((inputText.length) > 0) {            
+                                $('.mix').each(function() {
+                                    var $this = $(this);
+                                
+                                    // add item to be filtered out if input text matches items inside the title   
+                                    if($this.attr('class').toLowerCase().match(inputText)) {
+                                        $matching = $matching.add(this);
+                                    } else {
+                                        // removes any previously matched item
+                                        $matching = $matching.not(this);
+                                    }
+                                });
+                                $('.cd-gallery ul').mixItUp('filter', $matching);
+                            } else {
+                                // resets the filter to show all item if input is empty
+                                $('.cd-gallery ul').mixItUp('filter', 'all');
+                            }
+                        }, 200 );
+                    });
+                });
+            
+                /*****************************************************
+                    MixItUp - Define a single object literal 
+                    to contain all filter custom functionality
+                *****************************************************/
+                var buttonFilter = {
+                    // Declare any variables we will need as properties of the object
+                    $filters: null,
+                    groups: [],
+                    outputArray: [],
+                    outputString: '',
+                
+                    // The "init" method will run on document ready and cache any jQuery objects we will need.
+                    init: function(){
+                        var self = this; // As a best practice, in each method we will asign "this" to the variable "self" so that it remains scope-agnostic. We will use it to refer to the parent "buttonFilter" object so that we can share methods and properties between all parts of the object.
+                    
+                        self.$filters = $('.cd-main-content');
+                        self.$container = $('.cd-gallery ul');
+                    
+                        self.$filters.find('.cd-filters').each(function(){
+                            var $this = $(this);
                         
-                    <div class="product-image">
-                        {# //TODO add location photos #}
-                        <img src="{% static 'ooh/img/locations/dummy.jpg' %}" alt="Omar Dsoky">
-                        <!-- 	product Information seen when hovering over picture-->
-                        <div class="info">
-                            <h4>The Description</h4>
-                            <p>Street: Coblitzalle</p>
-                            <p>Bla bla</p>
-                            <ul>
-                                <li>Sun Needs: Full Sun</li>
-                                <li>Soil Needs: Damp</li>
-                                <li>Zones: 9 - 11</li>
-                                <li>Height: 2 - 3 feet</li>
-                                <li>Blooms in: Mid‑Summer - Mid‑Fall</li>
-                                <li>Features: Tolerates heat</li>
-                            </ul>
-                        </div>
-                    </div> <!-- End Product image -->
-                </div> <!-- End Container -->
-            </li> <!-- Single List item end -->
-            {% empty %}
-                <p>Bitte warte bis wir unser Angebot auf deine Umgebung ausgeweitet haben. Gerne kannst du uns einen Vorschlag für deine Gegend machen!</p>
-            {% endfor %}
-        
-        </ul>
+                            self.groups.push({
+                                $inputs: $this.find('.filter'),
+                                active: '',
+                                tracker: false
+                            });
+                        });
+                        
+                        self.bindHandlers();
+                    },
+                
+                    // The "bindHandlers" method will listen for whenever a button is clicked. 
+                    bindHandlers: function(){
+                        var self = this;
+            
+                        self.$filters.on('click', 'a', function(e){
+                            self.parseFilters();
+                        });
+                        self.$filters.on('change', function(){
+                        self.parseFilters();           
+                        });
+                    },
+                
+                    parseFilters: function(){
+                        var self = this;
+                    
+                        // loop through each filter group and grap the active filter from each one.
+                        for(var i = 0, group; group = self.groups[i]; i++){
+                            group.active = [];
+                            group.$inputs.each(function(){
+                                var $this = $(this);
+                                if($this.is('input[type="radio"]') || $this.is('input[type="checkbox"]')) {
+                                    if($this.is(':checked') ) {
+                                        group.active.push($this.attr('data-filter'));
+                                    }
+                                } else if($this.is('select')){
+                                    group.active.push($this.val());
+                                } else if( $this.find('.selected').length > 0 ) {
+                                    group.active.push($this.attr('data-filter'));
+                                }
+                            });
+                        }
+                        self.concatenate();
+                    },
+                
+                    concatenate: function(){
+                        var self = this;
+                    
+                        self.outputString = ''; // Reset output string
+                    
+                        for(var i = 0, group; group = self.groups[i]; i++){
+                            self.outputString += group.active;
+                        }
+                    
+                        // If the output string is empty, show all rather than none:    
+                        !self.outputString.length && (self.outputString = 'all'); 
+                    
+                        // Send the output string to MixItUp via the 'filter' method:    
+                        if(self.$container.mixItUp('isLoaded')){
+                            self.$container.mixItUp('filter', self.outputString);
+                        }
+                    }
+            };
+            </script>
+            <script type=text/javascript src="{%static 'ooh/js/jquery.mixitup.js'%}"></script>
+            <!-- <div id="googleMap" style="width:100%;height:400px;"></div> -->
+
         {% else %}
         <div class="section sc_b" id="sc_home-aktuell">
             <div class="inner">
