@@ -12,7 +12,8 @@
         {% for key, value in request.GET.items %}
             <input type="hidden" name="{{ key }}" value="{{ value }}">
         {% endfor %}
-        {% for choice in question.choiceoption_set.all %}
+        
+        {% for choice in question.question.all %}
             <label class="custom-radio">
                 <input type="radio" name="q{{question.id}}" value="{{ choice.text }}" required/>
                 <span class="radio-btn">

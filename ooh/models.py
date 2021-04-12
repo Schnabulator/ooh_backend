@@ -189,6 +189,9 @@ class EventLocationRating(models.Model):
 
 class Question(models.Model):
     name = models.CharField(max_length=100)
+    firstQuestion = models.BooleanField(default=False)
+    lastQuestion = models.BooleanField(default=False)
+    # prevQuestion = models.ForeignKey('self', on_delete=models.CASCADE, related_name='prevQuestion', blank=True, null=True)
     objects = models.Manager()
     def __str__(self):
         return str(self.pk)+" | "+ self.name
