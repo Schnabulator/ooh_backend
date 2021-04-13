@@ -44,7 +44,7 @@ class ChoiceInline(admin.StackedInline):
 class QuestionAdmin(admin.ModelAdmin):
     readonly_fields=('id',)
     fieldsets = [
-        (None,               {'fields': ['name']}),
+        (None,               {'fields': ['name', 'firstQuestion', 'lastQuestion']}),
         
     ]
     inlines = [ChoiceInline]
