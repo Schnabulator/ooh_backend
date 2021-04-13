@@ -45,8 +45,14 @@ def question(request, question_id):
         question_id = 1
     question = get_object_or_404(Question, pk=question_id) #Question.objects.get(pk=question_id)
     # choices = ChoiceOption.objects.quer
-    print(question.name)
-    context = {"body_id": "b_content", "question": question, "nextpage": question_id+1, "prevpage":  question_id-1} 
+    print(question.name) #, question.FirstQuestion, question.LastQuestion)
+    _pq = question.question.all().first().prevQuestion
+    # print("PrevQUestion:", pq)
+    if _pq is not None:
+        pq = _pq.id
+    else:
+        pq = -1
+    context = {"body_id": "b_content", "question": question, "curquestionkey": "q{0}".format(question_id), "prevquestion":  pq} 
     return render(request, 'ooh/fragen.html', context=context)
 
 # class Question(generic.DetailView):
