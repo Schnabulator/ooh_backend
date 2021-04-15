@@ -52,12 +52,12 @@ class EventLocation(models.Model):
         # return [3,1]
         rat = EventLocationRating.objects.get(eventlocationID=self.locationID.id)
         if len(rat) == 0:
-            print("No Ratings available")
+            # print("No Ratings available")
             return [0, 0]
         summedrating = 0
         for rating in rat:
             summedrating += rating.rating
-        print("Average rating: "+str(summedrating))
+        # print("Average rating: "+str(summedrating))
         return [summedrating/len(rat), len(rat)]
     def sameplz(self, plz):
         print("Called near method")
@@ -73,7 +73,8 @@ class OohUser(AbstractBaseUser, PermissionsMixin):
     firstname = models.CharField(max_length=100)
     lastname = models.CharField(max_length=100)
     birthday = models.DateField(null=True)
-    
+    currentQuestionRun = models.IntegerField(default=1)
+
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     last_login = models.DateTimeField(default=timezone.now)
@@ -121,12 +122,12 @@ class EventTemplate(models.Model):
     def calculatedratings(self):
         rat = EventRating.objects.filter(eventTemplate=self.id)
         if len(rat) == 0:
-            print("No Ratings available")
+            # print("No Ratings available")
             return [0, 0]
         summedrating = 0
         for rating in rat:
             summedrating += rating.rating
-        print("Average rating: "+str(summedrating))
+        # print("Average rating: "+str(summedrating))
         return [(summedrating/len(rat)), len(rat)]
 
 class Event(models.Model):
@@ -141,7 +142,7 @@ class Event(models.Model):
         return self.eventTemplate.__str__() + " [{0}]".format(self.starttime)
     def timecheck(self):
         # //TODO evtl checken ob das auch über Zeitzonen hinweg funzt
-        todaysDate = date.today()
+        todaysDate = date.today() # + datetime.timedelta(days=1) #Wenn heute Freitag ist, stimmt Sonntag nicht
         eventDate = self.starttime.date()
         if todaysDate == eventDate:
             return "today"
@@ -204,3 +205,13 @@ class ChoiceOption(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='question')
     def __str__(self):
         return self.text
+
+class UserSelection(models.Model):
+    user = models.ForeignKey(OohUser, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    selection = models.ForeignKey(ChoiceOption, on_delete=models.CASCADE)
+    valid = models.BooleanField(default=True)
+    questionRun = models.IntegerField(default=1)
+    timestamp = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return "{0}[{1}]: {2} - {3}".format(self.user, self.questionRun, self.question, self.selection)

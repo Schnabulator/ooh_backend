@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import OohUserCreationForm, OohUserChangeForm
-from .models import Location, EventLocation, Event, OohUser, Participate, EventRating, EventLocationRating, EventCategory, LocationCategory, EventTemplate, Question, ChoiceOption
+from .models import Location, EventLocation, Event, OohUser, Participate, EventRating, EventLocationRating, EventCategory, LocationCategory, EventTemplate, Question, ChoiceOption, UserSelection
 
 class CustomUserAdmin(UserAdmin):
     add_form = OohUserCreationForm
@@ -61,3 +61,4 @@ admin.site.register(EventCategory)
 admin.site.register(LocationCategory)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(ChoiceOption)
+admin.site.register(UserSelection)

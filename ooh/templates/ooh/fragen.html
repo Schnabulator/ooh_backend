@@ -58,7 +58,7 @@
         const  finishBtn  =  document.getElementById('finishBtn');
         const  content  =  document.getElementById('progress-content');
         // const  bullets  =  [...document.querySelectorAll('.bullet')];
-        const prevpage = "{% if prevquestion > 0%} {{prevquestion}} {% endif %}".trim();
+        const prevpage = "{% if prevquestion > 0 %} {{prevquestion}} {% endif %}".trim();
         // let currentStep = {{question.id}};
         const MAX_STEPS = 6;
         
@@ -80,7 +80,7 @@
             sel  = parseInt(_sel, 10);
             if(typeof sel == 'number' && sel > 0){
                 url = "{% url 'ooh:questions' 0 %}".slice(0, -1)+sel;
-                document.getElementById("einsNiceForm").action = url
+                document.getElementById("einsNiceForm").action = url;
                 document.getElementById("einsNiceForm").submit();
             }else{
                 console.log("Keine Auswahl getroffen oder keine Zahl hinterlegt");
@@ -91,13 +91,11 @@
 
 
         previousBtn.addEventListener('click',  ()  =>  {
-            // bullets[currentStep  -  2].classList.remove('completed');
-            // currentStep  -=  1;
             _sel = $("input[type='radio'][name='q{{question.id}}']:checked").data('next');
             sel  = parseInt(_sel, 10);
             if(typeof sel == 'number'){
                 url = "{% url 'ooh:questions' 0 %}".slice(0, -1)+prevpage;
-                document.getElementById("einsNiceForm").action = url
+                document.getElementById("einsNiceForm").action = url;
                 document.getElementById("einsNiceForm").submit();
             }else{
                 console.log("Keine Auswahl getroffen oder keine Zahl hinterlegt");

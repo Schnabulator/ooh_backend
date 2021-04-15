@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views import generic
 from django.template import Context
-from .models import Location, EventLocation, Event, OohUser, Participate, Question, ChoiceOption
+from .models import Location, EventLocation, Event, OohUser, Participate, Question, ChoiceOption, UserSelection, EventCategory, LocationCategory
 from .forms import UserLoginForm, RegLoginSwitch, OohUserCreationForm, UserLocation
 from django.contrib.auth import authenticate, login
 from django.db.models import Q
@@ -31,7 +31,24 @@ class index(generic.ListView):
     context_object_name = 'recommended_events'
     def get_queryset(self):
         # //TODO filter from user has to be set here!
-        return Event.objects.filter(Q(starttime__gte=datetime.date.today())).order_by('starttime')
+        # User filter
+        filt = UserSelection.objects.filter(user=self.request.user).filter(questionRun=self.request.user.currentQuestionRun).filter(valid=True)
+        print("Filter {0}".format(filt.count()))
+        objs = Event.objects.filter(Q(starttime__gte=datetime.date.today()))
+        for f in filt:
+            _cat = f.selection.text
+            print(_cat)
+            # get object for eventCategory
+            # //TODO filter macht nur scheiße, fixen
+            ecat = EventCategory.objects.filter(name__iexact=_cat)
+            lcat = LocationCategory.objects.filter(name__iexact=_cat)
+            print("Filterlängen: {0} | {1}".format(ecat.count(), lcat.count()))
+            objs = objs.filter(
+                Q(eventTemplate__eventCategory__in=ecat) | 
+                Q(eventTemplate__eventLocation__categories__in=lcat) 
+            )
+            
+        return objs.order_by('starttime')
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
@@ -43,18 +60,54 @@ def question(request, question_id):
     # return HttpResponse("Bämski Index.")
     if question_id is None or question_id < 0:
         question_id = 1
-    question = get_object_or_404(Question, pk=question_id) #Question.objects.get(pk=question_id)
-    # choices = ChoiceOption.objects.quer
-    print(question.name) #, question.FirstQuestion, question.LastQuestion)
+    question = get_object_or_404(Question, pk=question_id) 
+    
     _pq = question.question.all().first().prevQuestion
     # print("PrevQUestion:", pq)
     if _pq is not None:
         pq = _pq.id
     else:
         pq = -1
+    
+    # user, users questionrun
+    # lastquestion (every already saved answer is ignored)
+    # last question answer
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            user = request.user
+            questionrun = user.currentQuestionRun
+
+            # Get form data //TODO maybe build dynamic form und so
+            # answers = dict(request.POST.lists())
+            # print(answers)
+            # just save the answer of prev question
+            print("Got User and questionrun")
+            if pq > 0:
+                sel = request.POST.get('q{0}'.format(pq))
+                print("PQ:{0}, PQS: {1}".format(pq, sel))
+                
+                pquestion = Question.objects.get(pk=pq)
+                pselection = ChoiceOption.objects.get(pk=sel)
+                # ans = UserSelection(user, pq, sel, questionRun=questionrun)
+                # //TODO bestehende Antworten überschreiben oder sowas
+                ans = UserSelection(user=user, question=pquestion, selection=pselection, questionRun=questionrun)
+                print(ans)
+                ans.save()
+            else:
+                print("No prev Q ")
+
+        else:
+            # do not save anything
+            print("No user")
+            pass
+    else:
+        print("No POST Method")
+            
     context = {"body_id": "b_content", "question": question, "curquestionkey": "q{0}".format(question_id), "prevquestion":  pq} 
     return render(request, 'ooh/fragen.html', context=context)
 
+def questionFinish(request):
+    pass
 # class Question(generic.DetailView):
 #     template_name="ooh/fragen.html"
 #     model = Question
