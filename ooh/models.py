@@ -198,7 +198,7 @@ class Question(models.Model):
 
 class ChoiceOption(models.Model):
     text = models.CharField(max_length=100)
-    class_names = models.CharField(max_length=100)
+    class_names = models.CharField(max_length=100, blank=True, null=True)
     nextQuestion = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='nextQuestion', blank=True, null=True)
     prevQuestion = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='prevQuestion', blank=True, null=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='question')
