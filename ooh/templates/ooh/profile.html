@@ -96,15 +96,141 @@
                <div class="right-side">
                    <div class="nav-right">
                        <ul>
-                           <li onclick="tabs(0)" class="user-post active" style="margin-bottom: 0em;  list-style-type: none;">Posts</li>
+                           <li onclick="tabs(0)" class="user-post active" style="margin-bottom: 0em;  list-style-type: none;">Fragen</li>
                            <li onclick="tabs(1)" class="user-review" style="margin-bottom: 0em;list-style-type: none;">Reviews</li>
                            <li onclick="tabs(2)" class="user-setting" style="margin-bottom: 0em;list-style-type: none;">Settings</li>
                        </ul>
                    </div>
                    <div class="profile-body">
                        <div class="profile-posts tab">
-                            <h4>Your Post</h4>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore vero, accusamus iste impedit delectus sequi unde nostrum porro, dicta illum libero architecto quos neque esse provident. Assumenda a inventore voluptas!</p>
+                            <h4>Fragenkatalog</h4>
+                            <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore vero, accusamus iste impedit delectus sequi unde nostrum porro, dicta illum libero architecto quos neque esse provident. Assumenda a inventore voluptas!</p> -->
+                            <div class="qu-container">
+                                <div class="qu-box">
+                                    <h3>{{ question.name }}</h3>
+                                    <div id="choices" class="radio-buttons">
+                                    <form id="einsNiceForm" action="{% url 'ooh:questions' 0 %}" method="POST">
+                                        {% csrf_token %}
+                                    {% for key, value in request.POST.items %}
+                                        {% if key  != curquestionkey %}
+                                            <input type="hidden" name="{{ key }}" value="{{ value }}">
+                                        {% endif %}
+                                    {% endfor %}
+                                    
+                                    {% for choice in question.question.all %}
+                                        <label class="custom-radio">
+                                            <input type="radio" name="q{{question.id}}" value="{{ choice.id }}" data-next="{{choice.nextQuestion.id}}" 
+                                                data-prev="{{choice.lastQuestion.id}}" required {% if request.POST.curquestionkey == choice.id %} checked {% endif %}/>
+                                            <span class="radio-btn">
+                                                <i class="fas fa-check"></i>
+                                                <div class="hobbies-icon">
+                                                    <i class="{{ choice.class_names }}"></i>
+                                                    <h4>{{ choice.text }}</h4>
+                                                </div>
+                                            </span>
+                                        </label>
+                                    {% endfor %}
+                                    </form>    
+                                    </div>
+                                    
+                                    <div class="progress-container">
+                                        <div id="progress-main">
+                                            <!-- <p id="progress-content"  class="text-center">Step Number 1</p> -->
+                                            <div class="">
+                                                <button class="progress-button" id="previousBtn" {% if prevquestion <= 0  %} disabled {% endif %}><span>Previous</span></button>
+                                            </div>
+                                            <div>
+                                                <button class="progress-button" id="nextBtn" {% if question.lastQuestion is True %} disabled {% endif %}><span>Next</span></button>
+                                            </div>
+                                            <div>
+                                                <button class="finish-button" id="finishBtn" {% if question.lastQuestion is False %} disabled {% endif %}>Finish</button>
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                            <script type="text/javascript">  
+                                $(document).ready(function(){
+                                    const  previousBtn  =  document.getElementById('previousBtn');
+                                    const  nextBtn  =  document.getElementById('nextBtn');
+                                    const  finishBtn  =  document.getElementById('finishBtn');
+                                    const  content  =  document.getElementById('progress-content');
+                                    // const  bullets  =  [...document.querySelectorAll('.bullet')];
+                                    const prevpage = "{% if prevquestion > 0%} {{prevquestion}} {% endif %}".trim();
+                                    // let currentStep = {{question.id}};
+                                    const MAX_STEPS = 6;
+                                    
+                                    // for (var i=0; i<currentStep; i++) {
+                                    //    bullets[i].classList.add('completed');
+                                    // }
+                            
+                                    if ("{{question.lastQuestion}}" == "True") {
+                                        finishBtn.style.cursor = "pointer";
+                                        finishBtn.style.border = "2px solid #ff6a00";
+                                        finishBtn.style.color = "#ff6a00";
+                                        nextBtn.disabled  =  true;
+                                        finishBtn.disabled  =  false;
+                                    }
+                            
+                                    nextBtn.addEventListener('click',  ()  =>  {
+                                        //Get Selection
+                                        _sel = $("input[type='radio'][name='q{{question.id}}']:checked").data('next');
+                                        sel  = parseInt(_sel, 10);
+                                        if(typeof sel == 'number' && sel > 0){
+                                            url = "{% url 'ooh:questions' 0 %}".slice(0, -1)+sel;
+                                            document.getElementById("einsNiceForm").action = url
+                                            document.getElementById("einsNiceForm").submit();
+                                        }else{
+                                            console.log("Keine Auswahl getroffen oder keine Zahl hinterlegt");
+                                            alert("Keine Auswahl getroffen oder keine Zahl hinterlegt");
+                                        }
+                                        
+                                    });
+                            
+                            
+                                    previousBtn.addEventListener('click',  ()  =>  {
+                                        // bullets[currentStep  -  2].classList.remove('completed');
+                                        // currentStep  -=  1;
+                                        _sel = $("input[type='radio'][name='q{{question.id}}']:checked").data('next');
+                                        sel  = parseInt(_sel, 10);
+                                        if(typeof sel == 'number'){
+                                            url = "{% url 'ooh:questions' 0 %}".slice(0, -1)+prevpage;
+                                            document.getElementById("einsNiceForm").action = url
+                                            document.getElementById("einsNiceForm").submit();
+                                        }else{
+                                            console.log("Keine Auswahl getroffen oder keine Zahl hinterlegt");
+                                            alert("Keine Auswahl getroffen oder keine Zahl hinterlegt");
+                                        }
+                                        
+                                        // window.open(url+"", name="_self" );
+                                        
+                                    });
+                            
+                                    finishBtn.addEventListener('click',  ()  =>  {
+                                        if  (currentStep  ===  MAX_STEPS)  {
+                                            finishBtn.classList.add('finish-active');
+                                            // $(this).addClass("finish-active");
+                            
+                                            setTimeout(function(){
+                                                finishBtn.classList.add('finish-success');
+                                                // $(".finish-button").addClass("finish-success")
+                                            }, 3000);
+                            
+                                            setTimeout(function(){
+                                                finishBtn.classList.remove('finish-active');
+                                                // $(".finish-button").removeClass("finish-active");
+                                                finishBtn.classList.remove('finish-success');
+                                                // $(".finish-button").removeClass("finish-success");
+                                            }, 5000);
+                                            
+                                            // location.reload();   
+                                        }
+                                    });
+                                });
+                            </script>
                        </div>
                        <div class="profile-review tab">
                            <h4>User Review</h4>
