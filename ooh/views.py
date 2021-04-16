@@ -60,42 +60,15 @@ class index(generic.ListView):
         ).order_by('-num_fitting_location_categories', '-num_fitting_event_categories', 'starttime').distinct()
         # ).order_by('num_fitting_location_categories').distinct()
         
-        
+        #//TODO seems like the order function does stupid stuff. I think Schnitzeltag has to be before shot friday
         print("Found {0} matching lcategories and {1} matching ecategories".format(
             events1[0].num_fitting_location_categories, events1[0].num_fitting_event_categories))
-        
-        # matches = []
-        for ev in events1:
-            # First print how many matching categories were found
-            print("Event", ev.num_fitting_location_categories, " und ", ev.num_fitting_event_categories)
-            # matches.append(ev.num_fitting_location_categories+ev.num_fitting_event_categories)
-        # print(matches)
-        if events1.exists():
-           pass
-           
-        else:
-            print("There is nothing.")
-            # events2 = events1.filter
-
-        lcat_gen = LocationCategory.objects.filter(
-            choiceoption__userselection__user=self.request.user,
-            choiceoption__userselection__questionRun=self.request.user.currentQuestionRun,
-            choiceoption__userselection__valid=True,
-        )
-        ecat_gen = EventCategory.objects.filter(
-            choiceoption__userselection__user=self.request.user,
-            choiceoption__userselection__questionRun=self.request.user.currentQuestionRun,
-            choiceoption__userselection__valid=True,
-        )
-
-        events = Event.objects.filter(
-            Q(starttime__gte=datetime.date.today()) &
-            Q(eventTemplate__eventLocation__categories__in=lcat_gen) |
-            Q(starttime__gte=datetime.date.today()) &
-            Q(eventTemplate__eventCategory__in=ecat_gen)
-        ).order_by('starttime').distinct()
-        # print("[{0}] {1}".format(events.exists(), events.query))
-        return events
+                
+        # for ev in events1:
+        #     # First print how many matching categories were found
+        #     print("Event", ev.num_fitting_location_categories, " und ", ev.num_fitting_event_categories)
+       
+        return events1
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
