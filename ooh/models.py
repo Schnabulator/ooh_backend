@@ -20,13 +20,33 @@ class Location(models.Model):
 
 class LocationCategory(models.Model):
     name = models.CharField(max_length=100)
+    filter_name = models.CharField(max_length=100, blank=True, null=True)
     def __str__(self):
         return self.name
+    def save(self, *args, **kwargs):
+        if not self.filter_name:
+            self.filter_name = self.name.lower()
+        super(LocationCategory, self).save(*args, **kwargs)
+    def filterName(self, *args, **kwargs):
+        if self.filter_name:
+            return self.filter_name 
+        else: 
+            return self.name.lower()
 
 class EventCategory(models.Model):
     name = models.CharField(max_length=100)
+    filter_name = models.CharField(max_length=100, blank=True, null=True)
     def __str__(self):
         return self.name
+    def save(self, *args, **kwargs):
+        if not self.filter_name:
+            self.filter_name = self.name.lower()
+        super(EventCategory, self).save(*args, **kwargs)
+    def filterName(self, *args, **kwargs):
+        if self.filter_name:
+            return self.filter_name 
+        else: 
+            return self.name.lower()
 
 class EventLocation(models.Model):
     name	= models.CharField(max_length=100)
@@ -69,7 +89,7 @@ class EventLocation(models.Model):
 class OohUser(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "email"
     EMAIL_FIELD    = "email"
-    email    = models.EmailField(_('email address'),unique=True)
+    email    = models.EmailField(_('email address'), unique=True)
     firstname = models.CharField(max_length=100)
     lastname = models.CharField(max_length=100)
     birthday = models.DateField(null=True)
@@ -92,7 +112,7 @@ class EventTemplate(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     cost = models.IntegerField(default=0)
-    mininumage = models.PositiveSmallIntegerField()
+    mininumage = models.PositiveSmallIntegerField(default=0)
     eventCategory = models.ManyToManyField(EventCategory)
     eventLocation = models.ForeignKey(EventLocation, on_delete=models.CASCADE)
     organizer = models.ForeignKey(OohUser, on_delete=models.CASCADE)
@@ -161,9 +181,6 @@ class Event(models.Model):
             if eventDate >= todaysDate + datetime.timedelta(days=fridayoffset) and eventDate <= todaysDate + datetime.timedelta(days=sundayoffset):
                 return "nextweekend"
 
-        
-
-
 class Participate(models.Model):
     user = models.ForeignKey(OohUser, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
@@ -192,6 +209,7 @@ class Question(models.Model):
     name = models.CharField(max_length=100)
     firstQuestion = models.BooleanField(default=False)
     lastQuestion = models.BooleanField(default=False)
+    priority_in_filtering = models.IntegerField(default=1000)
     # prevQuestion = models.ForeignKey('self', on_delete=models.CASCADE, related_name='prevQuestion', blank=True, null=True)
     objects = models.Manager()
     def __str__(self):
@@ -200,11 +218,23 @@ class Question(models.Model):
 class ChoiceOption(models.Model):
     text = models.CharField(max_length=100)
     class_names = models.CharField(max_length=100, blank=True, null=True)
+    filter_name = models.CharField(max_length=100, blank=True, null=True)
     nextQuestion = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='nextQuestion', blank=True, null=True)
     prevQuestion = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='prevQuestion', blank=True, null=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='question')
+    related_event_category = models.ManyToManyField(EventCategory, blank=True)
+    related_location_category = models.ManyToManyField(LocationCategory, blank=True)
     def __str__(self):
         return self.text
+    def save(self, *args, **kwargs):
+        if not self.filter_name:
+            self.filter_name = self.text.lower()
+        super(ChoiceOption, self).save(*args, **kwargs)
+    def filterName(self, *args, **kwargs):
+        if self.filter_name:
+            return self.filter_name 
+        else: 
+            return self.text.lower()
 
 class UserSelection(models.Model):
     user = models.ForeignKey(OohUser, on_delete=models.CASCADE)
