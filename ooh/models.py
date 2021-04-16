@@ -20,13 +20,33 @@ class Location(models.Model):
 
 class LocationCategory(models.Model):
     name = models.CharField(max_length=100)
+    filter_name = models.CharField(max_length=100, blank=True, null=True)
     def __str__(self):
         return self.name
+    def save(self, *args, **kwargs):
+        if not self.filter_name:
+            self.filter_name = self.name.lower()
+        super(LocationCategory, self).save(*args, **kwargs)
+    def filterName(self, *args, **kwargs):
+        if self.filter_name:
+            return self.filter_name 
+        else: 
+            return self.name.lower()
 
 class EventCategory(models.Model):
     name = models.CharField(max_length=100)
+    filter_name = models.CharField(max_length=100, blank=True, null=True)
     def __str__(self):
         return self.name
+    def save(self, *args, **kwargs):
+        if not self.filter_name:
+            self.filter_name = self.name.lower()
+        super(EventCategory, self).save(*args, **kwargs)
+    def filterName(self, *args, **kwargs):
+        if self.filter_name:
+            return self.filter_name 
+        else: 
+            return self.name.lower()
 
 class EventLocation(models.Model):
     name	= models.CharField(max_length=100)
@@ -52,12 +72,12 @@ class EventLocation(models.Model):
         # return [3,1]
         rat = EventLocationRating.objects.get(eventlocationID=self.locationID.id)
         if len(rat) == 0:
-            print("No Ratings available")
+            # print("No Ratings available")
             return [0, 0]
         summedrating = 0
         for rating in rat:
             summedrating += rating.rating
-        print("Average rating: "+str(summedrating))
+        # print("Average rating: "+str(summedrating))
         return [summedrating/len(rat), len(rat)]
     def sameplz(self, plz):
         print("Called near method")
@@ -69,11 +89,12 @@ class EventLocation(models.Model):
 class OohUser(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "email"
     EMAIL_FIELD    = "email"
-    email    = models.EmailField(_('email address'),unique=True)
+    email    = models.EmailField(_('email address'), unique=True)
     firstname = models.CharField(max_length=100)
     lastname = models.CharField(max_length=100)
     birthday = models.DateField(null=True)
-    
+    currentQuestionRun = models.IntegerField(default=1)
+
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     last_login = models.DateTimeField(default=timezone.now)
@@ -91,7 +112,7 @@ class EventTemplate(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     cost = models.IntegerField(default=0)
-    mininumage = models.PositiveSmallIntegerField()
+    mininumage = models.PositiveSmallIntegerField(default=0)
     eventCategory = models.ManyToManyField(EventCategory)
     eventLocation = models.ForeignKey(EventLocation, on_delete=models.CASCADE)
     organizer = models.ForeignKey(OohUser, on_delete=models.CASCADE)
@@ -121,12 +142,12 @@ class EventTemplate(models.Model):
     def calculatedratings(self):
         rat = EventRating.objects.filter(eventTemplate=self.id)
         if len(rat) == 0:
-            print("No Ratings available")
+            # print("No Ratings available")
             return [0, 0]
         summedrating = 0
         for rating in rat:
             summedrating += rating.rating
-        print("Average rating: "+str(summedrating))
+        # print("Average rating: "+str(summedrating))
         return [(summedrating/len(rat)), len(rat)]
 
 class Event(models.Model):
@@ -141,7 +162,7 @@ class Event(models.Model):
         return self.eventTemplate.__str__() + " [{0}]".format(self.starttime)
     def timecheck(self):
         # //TODO evtl checken ob das auch über Zeitzonen hinweg funzt
-        todaysDate = date.today()
+        todaysDate = date.today() # + datetime.timedelta(days=1) #Wenn heute Freitag ist, stimmt Sonntag nicht
         eventDate = self.starttime.date()
         if todaysDate == eventDate:
             return "today"
@@ -159,9 +180,6 @@ class Event(models.Model):
             sundayoffset = weekday      # 7 - weekday + 7
             if eventDate >= todaysDate + datetime.timedelta(days=fridayoffset) and eventDate <= todaysDate + datetime.timedelta(days=sundayoffset):
                 return "nextweekend"
-
-        
-
 
 class Participate(models.Model):
     user = models.ForeignKey(OohUser, on_delete=models.CASCADE)
@@ -191,6 +209,7 @@ class Question(models.Model):
     name = models.CharField(max_length=100)
     firstQuestion = models.BooleanField(default=False)
     lastQuestion = models.BooleanField(default=False)
+    priority_in_filtering = models.IntegerField(default=1000)
     # prevQuestion = models.ForeignKey('self', on_delete=models.CASCADE, related_name='prevQuestion', blank=True, null=True)
     objects = models.Manager()
     def __str__(self):
@@ -199,8 +218,30 @@ class Question(models.Model):
 class ChoiceOption(models.Model):
     text = models.CharField(max_length=100)
     class_names = models.CharField(max_length=100, blank=True, null=True)
+    filter_name = models.CharField(max_length=100, blank=True, null=True)
     nextQuestion = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='nextQuestion', blank=True, null=True)
     prevQuestion = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='prevQuestion', blank=True, null=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='question')
+    related_event_category = models.ManyToManyField(EventCategory, blank=True)
+    related_location_category = models.ManyToManyField(LocationCategory, blank=True)
     def __str__(self):
         return self.text
+    def save(self, *args, **kwargs):
+        if not self.filter_name:
+            self.filter_name = self.text.lower()
+        super(ChoiceOption, self).save(*args, **kwargs)
+    def filterName(self, *args, **kwargs):
+        if self.filter_name:
+            return self.filter_name 
+        else: 
+            return self.text.lower()
+
+class UserSelection(models.Model):
+    user = models.ForeignKey(OohUser, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    selection = models.ForeignKey(ChoiceOption, on_delete=models.CASCADE)
+    valid = models.BooleanField(default=True)
+    questionRun = models.IntegerField(default=1)
+    timestamp = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return "{0}[{1}]: {2} - {3}".format(self.user, self.questionRun, self.question, self.selection)

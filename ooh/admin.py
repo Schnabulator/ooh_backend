@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import OohUserCreationForm, OohUserChangeForm
-from .models import Location, EventLocation, Event, OohUser, Participate, EventRating, EventLocationRating, EventCategory, LocationCategory, EventTemplate, Question, ChoiceOption
+from .models import Location, EventLocation, Event, OohUser, Participate, EventRating, EventLocationRating, EventCategory, LocationCategory, EventTemplate, Question, ChoiceOption, UserSelection
 
 class CustomUserAdmin(UserAdmin):
     add_form = OohUserCreationForm
@@ -44,7 +44,7 @@ class ChoiceInline(admin.StackedInline):
 class QuestionAdmin(admin.ModelAdmin):
     readonly_fields=('id',)
     fieldsets = [
-        (None,               {'fields': ['name', 'firstQuestion', 'lastQuestion']}),
+        (None,               {'fields': ['name', 'firstQuestion', 'lastQuestion', 'priority_in_filtering']}),
         
     ]
     inlines = [ChoiceInline]
@@ -61,3 +61,4 @@ admin.site.register(EventCategory)
 admin.site.register(LocationCategory)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(ChoiceOption)
+admin.site.register(UserSelection)

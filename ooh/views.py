@@ -2,10 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views import generic
 from django.template import Context
-from .models import Location, EventLocation, Event, OohUser, Participate, Question, ChoiceOption
+from .models import Location, EventLocation, Event, OohUser, Participate, Question, ChoiceOption, UserSelection, EventCategory, LocationCategory
 from .forms import UserLoginForm, RegLoginSwitch, OohUserCreationForm, UserLocation
 from django.contrib.auth import authenticate, login
-from django.db.models import Q
+from django.db.models import Q, Count, Sum
 
 
 from django.contrib.auth import get_user_model
@@ -16,14 +16,6 @@ from django.utils.decorators import method_decorator
 import datetime
 
 User = get_user_model()
-# Create your views here.
-
-
-
-# def index(request):
-#     # return HttpResponse("Bämski Index.")
-#     context = {"body_id": "b_home"} #, "user": User}
-#     return render(request, 'ooh/index.html', context=context)
 
 class index(generic.ListView):
     model = Event
@@ -31,7 +23,52 @@ class index(generic.ListView):
     context_object_name = 'recommended_events'
     def get_queryset(self):
         # //TODO filter from user has to be set here!
-        return Event.objects.filter(Q(starttime__gte=datetime.date.today())).order_by('starttime')
+        # User filter
+        if not self.request.user.is_authenticated:
+            return None
+        # Evaluation order needed!
+
+        lcat = LocationCategory.objects.filter(
+            choiceoption__userselection__user=self.request.user,
+            choiceoption__userselection__questionRun=self.request.user.currentQuestionRun,
+            choiceoption__userselection__valid=True,
+            # choiceoption__question__firstQuestion=True
+        ).order_by('choiceoption__question__priority_in_filtering').distinct()
+        ecat = EventCategory.objects.filter(
+            choiceoption__userselection__user=self.request.user,
+            choiceoption__userselection__questionRun=self.request.user.currentQuestionRun,
+            choiceoption__userselection__valid=True,
+            # choiceoption__question__firstQuestion=True
+        ).order_by('choiceoption__question__priority_in_filtering').distinct()
+        print(lcat.exists(), "|", ecat.exists())
+        for l in lcat:
+            print("Location:", l)
+        for e in ecat:
+            print("Event:", e)
+
+        
+        
+        events1 = Event.objects.filter(
+            Q(starttime__gte=datetime.date.today()) &
+            Q(eventTemplate__eventLocation__categories__in=lcat) |
+            Q(starttime__gte=datetime.date.today()) &
+            Q(eventTemplate__eventCategory__in=ecat)
+        ).annotate(
+            num_fitting_location_categories=Count('eventTemplate__eventLocation__categories')
+        ).annotate(
+            num_fitting_event_categories=Count('eventTemplate__eventCategory')
+        ).order_by('-num_fitting_location_categories', '-num_fitting_event_categories', 'starttime').distinct()
+        # ).order_by('num_fitting_location_categories').distinct()
+        
+        #//TODO seems like the order function does stupid stuff. I think Schnitzeltag has to be before shot friday
+        print("Found {0} matching lcategories and {1} matching ecategories".format(
+            events1[0].num_fitting_location_categories, events1[0].num_fitting_event_categories))
+                
+        # for ev in events1:
+        #     # First print how many matching categories were found
+        #     print("Event", ev.num_fitting_location_categories, " und ", ev.num_fitting_event_categories)
+       
+        return events1
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
@@ -39,26 +76,88 @@ class index(generic.ListView):
         context["body_id"] = "b_home"
         return context
 
+# @userloginrequired
+def questionFinish(request):
+    # if request.method != "POST":
+    #     pass #404 oder so
+    # else:
+    # if request.user.is_authenticated:
+    #     request.user.questionRun = request.user.questionRun + 1
+    #     request.user.save()
+    context = {"body_id": "b_content"} 
+    return render(request, 'ooh/questionend.html', context=context)
+
 def question(request, question_id):
     # return HttpResponse("Bämski Index.")
     if question_id is None or question_id < 0:
         question_id = 1
-    question = get_object_or_404(Question, pk=question_id) #Question.objects.get(pk=question_id)
-    # choices = ChoiceOption.objects.quer
-    print(question.name) #, question.FirstQuestion, question.LastQuestion)
+    question = get_object_or_404(Question, pk=question_id) 
+    choice = -1
     _pq = question.question.all().first().prevQuestion
     # print("PrevQUestion:", pq)
     if _pq is not None:
         pq = _pq.id
     else:
-        pq = -1
-    context = {"body_id": "b_content", "question": question, "curquestionkey": "q{0}".format(question_id), "prevquestion":  pq} 
+        pq = question_id
+    if request.user.is_authenticated:
+        user = request.user
+        questionrun = user.currentQuestionRun
+        print("Got User and questionrun")
+        cquestion = Question.objects.get(pk=question_id)
+        try:
+            ans = UserSelection.objects.get(user=user, question=cquestion, questionRun=questionrun)
+            choice = ans.selection.id
+            print("Choice is", choice)
+        except UserSelection.DoesNotExist:
+            choice = -1
+            print("Choice notfound ", choice)
+    else:
+        print("No user")
+        pass
+    if request.method == 'POST':
+        # If currentquestion is the last one, save answer if provided
+        if question.lastQuestion:
+            sel = request.POST.get('q{0}'.format(question_id))
+            if sel is not None and len(sel) > 0:
+                print("Got selection for currentquestion")
+                cselection = ChoiceOption.objects.get(pk=sel)
+                try:
+                    ans = UserSelection.objects.get(user=user, question=question, questionRun=questionrun)
+                    ans.selection = cselection
+                    ans.save()
+                    print("Found Userselection and overwrite it")
+                except UserSelection.DoesNotExist:
+                    ans = UserSelection(user=user, question=question, selection=cselection, questionRun=questionrun)
+                    ans.save()
+                    print("Found no Userselection and created it")
+                print(ans)
+                ans.save()
+        if pq > 0:
+            sel = request.POST.get('q{0}'.format(pq))
+            print("PQ:{0}, PQS: {1}".format(pq, sel))
+            
+            pquestion = Question.objects.get(pk=pq)
+            pselection = ChoiceOption.objects.get(pk=sel)
+            try:
+                ans = UserSelection.objects.get(user=user, question=pquestion, questionRun=questionrun)
+                ans.selection = pselection
+                ans.save()
+                print("Found Userselection and overwrite it")
+            except UserSelection.DoesNotExist:
+                ans = UserSelection(user=user, question=pquestion, selection=pselection, questionRun=questionrun)
+                ans.save()
+                print("Found no Userselection and created it")
+            print(ans)
+            ans.save()
+        else:
+            print("No prev Q ")
+    else:
+        print("No POST Method")
+    # selection = UserSelection.objects.get(user=user, question=pquestion, questionRun=questionrun)
+    context = {"body_id": "b_content", "question": question, "curquestionkey": "q{0}".format(question_id), "prevquestion":  pq, "checkeditem": choice} 
     return render(request, 'ooh/fragen.html', context=context)
 
-# class Question(generic.DetailView):
-#     template_name="ooh/fragen.html"
-#     model = Question
-#     context_object_name = "question"
+
 
 class UserLogoutView(LogoutView):
     template_name = 'ooh/logout.html'
@@ -100,19 +199,6 @@ class UserLoginView(LoginView, ProcessFormView):
                     us.save()
                     return JsonResponse({'success': 'Registrierung war erfolgreich.'})
 
-                    # Cant Login user when he must confirm his email in future!
-                    # email = form.cleaned_data.get('email')
-                    # pw = form.cleaned_data.get('password1')
-                    # user = authenticate(request,username=email,password=pw)
-                    # if user is not None:
-                    #     # login(request)
-                    #     login(request, user)
-                    #     print("Successful logged in and registered "+ user.email)
-                    #     # return redirect('index')
-                    #     return JsonResponse({'success': 'Registrierung war erfolgreich.'})
-                    # else:
-                    #     print("Hm.... user is None!")
-                    #     return JsonResponse({'error': 'Login erfolglos.'})
                 else:
                     print("ELSE")
                     print(form.errors)

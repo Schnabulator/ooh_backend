@@ -18,8 +18,8 @@
         
         {% for choice in question.question.all %}
             <label class="custom-radio">
-                <input type="radio" name="q{{question.id}}" value="{{ choice.id }}" data-next="{{choice.nextQuestion.id}}" 
-                    data-prev="{{choice.lastQuestion.id}}" required {% if request.POST.curquestionkey == choice.id %} checked {% endif %}/>
+                <input type="radio" name="q{{question.id}}" value="{{ choice.id }}" data-next="{% if choice.nextQuestion %}{{choice.nextQuestion.id}}{%else%}{{question.id}}{%endif%}" 
+                     required {% if checkeditem == choice.id %} checked {% endif %}/>
                 <span class="radio-btn">
                     <i class="fas fa-check"></i>
                     <div class="hobbies-icon">
@@ -36,13 +36,13 @@
             <div id="progress-main">
                 <!-- <p id="progress-content"  class="text-center">Step Number 1</p> -->
                 <div class="">
-                    <button class="progress-button" id="previousBtn" {% if prevquestion <= 0  %} disabled {% endif %}><span>Previous</span></button>
+                    <button class="progress-button" id="previousBtn" ><span>Previous</span></button>
                 </div>
                 <div>
-                    <button class="progress-button" id="nextBtn" {% if question.lastQuestion is True %} disabled {% endif %}><span>Next</span></button>
+                    <button class="progress-button" id="nextBtn" ><span>Next</span></button>
                 </div>
                 <div>
-                    <button class="finish-button" id="finishBtn" {% if question.lastQuestion is False %} disabled {% endif %}>Finish</button>
+                    <button class="finish-button" id="finishBtn" >Finish</button>
                 </div>
             </div>
            
@@ -58,21 +58,11 @@
         const  finishBtn  =  document.getElementById('finishBtn');
         const  content  =  document.getElementById('progress-content');
         // const  bullets  =  [...document.querySelectorAll('.bullet')];
-        const prevpage = "{% if prevquestion > 0%} {{prevquestion}} {% endif %}".trim();
+        const prevpage = {% if prevquestion > 0 %} "{{prevquestion}}"; {% else %} "{{question}}";{% endif %}
         // let currentStep = {{question.id}};
         const MAX_STEPS = 6;
         
-        // for (var i=0; i<currentStep; i++) {
-        //    bullets[i].classList.add('completed');
-        // }
-
-        if ("{{question.lastQuestion}}" == "True") {
-            finishBtn.style.cursor = "pointer";
-            finishBtn.style.border = "2px solid #ff6a00";
-            finishBtn.style.color = "#ff6a00";
-            nextBtn.disabled  =  true;
-            finishBtn.disabled  =  false;
-        }
+        
 
         nextBtn.addEventListener('click',  ()  =>  {
             //Get Selection
@@ -80,7 +70,7 @@
             sel  = parseInt(_sel, 10);
             if(typeof sel == 'number' && sel > 0){
                 url = "{% url 'ooh:questions' 0 %}".slice(0, -1)+sel;
-                document.getElementById("einsNiceForm").action = url
+                document.getElementById("einsNiceForm").action = url;
                 document.getElementById("einsNiceForm").submit();
             }else{
                 console.log("Keine Auswahl getroffen oder keine Zahl hinterlegt");
@@ -91,13 +81,11 @@
 
 
         previousBtn.addEventListener('click',  ()  =>  {
-            // bullets[currentStep  -  2].classList.remove('completed');
-            // currentStep  -=  1;
-            _sel = $("input[type='radio'][name='q{{question.id}}']:checked").data('next');
+            _sel = $("input[type='radio'][name='q{{question.id}}']:checked").data('prev');
             sel  = parseInt(_sel, 10);
             if(typeof sel == 'number'){
                 url = "{% url 'ooh:questions' 0 %}".slice(0, -1)+prevpage;
-                document.getElementById("einsNiceForm").action = url
+                document.getElementById("einsNiceForm").action = url;
                 document.getElementById("einsNiceForm").submit();
             }else{
                 console.log("Keine Auswahl getroffen oder keine Zahl hinterlegt");
@@ -107,9 +95,15 @@
             // window.open(url+"", name="_self" );
             
         });
-
+        {% if question.lastQuestion %}
+        finishBtn.style.cursor = "pointer";
+        finishBtn.style.border = "2px solid #ff6a00";
+        finishBtn.style.color = "#ff6a00";
+        // nextBtn.disabled  =  true;
+        // finishBtn.disabled  =  false;
         finishBtn.addEventListener('click',  ()  =>  {
-            if  (currentStep  ===  MAX_STEPS)  {
+            // if  ({{question.lastQuestion|lower}})  {
+                
                 finishBtn.classList.add('finish-active');
                 // $(this).addClass("finish-active");
 
@@ -124,10 +118,14 @@
                     finishBtn.classList.remove('finish-success');
                     // $(".finish-button").removeClass("finish-success");
                 }, 5000);
-                
+                url = "{% url 'ooh:questionFinish'  %}";
+                document.getElementById("einsNiceForm").action = url;
+                document.getElementById("einsNiceForm").submit();
                 // location.reload();   
-            }
+            // }
         });
+        {% endif %}
+        
     });
 </script>
 

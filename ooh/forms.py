@@ -40,3 +40,5 @@ class UserLocation(forms.Form):
     cityname = forms.CharField(required=True)
     street = forms.CharField(required=True)
     housenumber = forms.IntegerField()
+
+# //TODO create form for question and answer validation kaka
