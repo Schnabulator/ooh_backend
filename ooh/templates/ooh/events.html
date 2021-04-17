@@ -34,10 +34,6 @@
                         <div>
                                 <h1>{{ev.eventTemplate.name}}</h1>
                                 <h3>{{ev.eventTemplate.eventLocation}}</h3>
-                                <!-- 		<span class="hint new">New</span> -->
-                                <!-- 		<span class="hint free-shipping">Free Shipping</span> -->
-                                <!-- 		the Product rating -->
-                                <!-- {{ev.calculatedratings}} -->
                                 <span class="hint-star star">
                                     <!-- <div style="display: flex; flex-direction: row;"> -->
                                         <i class="fa fa-star {% if ev.eventTemplate.calculatedratings.0 > 0.5 %} checked {%endif%}"></i>
@@ -46,12 +42,6 @@
                                         <i class="fa fa-star {% if ev.eventTemplate.calculatedratings.0 >= 3.5 %} checked {%endif%}"></i>
                                         <i class="fa fa-star {% if ev.eventTemplate.calculatedratings.0 >= 4.5 %} checked {%endif%}"></i>
                                         <i>({{ev.eventTemplate.calculatedratings.1}})</i>
-                                    <!-- </div> -->
-                                    <!-- <i class="fa fa-star checked"></i>
-                                    <i class="fa fa-star checked"></i>
-                                    <i class="fa fa-star checked"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i> -->
                                 </span>
 
                         </div>     
@@ -79,7 +69,14 @@
                         
                     <div class="product-image">
                         {# //TODO add location photos #}
-                        <img src="{% static 'ooh/img/locations/dummy.jpg' %}" alt="Omar Dsoky">
+                        
+                        {% if ev.eventTemplate.picture %}
+                            <img src="{{ ev.eventTemplate.picture.url }}" alt="Omar Dsoky">
+                        {% elif ev.eventTemplate.eventLocation.picture %}    
+                            <img src="{{ ev.eventTemplate.eventLocation.picture.url }}" alt="Omar Dsoky">
+                        {% else %}
+                            <img src="{% static 'ooh/img/locations/dummy.jpg' %}" alt="Omar Dsoky">
+                        {% endif %}
                         <!-- 	product Information seen when hovering over picture-->
                         <div class="info">
                             <p></p>
