@@ -50,7 +50,7 @@
                         <!-- The most important information about the product -->
                         {#Das steht in der Desktop view links#}
                         {#//TODO das muss auf x zeichen beschränkt werden!#}
-                        <p class="information">{{ev.starttime|date:"d.m.Y H:i"}}</p>
+                        <!-- <p class="information">{{ev.starttime|date:"d.m.Y H:i"}}</p> -->
                         <p class="information">{{ev.eventTemplate.description}}</p>
 
                             <!-- 		Control -->
@@ -78,11 +78,12 @@
                         {% endif %}
                         <!-- 	product Information seen when hovering over picture-->
                         <div class="info">
-                            <p></p>
-                            <h4>Veranstaltungsort</h4>
-                            <p>{{ev.eventTemplate.eventLocation}}</p>
-                            <p>Street: {{ev.eventTemplate.eventLocation.street}} {{ev.eventTemplate.eventLocation.housenumber}}</p>
-                            <p>{{ev.eventTemplate.eventLocation.location}}</p>
+                            <h4>Wo?</h4>
+                            <p>{{ev.eventTemplate.eventLocation}}<br/>
+                            Street: {{ev.eventTemplate.eventLocation.street}} {{ev.eventTemplate.eventLocation.housenumber}}<br/>
+                            {{ev.eventTemplate.eventLocation.location}}</p>
+                            <h4>Wann?</h4>
+                            <p>{{ev.starttime|date:"d.m.Y H:i"}}</p>
                         </div>
                     </div> <!-- End Product image -->
                 </div> <!-- End Container -->
