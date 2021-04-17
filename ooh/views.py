@@ -86,7 +86,6 @@ def questionFinish(request):
     return render(request, 'ooh/questionend.html', context=context)
 
 def question(request, question_id):
-    # return HttpResponse("Bämski Index.")
     if question_id is None or question_id < 0:
         question_id = 1
     question = get_object_or_404(Question, pk=question_id) 
@@ -277,3 +276,13 @@ class UserProfile(generic.DetailView):
             pass
         context = {"body_id": "b_content"} 
         return render(self.request, template_name=self.template_name, context=context)
+
+def impressum(request):
+    template_name = 'ooh/impressum.html'
+    context = {"body_id": "b_content"} 
+    return render(request, template_name=template_name, context=context)
+
+def newsletter(request):
+    template_name = 'ooh/newsletter.html'
+    context = {"body_id": "b_content"} 
+    return render(request, template_name=template_name, context=context)

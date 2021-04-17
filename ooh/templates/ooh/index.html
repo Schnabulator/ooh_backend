@@ -74,10 +74,10 @@
                             <li class="placeholder"> 
                                 <a data-type="all" class="cd-a" href="#0">Alle Events</a> <!-- selected option on mobile -->
                             </li> 
-                            <li class="filter"><a class="selected" href="#0" data-type="all">Alle Events</a></li>
-                            <li class="filter" data-filter=".today"><a href="#0" class="cd-a" data-type="today">Heute</a></li>
-                            <li class="filter" data-filter=".tomorrow"><a href="#0" class="cd-a" data-type="tomorrow">Morgen</a></li>
-                            <li class="filter" data-filter=".nextweekend"><a href="#0" class="cd-a" data-type="nextweekend">Nächstes Wochenende</a></li>
+                            <!-- <li class="filter"><a class="selected" href="#0" data-type="all">Alle Events</a></li> -->
+                            <li class="filter" data-filter=".today"><a href="#0" class="cd-a"       id="today" data-type="today">Heute</a></li>
+                            <li class="filter" data-filter=".tomorrow"><a href="#0" class="cd-a"    id="tomorrow" data-type="tomorrow">Morgen</a></li>
+                            <li class="filter" data-filter=".nextweekend"><a href="#0" class="cd-a" id="nextweekend" data-type="nextweekend">Nächstes Wochenende</a></li>
                         </ul> <!-- cd-filters -->
                     </div> <!-- cd-tab-filter -->
                 </div> <!-- cd-tab-filter-wrapper -->
@@ -138,8 +138,13 @@
                                 </div> <!-- Ende Product details -->
                                     
                                 <div class="product-image">
-                                    {# //TODO add location photos #}
-                                    <img src="{% static 'ooh/img/locations/dummy.jpg' %}" alt="Omar Dsoky">
+                                    {% if ev.eventTemplate.picture %}
+                                        <img src="{{ ev.eventTemplate.picture.url }}" alt="Omar Dsoky">
+                                    {% elif ev.eventTemplate.eventLocation.picture %}    
+                                        <img src="{{ ev.eventTemplate.eventLocation.picture.url }}" alt="Omar Dsoky">
+                                    {% else %}
+                                        <img src="{% static 'ooh/img/locations/dummy.jpg' %}" alt="Omar Dsoky">
+                                    {% endif %}
                                     <!-- 	product Information seen when hovering over picture-->
                                     <div class="info">
                                         <p></p>
@@ -285,6 +290,7 @@
                             }
                         }, 200 );
                     });
+                    $("#today").click();
                 });
             
                 /*****************************************************
@@ -370,6 +376,7 @@
                         }
                     }
             };
+
             </script>
             <script type=text/javascript src="{%static 'ooh/js/jquery.mixitup.js'%}"></script>
             <!-- <div id="googleMap" style="width:100%;height:400px;"></div> -->

@@ -15,5 +15,7 @@ urlpatterns = [
     path('profile/', views.UserProfile.as_view(), name='profile'),
     path('questions/<int:question_id>', views.question, name='questions'),
     path('questions/finish', views.questionFinish, name='questionFinish'),
+    path('impressum/', views.impressum, name='impressum'),
+    path('newsletter/', views.newsletter, name='newsletter'),
     # path('profile/register', views.RegisterView.as_view(), name='register'),
 ]

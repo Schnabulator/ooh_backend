@@ -57,21 +57,24 @@
                 <li  class="{% if request.path == '/locations/' %} aktiv  {% endif %}"><a href="{% url 'ooh:locations' %}"><span>Locations</span></a></li>
                 <li  class="{% if '/questions/' in request.path   %} aktiv  {% endif %}"><a href="{% url 'ooh:questions' 1 %}"><span>Fragekatalog</span></a></li>
                 {% if user.is_authenticated %}
-                <li id="" class="{% if request.path == '/profile/' %} aktiv {%endif%}">
-                        <a href="{% url 'ooh:profile' %} "><span>
-                            Benutzerkonto
-                            {#Logout {{ user.firstname }}#}
-                        </span></a>
-                    {% else %}
+                    <li id="" class="{% if request.path == '/profile/' %} aktiv {%endif%}">
+                        <a href="{% url 'ooh:profile' %} ">
+                            <span> Benutzerkonto </span>
+                        </a>
+                    </li>
+                    <li id="" class="{%comment%}{% if request.path == '/profile/' %} aktiv {%endif%}{%endcomment%}">
+                        <a href="{% url 'ooh:logout' %} ">
+                            <span> Logout  </span>
+                        </a>
+                    </li>
+                {% else %}
                 <li id="" class="{% if request.path == '/profile/login' %} aktiv {%endif%}">
-                    <a href="{% url 'ooh:login' %}"><span>
-                        Login
-                        </span></a>
-                    {% endif %}
-                </li>                
-                {# //TODO Navbar aktualisieren #}
-                
-                <li id="" class="fnav"><a href="http://localhost/impressum.html"><span>Impressum</span></a></li><li id="" class="fnav"><a href="http://localhost/kontakt.html"><span>Kontakt</span></a></li><li id="" class="fnav"><a href="http://localhost/newsletter.html"><span>Newsletter</span></a></li></ul>
+                    <a href="{% url 'ooh:login' %}">
+                        <span> Login </span>
+                    </a>
+                </li>
+                {% endif %}
+                <!-- <li id="" class="fnav"><a href="http://localhost/impressum.html"><span>Impressum</span></a></li><li id="" class="fnav"><a href="http://localhost/kontakt.html"><span>Kontakt</span></a></li><li id="" class="fnav"><a href="http://localhost/newsletter.html"><span>Newsletter</span></a></li></ul> -->
         </div>
     </nav>
     
@@ -83,23 +86,23 @@
         <div class="inner">
             <p class="copyright navlist" id="copyright">&copy; OutOfHome </p>
             <ul class="navlist" id="nav_social">
-                <li id="n_facebook"><a href="https://www.facebook.com/" target="_blank"><span>Facebook</span></a></li>
-                <li id="n_twitter"><a href="https://www.twitter.com/" target="_blank"><span>Twitter</span></a></li>
-                <li id="n_youtube"><a href="https://www.youtube.com/" target="_blank"><span>YouTube</span></a></li>
-                <li id="n_xing"><a href="https://www.xing.com/" target="_blank"><span>Xing</span></a></li>
-                <li id="n_linkedin"><a href="https://de.linkedin.com/" target="_blank"><span>LinkedIn</span></a></li>
-                <li id="n_instagram"><a href="https://www.instagram.com/" target="_blank"><span>Instagram</span></a></li>
+                <li id="n_facebook"><a href="https://www.facebook.com/" rel="noopener" target="_blank"><span>Facebook</span></a></li>
+                <li id="n_twitter"><a href="https://www.twitter.com/" rel="noopener" target="_blank"><span>Twitter</span></a></li>
+                <li id="n_youtube"><a href="https://www.youtube.com/" rel="noopener" target="_blank"><span>YouTube</span></a></li>
+                <li id="n_xing"><a href="https://www.xing.com/" rel="noopener" target="_blank"><span>Xing</span></a></li>
+                <li id="n_linkedin"><a href="https://de.linkedin.com/" rel="noopener" target="_blank"><span>LinkedIn</span></a></li>
+                <li id="n_instagram"><a href="https://www.instagram.com/" rel="noopener" target="_blank"><span>Instagram</span></a></li>
             </ul>
             <ul class="navlist opt">
-                <li><a href="impressum.html"><span>Impressum</span></a></li> 
-                <li><a href="newsletter.html"><span>Newsletter</span></a></li>
+                <li><a href="{% url 'ooh:impressum' %}"><span>Impressum</span></a></li> 
+                <li><a href="{% url 'ooh:newsletter' %}"><span>Newsletter</span></a></li>
             </ul>
         </div>
     </footer>
     
     <div id="cookieConsent">
         <div id="closeCookieConsent">x</div>
-        Diese Website benutzt Cookies. Falls Sie mehr zum Thema Cookies erfahren wollen, dann klicken Sie hier: <a href="https://de.wikipedia.org/wiki/HTTP-Cookie" target="_blank">Was sind Cookies?</a>
+        Diese Website benutzt Cookies. Falls Sie mehr zum Thema Cookies erfahren wollen, dann klicken Sie hier: <a href="https://de.wikipedia.org/wiki/HTTP-Cookie" rel="noopener" target="_blank">Was sind Cookies?</a>
         <a class="cookieConsentOK" onclick="document.cookie = 'cookiesaccepted=1;path=/;'">Nicht nochmal anzeigen</a>
         <script type="text/javascript">
     
