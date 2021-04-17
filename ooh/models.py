@@ -56,7 +56,7 @@ class EventLocation(models.Model):
     room	= models.CharField(max_length=100, blank=True)
     description = models.TextField(blank=True)
     categories = models.ManyToManyField(LocationCategory)
-    picture = models.ImageField(blank=True, null=True) #//TODO
+    picture = models.ImageField(blank=True, null=True, upload_to='locations/%Y/%m')
     pricecat = models.IntegerField(default=0) # the higher the more expensive (0=nonrated)
     
     def getCategories(self):
@@ -117,7 +117,7 @@ class EventTemplate(models.Model):
     eventLocation = models.ForeignKey(EventLocation, on_delete=models.CASCADE)
     organizer = models.ForeignKey(OohUser, on_delete=models.CASCADE)
     pricecat = models.IntegerField(default=0) # the higher the more expensive (0=nonrated)
-    picture = models.ImageField(blank=True, null=True) #//TODO
+    picture = models.ImageField(blank=True, null=True, upload_to='events/%Y/%m')
     # //TODO periodically running functions to calculate rating
     def __str__(self):
         return self.name + " @{0}".format(self.eventLocation)

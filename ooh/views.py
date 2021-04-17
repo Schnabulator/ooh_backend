@@ -45,8 +45,6 @@ class index(generic.ListView):
             print("Location:", l)
         for e in ecat:
             print("Event:", e)
-
-        
         
         events1 = Event.objects.filter(
             Q(starttime__gte=datetime.date.today()) &
