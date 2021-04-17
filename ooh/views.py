@@ -181,13 +181,15 @@ class UserLoginView(LoginView, ProcessFormView):
                 form = OohUserCreationForm(request.POST)
                 if form.is_valid():
                     print("Valid form")
-                    # print(request.POST)
-                    
-                    # plz = form.cleaned_data['plz']
-                    # cityname = form.cleaned_data['cityname']
                     plz = request.POST['plz']
                     cityname = request.POST['cityname']
-                    location = Location.objects.get(plz=plz, cityname=cityname)
+                    try:
+                        # cityname does not need to be exact match
+                        location = Location.objects.get(plz=plz, cityname__icontains=cityname) 
+                    except Location.DoesNotExist:
+                        return JsonResponse({'error': 'Keinen Ort gefunden.', 'where': 'adress'})
+                    except Location.MultipleObjectsReturned:
+                        return JsonResponse({'error': 'Mehrere Ort gefunden.', 'where': 'adress'})
                     # print(location)
                     form.save()
                     # get User back to save location
@@ -195,7 +197,6 @@ class UserLoginView(LoginView, ProcessFormView):
                     us.location = location
                     us.save()
                     return JsonResponse({'success': 'Registrierung war erfolgreich.'})
-
                 else:
                     print("ELSE")
                     print(form.errors)

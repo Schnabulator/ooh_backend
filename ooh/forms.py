@@ -10,7 +10,6 @@ class OohUserCreationForm(UserCreationForm):
         # All fields, that have to be saved --> update for location! //TODO
         fields = ('email', 'firstname', 'lastname', 'birthday', 'street', 'housenumber')
 
-
 class OohUserChangeForm(UserChangeForm):
     class Meta:
         model = OohUser
@@ -24,16 +23,6 @@ class UserLoginForm(forms.Form):
     email = forms.EmailField()
     password1 = forms.CharField(max_length=32, widget=forms.PasswordInput)
 
-# class UserRegisterForm(UserCreationForm):
-#     firstname = forms.CharField(required=False)
-#     lastname =  forms.CharField(required=False)
-#     email = forms.EmailField()
-#     password = forms.CharField(max_length=32, widget=forms.PasswordInput)
-#     plz  = forms.CharField(required=True)
-#     cityname = forms.CharField(required=True)
-#     street = forms.CharField(required=True)
-#     housenumber = forms.IntegerField()
-
 class UserLocation(forms.Form):
     data = forms.CharField(required=True)
     plz  = forms.CharField(required=True)
@@ -42,3 +31,4 @@ class UserLocation(forms.Form):
     housenumber = forms.IntegerField()
 
 # //TODO create form for question and answer validation kaka
+
