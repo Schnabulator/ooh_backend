@@ -604,13 +604,14 @@ footer{
     .product-image img{
         object-fit: cover;
     }
-    .info{
+    /* Daten sollen angezeigt werden, wenn man drauf dappst */
+    /* .info{
         display: none;
     }
     .product-image:hover img {
         transition: none;
         transform: none;
-    }
+    } */
     /*
             Ende Angebot
     ***********************************************/
