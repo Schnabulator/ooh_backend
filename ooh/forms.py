@@ -2,7 +2,7 @@ from django import forms
 
 
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import OohUser
+from .models import OohUser, EventCategory
 
 class OohUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm):
@@ -29,6 +29,26 @@ class UserLocation(forms.Form):
     cityname = forms.CharField(required=True)
     street = forms.CharField(required=True)
     housenumber = forms.IntegerField()
+
+class AddEvent(forms.Form):
+    # Location 
+    locationName = forms.CharField(required=True)
+    cityname = forms.CharField(required=True)
+    plz = forms.CharField(required=True, max_length=10)
+    street = forms.CharField(required=True)
+    housenumber = forms.CharField(required=True, max_length=10)
+    room = forms.CharField(required=False)
+
+    # Event itself
+    desciption = forms.CharField(required=True)
+    picture = forms.ImageField()
+    pricecat = forms.IntegerField()
+    # //TODO Categories maybe as commaseperated values (ala Tags)
+    # categories = forms.ModelMultipleChoiceField(queryset=EventCategory.objects.all(), widget=forms.CheckboxSelectMultiple)
+
+class ParticipateForm(forms.Form):
+    eventID = forms.IntegerField(required=True)
+    probability = forms.IntegerField(required=False)
 
 # //TODO create form for question and answer validation kaka
 
