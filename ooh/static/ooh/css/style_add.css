@@ -417,102 +417,7 @@ footer{
 
 
 @media (max-width: 1000px) {
-
-    #content div#sc_aw-einstiege ul#bereiche li{
-        font-size: 1em;
-        line-height: 1.5em;
-
-        float: left;
-        display: inline-block;
-        width: calc(50% + 4px);
-        height: 200px;
-        margin: -2px;
-        transition: 0.3s;
-    }
-    #content div#sc_aw-einstiege ul#bereiche li:nth-child(2n-1){
-        clear: left;
-    }
-    #content div#sc_aw-einstiege ul#bereiche li:hover{
-        margin-top: -12px;
-        margin-bottom: -12px;
-        height: 220px;
-    }
-
-    #content div#sc_aw-einstiege ul#bereiche li>a{
-        display: block;
-        height: 100%;
-        padding: 1.5em 10%;
-        border: 4px solid #ffffff;
-
-    }
-
-    #content div#sc_aw-einstiege ul#bereiche li>a::after{
-        content:"";
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        width: 40px;
-        height: 40px;
-        margin: 50px 30px 30px 0;
-        border-radius: 4px;
-        background: #ff6a00 url('../img-dsg/fa/chevron-right_ws.svg') no-repeat 50% center;
-        background-size: auto 18px;
-        transition: right 1s;
-    }
-
-    #content div#sc_aw-einstiege ul#bereiche li>a:hover{
-        text-decoration: none;
-        z-index: 10;
-        box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
-        transform-origin: center bottom;
-        margin: 0 -5%;
-        padding-left: 15%;
-        padding-right: 15%;
-        border-radius: 4px;
-    }
-
-    #content div#sc_aw-einstiege ul#bereiche li>a:hover::after{
-        right: 4.5%;
-        background-color: #ffffff;
-        background-image: url('../img-dsg/fa/chevron-right_gn.svg')
-    }
-
-
-    #content div#sc_aw-einstiege ul#bereiche li>a>.bild::after{
-        height: 70%;
-    }
-
-
-
-    .mgl_logo {
-        width: 100%;
-        max-width: 250px;
-    }
-    .mgl_logo img{
-        max-height: 100px;
-    }
-
-    .mgl_datenblock,
-    .mgl_textblock{
-        clear: both;
-        float: none;
-        display: block;
-        width: auto;
-    }
-
-    .mgl_datenblock{
-        margin-bottom: 3em;
-    }
-
-    .mgl_datenblock .bild{
-        max-width: 315px;
-        float: right;
-        display: inline-block;
-        margin: 0 0 4px 1em;
-        height: auto;
-        padding: 0;
-    }
-
+    
     /*
 		ANFANG Inhaltsseite
     ***********************************************/
@@ -759,46 +664,9 @@ footer{
 
 
 @media (max-width: 700px) {
-
     #content > .section > .inner {
         padding: 40px 0;
     }
-
-    .section#einleitung #hl_main {
-        float: none;
-        display: block;
-        width: auto;
-    }
-    .section#einleitung .textblock {
-        float: none;
-        display: block;
-        width: auto;
-
-    }
-
-    /***************
-        ANFANG Kontakt Formular
-    */
-    .contact-formular {
-		flex-direction: column;
-	}
-	.contact-form{
-		width: 100%;
-	}
-	.map{
-		height: 300px;
-		margin-top: 20px;
-		width: 400px;
-	}
-	#canvas-container{
-		height: inherit;
-    }
-    /***************
-       ENDE Kontakt Formular
-    */
-
-   
-
 }
 
 
@@ -848,68 +716,19 @@ footer{
         padding-right: 10px;
     }
 
-
     #content{
         font-size: 0.7em;
         line-height: 1.5em;
     }
 
-
     footer ul#nav_social{
         float: none;
         display: block;
         clear: both;
-
     }
-
-
-
-
-    .bildblock{
-        float: none;
-        display: block;
-        clear: both;
-        width: auto;
-        margin: 0 1.08695652173913%;
-        margin-bottom: 4em;
-    }
-
-
 }
 
-
-
 @media (max-width: 400px) {
-
-    #content div#sc_aw-einstiege ul#bereiche{
-        border: 0;
-    }
-
-    #content div#sc_aw-einstiege ul#bereiche li{
-        font-size: 1em;
-        line-height: 1.5em;
-
-        width: auto;
-        float: none;
-        display: block;
-        clear: left;
-
-        height: 200px;
-        margin: -4px 0;
-        transition: 0.3s;
-    }
-    .no-touch #content div#sc_aw-einstiege ul#bereiche li:hover{
-        margin-top: -12px;
-        margin-bottom: -12px;
-        height: 250px;
-    }
-
-    #content div#sc_aw-einstiege ul#bereiche li>a{
-        border: 4px solid #ffffff;
-        border-left: 0;
-        border-right: 0;
-    }
-
 
     #slideshow{
         height: 100vh;

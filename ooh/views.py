@@ -202,7 +202,7 @@ class UserLoginView(LoginView, ProcessFormView):
                 else:
                     print("ELSE")
                     print(form.errors)
-                    return JsonResponse({'error': 'Registrierung fehlerhaft.', status=400})
+                    return JsonResponse({'error': 'Registrierung fehlerhaft.'}, status=400)
             elif form.cleaned_data['formular'] == "login":
                 # Login handler
                 form = UserLoginForm(request.POST)
