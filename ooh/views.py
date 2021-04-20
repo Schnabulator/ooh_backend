@@ -202,6 +202,7 @@ class UserLoginView(LoginView, ProcessFormView):
                 else:
                     print("ELSE")
                     print(form.errors)
+                    return JsonResponse({'error': 'Registrierung fehlerhaft.', status=400})
             elif form.cleaned_data['formular'] == "login":
                 # Login handler
                 form = UserLoginForm(request.POST)
@@ -216,17 +217,17 @@ class UserLoginView(LoginView, ProcessFormView):
                         return JsonResponse({'success': 'Login war erfolgreich.'})
                     else:
                         print("User isnt authenticated")
-                        return JsonResponse({'error': 'E-Mail oder Passwort falsch'})
+                        return JsonResponse({'error': 'E-Mail oder Passwort falsch'}, status=404)
                 else:
                     print(form.errors)
-                    return JsonResponse({'error': 'Server Error'})
+                    return JsonResponse({'error': 'Server Error'}, status=400)
             else:
                 print("Not login and reg")
-                return JsonResponse({'error': 'Server Error'})
+                return JsonResponse({'error': 'Server Error'}, status=501)
         else: 
             print("Form error loginreg")
             print(form.errors)
-            return JsonResponse({'error': 'Server Error'})
+            return JsonResponse({'error': 'Server Error'}, status=500)
 
 class EventLocationView(generic.ListView):
     template_name = 'ooh/eventlocations.html'
