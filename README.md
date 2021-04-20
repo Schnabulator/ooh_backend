@@ -9,12 +9,12 @@ This repository contains ONLY the backend stuff for the dhbw project out of home
 
 # ToDo
 * [X] Location URL töten
+* [X] After participating reload page (With filters!!)
+* [X] Login seite bild vergrößern
 * [ ] Add Event from Userprofile page
 * [ ] personalized home site fix
 * [ ] Fragenkatalog und participate leitet zum login weiter, wenn nicht angemeldet
-* [X] Login seite bild vergrößern
 * [ ] Von index auf eventseite muss mit get parametern erweitert werden
-* [X] After participating reload page (With filters!!)
 * [ ] Teilnahmen im Benutzerkonto anzeigen
 * [ ] Newsletter reinmachen
 * [ ] Index time filter immer zeigen

@@ -68,88 +68,122 @@
                                 
                                     <div class="title">Add New Event</div>
                                     <div class="content">
-                                        <form action="#" id="form-add-Event">
+                                        <form action="{% url 'ooh:addevent' %}" id="form-add-Event" method=POST>
+                                        {% csrf_token %}
+                                        <h1 style="margin-top: 1%;">Ortsangabe</h1>
                                         <div class="user-details">
                                             <div class="input-box">
-                                                <span class="details">Event Name</span>
-                                                <input type="text" placeholder="Enter the event name" required>
+                                                <span class="details">Event Location</span>
+                                                <input type="text" name="locationName" placeholder="Location Name" required>
                                             </div>
                                             <div class="input-box">
-                                                <span class="details">Event Organizer</span>
-                                                <input type="text" placeholder="Enter your name" required>
-                                            </div>
-                                            <div class="input-box">
-                                                <span class="details">Street</span>
-                                                <input type="text" placeholder="Enter your email" required>
-                                            </div>
-                                            <div class="input-box">
-                                                <span class="details">Housenumber</span>
-                                                <input type="text" placeholder="Enter your email" required>
-                                            </div>
-                                            <div class="input-box">
-                                                <span class="details">Age</span>
-                                                <select id="age-cat" name="eventType">
-                                                    <option value="" disabled selected hidden>Choose an option</option>
-                                                    <option value="Cheap">&#060; 18</option>
-                                                    <option value="Expensive">&#062;= 18</option>
-                                                </select>
-                                            </div>
-                                            <div class="input-box">
-                                                <span class="details">Price Category</span>
-                                                <select id="price-cat" name="eventType">
-                                                    <option value="" disabled selected hidden>Choose an option</option>
-                                                    <option value="Cheap">Cheap</option>
-                                                    <option value="Expensive">Expensive</option>
-                                                </select>
-                                            </div>
-                                            <div class="input-box">
-                                                <span class="details">Location</span>
-                                                <select id="location" name="eventType">
-                                                    <option value="" disabled selected hidden>Choose an option</option>
+                                                <span class="details">Locationart</span>
+                                                <select id="location" name="locationType">
+                                                    <option value="" disabled selected hidden name="">Bitte wählen</option>
                                                     <option value="Bar">Bar</option>
                                                     <option value="Restaurant">Restaurant</option>
                                                     <option value="Club">Club</option>
                                                 </select>
                                             </div>
+                                            <div class="input-box">
+                                                <span class="details">PLZ</span>
+                                                <input type="text" placeholder="PLZ" name="plz" required>
+                                            </div>
+                                            <div class="input-box">
+                                                <span class="details">Ortsname</span>
+                                                <input type="text" name="cityname" placeholder="Ortsname" required>
+                                            </div>
+                                            <div class="input-box">
+                                                <span class="details">Straße und Hausnummer</span>
+                                                <input type="text" placeholder="Straße und Hausnummer" name="street" required>
+                                            </div>
+                                            <div class="input-box">
+                                                <span class="details">Raum</span>
+                                                <input type="text" name="room" placeholder="Enter your email">
+                                            </div>
+                                        </div>
+                                        <h1>Eventdetails</h1>
+                                        <div class="user-details">
+                                            
+                                            <div class="input-box">
+                                                <span class="details">Event Name</span>
+                                                <input type="text" placeholder="Event Name" name="eventName" required>
+                                            </div>
+                                            <div class="input-box">
+                                                <span class="details">Alter</span>
+                                                <select id="age-cat" name="age">
+                                                    <option value="0" disabled selected hidden>Bitte wählen</option>
+                                                    <option value="0">&#060; 18</option>
+                                                    <option value="18">&#062;= 18</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-box">
+                                                <span class="details">Preiskategorie</span>
+                                                <select id="price-cat" name="price">
+                                                    <option value="0" disabled selected hidden>Bitte wählen</option>
+                                                    <option value="1">Cheap</option>
+                                                    <option value="3">Expensive</option>
+                                                </select>
+                                            </div>
+                                            
                                             <div class="input-box" id="special-Type">
                                                 <span class="details" id="special-Type-Descr"></span>
-                                                <select id="special-Type-Values" name="eventType">
+                                                <select id="special-Type-Values" name="specialcategory">
                                                 
                                                 </select>
                                             </div>
                                             <div class="input-box">
-                                                <span class="details">Upload image</span>
-                                                <input type="file" accept="image/*" class="inputfile" required id="file">
-                                                <label for="file">Choose an image</label>
+                                                <span class="details">Bild</span>
+                                                <input type="file" accept="image/*" class="inputfile" required name="picture"  id="file">
+                                                <label for="file">Bild auswählen</label>
                                             </div>
  
                                             <div class="input-box">
                                                 <span class="details">Event Description</span>
-                                                <textarea name="Description" id="" cols="40" rows="5"></textarea>
-                                                <!-- <input type="text" placeholder="Enter the event name" required> -->
+                                                <textarea name="desciption" id="" cols="40" rows="5"></textarea>
+                                            </div>
+
+                                            <div class="input-box">
+                                                <span class="details">Startzeitpunkt</span>
+                                                <input type="datetime-local" name="start" id="start" />
+                                            </div>
+                                            <div class="input-box">
+                                                <span class="details">Endzeitpunkt</span>
+                                                <input type="datetime-local" name="endtime" id="endtime" />
+                                            </div>
+                                            <div class="input-box">
+                                                <span class="details">Intervall in Tagen</span>
+                                                <input type="number" name="intervalInDays" id="intervalInDays" />
                                             </div>
                                         </div>
                                        
                                         <div class="smoking-details">
-                                            <input type="radio" name="smoking" id="dot-1">
-                                            <input type="radio" name="smoking" id="dot-2">
-                                            <input type="radio" name="smoking" id="dot-3">
-                                            <span class="smoking-title">Smoking</span>
+                                            <input type="radio" name="smoking" id="dot-1" value="nosmoking">
+                                            <input type="radio" name="smoking" id="dot-2" value="innersmoking">
+                                            <input type="radio" name="smoking" id="dot-3" value="outersmoking">
+                                            <span class="smoking-title">Raucher</span>
                                             <div class="category">
                                                 <label for="dot-1">
                                                     <span class="dot one"></span>
-                                                    <span class="smoking">Not Smoking</span>
+                                                    <span class="smoking">Nicht-Raucher</span>
                                                 </label>
                                                 <label for="dot-2">
                                                     <span class="dot two"></span>
-                                                    <span class="smoking">Smoking</span>
+                                                    <span class="smoking">Rauchen</span>
                                                 </label>
                                                 <label for="dot-3">
                                                     <span class="dot three"></span>
-                                                    <span class="smoking">Smoking area</span>
+                                                    <span class="smoking">Außenbereich</span>
                                                 </label>
                                             </div>
                                         </div>
+
+                                        <div class="input-box">
+                                            <span class="details">Sonstige Tags, durch Komma separieren</span>
+                                            <textarea name="categories"  cols="90" rows="1"></textarea>
+                                            <!-- <input type="text" placeholder="Enter the event name" required> -->
+                                        </div>
+
                                         <div class="button-add-Event">
                                             <input type="submit" value="Add">
                                         </div>

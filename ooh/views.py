@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views import generic
 from django.template import Context
-from .models import Location, EventLocation, Event, OohUser, Participate, Question, ChoiceOption, UserSelection, EventCategory, LocationCategory
+from .models import Location, EventLocation, Event, OohUser, Participate, Question, ChoiceOption, UserSelection, EventCategory, LocationCategory, EventTemplate
 from .forms import UserLoginForm, RegLoginSwitch, OohUserCreationForm, UserLocation, AddEvent, ParticipateForm
 from django.contrib.auth import authenticate, login
 from django.db.models import Q, Count, Sum
@@ -292,10 +292,58 @@ def newsletter(request):
 
 def add_event(request):
     if request.method == "POST":
-        pass
+        form = AddEvent(request.POST)
+        print(form)
+        if form.is_valid():
+            try:
+                # First get the location
+                loc = Location.objects.get(
+                   plz=form.cleaned_data['plz'],
+                   cityname_icontains=form.cleaned_data['cityname'], 
+                )
+                (eloc, cr) = EventLocation.objects.get_or_create(
+                    location=loc,
+                    name=form.cleaned_data['locationName'], 
+                    street__icontains=form.cleaned_data['street'], 
+                )
+                if cr:
+                    # New Eventlocation was added
+                    pass
+                else:
+                    # Eventlocation was found
+                    pass
+                
+                # Then create a Template if necessary
+                (temp, cr2) = EventTemplate.objects.get_or_create(
+                    eventLocation=eloc,
+                    name=form.cleaned_data['eventName'],
+                )
+                if cr2:
+                    # New EventTemplate was added
+                    pass
+                else:
+                    # EventTemplate was found
+                    pass
+                #  Finally add the Event itself
+                event = Event(
+                    eventTemplate=temp,
+                    takeplace=1,
+                    starttime=form.cleaned_data['starttime'],
+                    endtime=form.cleaned_data['endtime'],
+                    intervalInDays=form.cleaned_data['intervalInDays'],
+                )
+                # event.save()
+            except Location.DoesNotExist:
+                pass
+            except EventLocation.DoesNotExist:
+                pass
+            except EventTemplace.DoesNotExist:
+                pass
+            except Event.DoesNotExist:
+                pass
     else:
         form = AddEvent()
-    return render(request, 'ooh/addevent.html', {'form':form})
+    return redirect('ooh:profile')
 
 def autocomplete_event(request):
     pass

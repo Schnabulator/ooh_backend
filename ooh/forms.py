@@ -33,17 +33,28 @@ class UserLocation(forms.Form):
 class AddEvent(forms.Form):
     # Location 
     locationName = forms.CharField(required=True)
+    locationType = forms.CharField(required=True)
     cityname = forms.CharField(required=True)
     plz = forms.CharField(required=True, max_length=10)
     street = forms.CharField(required=True)
-    housenumber = forms.CharField(required=True, max_length=10)
     room = forms.CharField(required=False)
 
-    # Event itself
+    # EventTemplate itself
     desciption = forms.CharField(required=True)
+    eventName = forms.CharField(required=True)
     picture = forms.ImageField()
     pricecat = forms.IntegerField()
+    age = forms.IntegerField(required=False)
+    specialcategory = forms.CharField(required=True)
+    smoking = forms.CharField(required=False)
     # //TODO Categories maybe as commaseperated values (ala Tags)
+    categories = forms.CharField(required=False)
+
+    # Event
+    starttime = forms.DateTimeField()
+    endtime = forms.DateTimeField()
+    intervalInDays = forms.IntegerField()
+
     # categories = forms.ModelMultipleChoiceField(queryset=EventCategory.objects.all(), widget=forms.CheckboxSelectMultiple)
 
 class ParticipateForm(forms.Form):
