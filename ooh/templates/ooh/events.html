@@ -30,28 +30,27 @@
                 <div class="container">	
                     <!-- Start	Product details -->
                     <div class="product-details">
-                            <!-- 	Event Name -->
-                        <div>
-                                <h1>{{ev.eventTemplate.name}}</h1>
-                                <h3>{{ev.eventTemplate.eventLocation}}</h3>
-                                <span class="hint-star star">
-                                    <!-- <div style="display: flex; flex-direction: row;"> -->
+                            <div class="product-details-head" >
+                                <div> <h1>{{ev.eventTemplate.name}}</h1></div>
+                                <div> <h3>{{ev.eventTemplate.eventLocation}}</h3></div>
+                                <div> <span class="hint-star star">
+
                                         <i class="fa fa-star {% if ev.eventTemplate.calculatedratings.0 > 0.5 %} checked {%endif%}"></i>
                                         <i class="fa fa-star {% if ev.eventTemplate.calculatedratings.0 >= 1.5 %} checked {%endif%}"></i>
                                         <i class="fa fa-star {% if ev.eventTemplate.calculatedratings.0 >= 2.5 %} checked {%endif%}"></i>
                                         <i class="fa fa-star {% if ev.eventTemplate.calculatedratings.0 >= 3.5 %} checked {%endif%}"></i>
                                         <i class="fa fa-star {% if ev.eventTemplate.calculatedratings.0 >= 4.5 %} checked {%endif%}"></i>
                                         <i>({{ev.eventTemplate.calculatedratings.1}})</i>
-                                </span>
+                                </span></div>
 
                         </div>     
 
                         <div></div>
                         <!-- The most important information about the product -->
                         {#Das steht in der Desktop view links#}
-                        {#//TODO das muss auf x zeichen beschränkt werden!#}
+                        {#//TODO Zeichenbeschränkung checken!#}
                         <!-- <p class="information">{{ev.starttime|date:"d.m.Y H:i"}}</p> -->
-                        <p class="information">{{ev.eventTemplate.description}}</p>
+                        <p class="information">{{ev.eventTemplate.description|truncatechars:100}}</p>
 
                             <!-- 		Control -->
                         <div class="control">
@@ -106,13 +105,13 @@
 
     <div class="cd-filter">
         <form>
-            <div class="cd-filter-block">
+            <!-- <div class="cd-filter-block">
                 <h4>Search</h4>
                 
                 <div class="cd-filter-content">
                     <input type="search" placeholder="Try color-1...">
-                </div> <!-- cd-filter-content -->
-            </div> <!-- cd-filter-block -->
+                </div> 
+            </div>  -->
 
             <div class="cd-filter-block">
                 <h4>Location</h4>

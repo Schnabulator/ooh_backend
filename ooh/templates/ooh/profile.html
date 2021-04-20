@@ -14,8 +14,6 @@
                         {{ user.firstname }} {{ user.lastname }} 
                     </h4>
                     <div class="address">
-                        <!-- <p class="state">{{ user.locationID__plz }} {{ user.locationID__cityname}}</p>
-                        <span class="country"> {{ user.locationID__bundesland}}</span>  -->
                         {% if user.location %}
                         <p class="state">{{ user.street}} {{user.housenumber}}</p>
                         <span class="country">, {{ user.location }} </span> 
@@ -63,12 +61,104 @@
                             </p>
                         </div>
                         <div class="profile-btn">
-                            <button class="chatbtn">
-                                <i class="fa fa-comment"></i>Chat
-                            </button>
-                            <button class="createbtn">
-                                <i class="fa fa-plus"></i>Create
-                            </button>
+                            <input class="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
+                            <label for="modal-btn">Create a new Event<i class="uil uil-expand-arrows"></i></label>      
+                            <div class="modal">     
+                                <div class="modal-wrap">
+                                
+                                    <div class="title">Add New Event</div>
+                                    <div class="content">
+                                        <form action="#" id="form-add-Event">
+                                        <div class="user-details">
+                                            <div class="input-box">
+                                                <span class="details">Event Name</span>
+                                                <input type="text" placeholder="Enter the event name" required>
+                                            </div>
+                                            <div class="input-box">
+                                                <span class="details">Event Organizer</span>
+                                                <input type="text" placeholder="Enter your name" required>
+                                            </div>
+                                            <div class="input-box">
+                                                <span class="details">Street</span>
+                                                <input type="text" placeholder="Enter your email" required>
+                                            </div>
+                                            <div class="input-box">
+                                                <span class="details">Housenumber</span>
+                                                <input type="text" placeholder="Enter your email" required>
+                                            </div>
+                                            <div class="input-box">
+                                                <span class="details">Age</span>
+                                                <select id="age-cat" name="eventType">
+                                                    <option value="" disabled selected hidden>Choose an option</option>
+                                                    <option value="Cheap">&#060; 18</option>
+                                                    <option value="Expensive">&#062;= 18</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-box">
+                                                <span class="details">Price Category</span>
+                                                <select id="price-cat" name="eventType">
+                                                    <option value="" disabled selected hidden>Choose an option</option>
+                                                    <option value="Cheap">Cheap</option>
+                                                    <option value="Expensive">Expensive</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-box">
+                                                <span class="details">Location</span>
+                                                <select id="location" name="eventType">
+                                                    <option value="" disabled selected hidden>Choose an option</option>
+                                                    <option value="Bar">Bar</option>
+                                                    <option value="Restaurant">Restaurant</option>
+                                                    <option value="Club">Club</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-box" id="special-Type">
+                                                <span class="details" id="special-Type-Descr"></span>
+                                                <select id="special-Type-Values" name="eventType">
+                                                
+                                                </select>
+                                            </div>
+                                            <div class="input-box">
+                                                <span class="details">Upload image</span>
+                                                <input type="file" accept="image/*" class="inputfile" required id="file">
+                                                <label for="file">Choose an image</label>
+                                            </div>
+ 
+                                            <div class="input-box">
+                                                <span class="details">Event Description</span>
+                                                <textarea name="Description" id="" cols="40" rows="5"></textarea>
+                                                <!-- <input type="text" placeholder="Enter the event name" required> -->
+                                            </div>
+                                        </div>
+                                       
+                                        <div class="smoking-details">
+                                            <input type="radio" name="smoking" id="dot-1">
+                                            <input type="radio" name="smoking" id="dot-2">
+                                            <input type="radio" name="smoking" id="dot-3">
+                                            <span class="smoking-title">Smoking</span>
+                                            <div class="category">
+                                                <label for="dot-1">
+                                                    <span class="dot one"></span>
+                                                    <span class="smoking">Not Smoking</span>
+                                                </label>
+                                                <label for="dot-2">
+                                                    <span class="dot two"></span>
+                                                    <span class="smoking">Smoking</span>
+                                                </label>
+                                                <label for="dot-3">
+                                                    <span class="dot three"></span>
+                                                    <span class="smoking">Smoking area</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="button-add-Event">
+                                            <input type="submit" value="Add">
+                                        </div>
+                                        </form>
+                                    </div>
+                                    
+                                    
+                                </div>                          
+                            </div>
                         </div>
                         <div class="user-rating">
                             <h4 class="rating">4.5</h4>
@@ -150,6 +240,65 @@
 
 
 <script>
+    
+const locationType = $('#location');
+    const specialType = $('#special-Type');
+    const specialTypeDescr = $('#special-Type-Descr');
+    const specialTypeValues = $('#special-Type-Values');
+ 
+    specialType.hide();
+ 
+    locationType.change(function(){
+        if (($(this).val() == "Bar") || ($(this).val() == "Club")) { 
+            specialType.show();
+            specialTypeDescr.text("Music Genre");
+            specialTypeValues.empty();
+            specialTypeValues.append($('<option>').val('Option').text('Choose an option'));
+            specialTypeValues.append($('<option>').val('Techno').text('Techno'));
+            specialTypeValues.append($('<option>').val('Pop').text('Pop'));
+            specialTypeValues.append($('<option>').val('Rock').text('Rock'));
+            specialTypeValues.append($('<option>').val('Hip-Hop').text('Hip-Hop'));
+        }else if($(this).val() == "Restaurant"){
+            specialType.show();
+            specialTypeDescr.text("Restaurant type");
+            specialTypeValues.empty();
+            specialTypeValues.append($('<option>').val('Option').text('Choose an option'));
+            specialTypeValues.append($('<option>').val('American').text('American'));
+            specialTypeValues.append($('<option>').val('European').text('European'));
+            specialTypeValues.append($('<option>').val('Asian').text('Asian'));
+            specialTypeValues.append($('<option>').val('African').text('African'));
+        }
+    });
+   
+    document.addEventListener("DOMContentLoaded", function(event) { 
+ 
+    let single = "Datei Ausgewählt";
+    let multiple = "Datein Ausgewält";
+ 
+    fileUploadStyling(single,multiple);
+ 
+    })
+ 
+    /* Die Funktion */
+ 
+    function fileUploadStyling(single,multiple){
+        let input = document.querySelectorAll("input[type=file]");
+        for (let i = 0; i < input.length; i++) {
+            var inputFile = input[i];
+            inputFile.addEventListener('change',function(e){
+ 
+                var label = this.nextElementSibling;
+ 
+                if(this.files && this.files.length > 1){
+                    label.innerHTML = this.files.length + ' ' + multiple;
+                }else{
+                    label.innerHTML = this.files[0].name + ' ' + single;
+                }
+            });
+        }
+    } 
+ 
+
     $('.nav-right ul li').click(function(){
         $(this).addClass("active").siblings().removeClass('active');
         })

@@ -308,7 +308,6 @@ def autocomplete_event(request):
     pass
 
 def participate_event(request):
-    
     if request.method == 'POST':
         if request.user.is_authenticated:
             form = ParticipateForm(request.POST)
@@ -324,13 +323,14 @@ def participate_event(request):
                         return JsonResponse({'success': 'Erfolgreich teilgenommen.'})
                     else:
                         # redirect to event page
+
                         return JsonResponse({'success': 'Bereits teilgenommen.'})
                 except Event.DoesNotExist:
-                    return JsonResponse({'error': 'Dieses Event gibt es nicht'})
+                    return JsonResponse({'error': 'Dieses Event gibt es nicht'}, status=404)
                 
         else:
             # User has to be authenticated
-            return JsonResponse({'error': 'Bitte anmelden'})
+            return JsonResponse({'error': 'Bitte anmelden'}, status=403)
     else:
         # Everything else is forbidden
-        return JsonResponse({'error': 'Das darfst du nicht'})
+        return JsonResponse({'error': 'Das darfst du nicht'}, status=404)
