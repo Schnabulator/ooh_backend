@@ -220,34 +220,34 @@ header h1 {
 }
 
 header h1 a {
-	float: left;
-	display: inline;
-	overflow: hidden;
-	margin: 10px 0 0 1.08695652173913%;
-
-	/* width: 100px;
-	height: 100px; */
-
-	-moz-transition: height 1s, width 1s;
+    float: left;
+    display: inline;
+    overflow: hidden;
+    margin: 38px 0 0 1.08695652173913%;
+    width: 245px;
+    height: 70px;
+    -moz-transition: height 1s, width 1s;
     -o-transition: height 1s, width 1s;
     -webkit-transition: height 1s, width 1s;
-	transition: height 1s, width 1s;
+    transition: height 1s, width 1s;
+
 }
+
+
 
 header h1 a span {
-	position: absolute;
-	left: -99999px;
+    position: absolute;
+    left: -99999px;
 }
+
+
 
 header h1 img {
-	display: block;
-	/* width: 100px; */
-	/* width: 100px; */
-	height: 150%;
-	/* object-fit: cover; */
-	filter: drop-shadow(0 0 5px rgba(16, 36, 35, 0.2));
-}
+    display: block;
+    width: 63%;
+    filter: drop-shadow(0 0 5px rgba(16, 36, 35, 0.2));
 
+}
 #nav1 {
 	margin: 0;
 	padding: 0;
@@ -1182,9 +1182,11 @@ header {
 	border-bottom: 1px solid #ff6a00;
 }
 
-#adress{
-	
-}
+#cityname{ width: 60%;}
+#plz{width: 20%;}
+/* #street{ width: 100%;} */
+/* #housenumber{width: 12%;} */
+
 
 .text-box i{
 	width: 5%;
@@ -2334,7 +2336,7 @@ Primary style
 	background: #ff6a00;
 	border-radius: 5px;
   /* position: relative; */
-  overflow: hidden;
+  	overflow: hidden;
 	cursor: pointer;
 	outline: none;
 	border: none;
@@ -2343,7 +2345,13 @@ Primary style
 	margin: 0;
 	
 }
-
+.btn.disabled{
+	background-color: gray;
+}
+.btn:hover.disabled{
+	transform: none;
+	color: black;
+}
 .btn:hover{
 	transform: translateY(-4px);
 	background: #eee;
@@ -2354,7 +2362,7 @@ Primary style
 	font-family: inherit;
 	transition: transform 0.3s;
 	display: inline-block;
-  padding: 10px 20px;
+  	padding: 10px 20px;
 	font-size: 1.2em;
 	margin:0;
 	

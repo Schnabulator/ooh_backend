@@ -56,19 +56,27 @@
                             <!-- 		Control -->
                         <div class="control">
                             <!-- Start Button buying -->
+                            {%if ev.id in participating %}
+                            <button class="btn disabled" disabled>
+                                <!-- 		the Price -->
+                                <span data-id="{{ev.id}}" class="shopping-cart bookmarkbtn"><i class="fa fa-bookmark"></i></span>
+                                <span id="participatebtn_{{ev.id}}" data-id="{{ev.id}}" class="participatebtnjs disabled">Participating</span>
+                                <!--Buy Now / ADD to Cart-->
+                            </button>    
+                            {%else%}
                             <button class="btn">
                                 <!-- 		the Price -->
-                                <!-- Evtl ein onClick auf das Icon und dann noch den button clickable machen? oder das bookmark einfach oben anzeigen -->
-                                <span class="shopping-cart"><i class="fa fa-bookmark"></i></span>
-                                <!-- 		Buy Now / ADD to Cart-->
-                                <span class="buy">Participate</span>
+                                <span data-id="{{ev.id}}" class="shopping-cart bookmarkbtn"><i class="fa fa-bookmark"></i></span>
+                                <span id="participatebtn_{{ev.id}}" data-id="{{ev.id}}" class="buy participatebtn participatebtnjs">Participate</span>
+                                <!--Buy Now / ADD to Cart-->
+                            </button>                                    
+                            {%endif%}
                             </button>
                             <!-- End Button buying -->        
                         </div>    
                     </div> <!-- Ende Product details -->
                         
-                    <div class="product-image">
-                                               
+                    <div class="product-image"> 
                         {% if ev.eventTemplate.picture %}
                             <img src="{{ ev.eventTemplate.picture.url }}" alt="Omar Dsoky">
                         {% elif ev.eventTemplate.eventLocation.picture %}    
@@ -213,12 +221,44 @@
 </main> <!-- cd-main-content -->
 </div>
 
-    <a href="#0" class="cd-filter-trigger cd-a">Filters</a>
-</main> <!-- cd-main-content -->
-</div>
-
 <script>
     jQuery(document).ready(function($){
+        // Participate btn
+        $('.participatebtnjs.buy').on('click', function(){
+            // if ($(this).is(":disabled")){
+            if ($(this).hasClass("disabled")){
+                alert("disabled");
+                return;
+            }
+            var evID = $(this).data('id'); // or var clickedBtnID = this.id
+            console.log("Participating!! "+evID);
+            probability = 100;
+            // formData = '{ "eventID":'+evID+","+
+            // "probability:"+probability+","+
+            // "csrftoken:"
+            // '}';
+            formData = { eventID: evID, probability: probability};
+            // form_data = form_data+"&csrfmiddlewaretoken={{ csrf_token }}";
+            $.ajax({
+                type: 'POST',
+                url: '{%url "ooh:participateevent" %}',
+                data: formData,
+                dataType: 'json',
+                encode: true,
+                success: function(resp){
+                    alert("Success");
+                }, 
+                error: function(err){
+                    alert("Error");
+                }
+            });
+
+        });
+        // $('.bookmarkbtn').on('click', function(){
+        //     var clickedBtnID = $(this).data('id'); // or var clickedBtnID = this.id
+        //     console.log("Bookmark!!"+clickedBtnID);
+        // });
+
         //open/close lateral filter
         $('.cd-filter-trigger').on('click', function(){
             triggerFilter(true);
