@@ -56,14 +56,14 @@
                             <!-- Start Button buying -->
                             {%if ev.id in participating %}
                             <button class="btn disabled" disabled>
-                                <!-- 		the Price -->
+                                <!--the Price -->
                                 <span data-id="{{ev.id}}" class="shopping-cart bookmarkbtn"><i class="fa fa-bookmark"></i></span>
                                 <span id="participatebtn_{{ev.id}}" data-id="{{ev.id}}" class="participatebtnjs disabled">Participating</span>
                                 <!--Buy Now / ADD to Cart-->
                             </button>    
                             {%else%}
                             <button class="btn">
-                                <!-- 		the Price -->
+                                <!--the Price -->
                                 <span data-id="{{ev.id}}" class="shopping-cart bookmarkbtn"><i class="fa fa-bookmark"></i></span>
                                 <span id="participatebtn_{{ev.id}}" data-id="{{ev.id}}" class="buy participatebtn participatebtnjs">Participate</span>
                                 <!--Buy Now / ADD to Cart-->
@@ -225,7 +225,7 @@
         $('.participatebtnjs.buy').on('click', function(){
             // if ($(this).is(":disabled")){
             if ($(this).hasClass("disabled")){
-                alert("disabled");
+                // alert("disabled");
                 return;
             }
             var evID = $(this).data('id'); // or var clickedBtnID = this.id
@@ -250,7 +250,8 @@
                     alert("Error");
                 }
             });
-
+            //TODO vllt gucken, dass die Filter gesetzt bleiben
+            location.reload();
         });
         // $('.bookmarkbtn').on('click', function(){
         //     var clickedBtnID = $(this).data('id'); // or var clickedBtnID = this.id

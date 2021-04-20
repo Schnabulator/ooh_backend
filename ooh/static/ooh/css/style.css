@@ -820,15 +820,19 @@ header {
 	position: relative;
 	background: url('../img/login-background.jpg') no-repeat center center !important;
 	background-size: cover !important;
-	min-height: 70%;
+	min-height: 82vh;
 	height: 100%;
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	/* width: 100%; */
 }
 
 #loginRegister {
-	width: 45%;
+	width: 680px;
 	margin: 0 auto;
 	background-color: #291000e8;
-	padding: 1%;
+	padding: 3%;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;

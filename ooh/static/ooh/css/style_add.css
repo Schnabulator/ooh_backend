@@ -520,6 +520,30 @@ footer{
     /*
             Ende Angebot
     ***********************************************/
+    
+    /* 
+    * Fragen seite Anfang 
+    **************************************************/
+    #progress-main{
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+
+        justify-content: space-evenly;
+
+    }
+
+
+
+    #nextBtn, #previousBtn{
+        margin: 10px;
+    }
+    /* 
+    * Fragen seite ENDE 
+    **************************************************/
 }
 
 
@@ -738,7 +762,10 @@ footer{
     #slideshow-buttons{
         display: none;
     }
-
+    
+    .step-text{
+        display: none;
+    }
     /*
             ANFANG User Account
     ***********************************************/

@@ -243,7 +243,7 @@ class EventView(generic.ListView):
         # ev = Event.objects.get(name='Schnitzeltag')
         # print(ev.calculatedratings())
         # return EventLocation.objects.filter(locationID__plz=68159)
-        return Event.objects.all().order_by('starttime')
+        # return Event.objects.all().order_by('starttime')
         return Event.objects.filter(Q(starttime__gte=datetime.date.today())).order_by('starttime')
     def get_context_data(self, **kwargs):
         context = super(EventView, self).get_context_data(**kwargs)
