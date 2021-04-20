@@ -7,6 +7,18 @@ This repository contains ONLY the backend stuff for the dhbw project out of home
 * run command `python manage.py migrate`
 * finally import data with `python .\manage.py importcsv --mappings='2=cityname,3=plz,4=bundesland' --model='ooh.Location' --delimiter=',' --charset=utf-8 zuordnung_plz_ort.csv`
 
+# ToDo
+* [X] Location URL töten
+* [ ] Add Event from Userprofile page
+* [ ] personalized home site fix
+* [ ] Fragenkatalog und participate leitet zum login weiter, wenn nicht angemeldet
+* [X] Login seite bild vergrößern
+* [ ] Von index auf eventseite muss mit get parametern erweitert werden
+* [X] After participating reload page (With filters!!)
+* [ ] Teilnahmen im Benutzerkonto anzeigen
+* [ ] Newsletter reinmachen
+* [ ] Index time filter immer zeigen
+
 # Map view mit OpenStreetmaps
 
 # Klassen
