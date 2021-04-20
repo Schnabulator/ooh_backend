@@ -159,6 +159,7 @@ class Event(models.Model):
     endtime = models.DateTimeField()
     # intervalOffset = models.CharField(max_length=3, blank=True, null=True) # to seperate between weekly, monthly, ... events
     intervalInDays = models.IntegerField(blank=True, null=True) # after how many days should the next event be generated
+    until = models.DateField(blank=True, null=True)
     def __str__(self):
         return self.eventTemplate.__str__() + " [{0}]".format(self.starttime)
     def timecheck(self):
@@ -181,7 +182,21 @@ class Event(models.Model):
             sundayoffset = weekday      # 7 - weekday + 7
             if eventDate >= todaysDate + datetime.timedelta(days=fridayoffset) and eventDate <= todaysDate + datetime.timedelta(days=sundayoffset):
                 return "nextweekend"
-
+    def save(self, *args, **kwargs):
+        this_time = self.starttime
+        this_time2 = self.endtime
+        while this_time.date() < self.until:
+            new_ev = Event(
+                eventTemplate = self.eventTemplate,
+                takeplace = self.takeplace,
+                promoted = self.promoted,
+                starttime = this_time,
+                endtime = this_time2,
+            )
+            # print("save", self.eventTemplate.name, this_time)
+            super(Event, new_ev).save(*args, **kwargs)
+            this_time = this_time + datetime.timedelta(self.intervalInDays)
+            this_time2 = this_time2 + datetime.timedelta(self.intervalInDays)
 class Participate(models.Model):
     user = models.ForeignKey(OohUser, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)

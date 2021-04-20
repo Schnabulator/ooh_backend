@@ -294,6 +294,7 @@ def add_event(request):
     if request.method == "POST":
         form = AddEvent(request.POST)
         print(form)
+        err = {}
         if form.is_valid():
             try:
                 # First get the location
@@ -301,11 +302,19 @@ def add_event(request):
                    plz=form.cleaned_data['plz'],
                    cityname_icontains=form.cleaned_data['cityname'], 
                 )
-                (eloc, cr) = EventLocation.objects.get_or_create(
-                    location=loc,
-                    name=form.cleaned_data['locationName'], 
-                    street__icontains=form.cleaned_data['street'], 
-                )
+                if form.cleaned_data['room'] is not None and len(form.cleaned_data['room']) > 0:
+                    (eloc, cr) = EventLocation.objects.get_or_create(
+                        location=loc,
+                        name=form.cleaned_data['locationName'], 
+                        street__icontains=form.cleaned_data['street'], 
+                        room__iexact=form.cleaned_data['room'],
+                    )
+                else:
+                    (eloc, cr) = EventLocation.objects.get_or_create(
+                        location=loc,
+                        name=form.cleaned_data['locationName'], 
+                        street__icontains=form.cleaned_data['street'], 
+                    )
                 if cr:
                     # New Eventlocation was added
                     pass
@@ -314,16 +323,23 @@ def add_event(request):
                     pass
                 
                 # Then create a Template if necessary
-                (temp, cr2) = EventTemplate.objects.get_or_create(
-                    eventLocation=eloc,
-                    name=form.cleaned_data['eventName'],
-                )
-                if cr2:
-                    # New EventTemplate was added
-                    pass
-                else:
-                    # EventTemplate was found
-                    pass
+                try:
+                    temp = EventTemplate.objects.get(
+                        eventLocation=eloc,
+                        name__iexact=form.cleaned_data['eventName'],
+                    )
+                except EventTemplate.DoesNotExist:
+                    # Create
+                    temp = EventTemplate(
+                        name = form.cleaned_data['eventName'],
+                        mininumage = form.cleaned_data['age'],
+                        description = form.cleaned_data['description'],
+                        eventLocation=eloc,
+                        organizer=request.user,
+                        pricecat=form.cleaned_data['price'],
+                        picture=form.cleaned_data['picture'],
+                    )
+                    temp.save()
                 #  Finally add the Event itself
                 event = Event(
                     eventTemplate=temp,
@@ -332,15 +348,15 @@ def add_event(request):
                     endtime=form.cleaned_data['endtime'],
                     intervalInDays=form.cleaned_data['intervalInDays'],
                 )
-                # event.save()
+                event.save()
             except Location.DoesNotExist:
-                pass
+                err['location'] = "unknown"
             except EventLocation.DoesNotExist:
-                pass
+                err['eventlocation'] = "unknown"
             except EventTemplace.DoesNotExist:
-                pass
+                err['eventtemplate'] = "unknown"
             except Event.DoesNotExist:
-                pass
+                err['event'] = "unknown"
     else:
         form = AddEvent()
     return redirect('ooh:profile')
