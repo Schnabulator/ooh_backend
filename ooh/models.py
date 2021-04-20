@@ -21,6 +21,7 @@ class Location(models.Model):
 class LocationCategory(models.Model):
     name = models.CharField(max_length=100)
     filter_name = models.CharField(max_length=100, blank=True, null=True)
+    overcategory = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True)
     def __str__(self):
         return self.name
     def save(self, *args, **kwargs):
@@ -36,6 +37,7 @@ class LocationCategory(models.Model):
 class EventCategory(models.Model):
     name = models.CharField(max_length=100)
     filter_name = models.CharField(max_length=100, blank=True, null=True)
+    overcategory = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True)
     def __str__(self):
         return self.name
     def save(self, *args, **kwargs):
@@ -65,7 +67,6 @@ class EventLocation(models.Model):
         for c in qs:
             ret += c.__str__().lower().replace(' ', '-') + " "
         return ret
-        
 
     # //TODO periodically running functions to calculate rating
     def calculatedratings(self):
