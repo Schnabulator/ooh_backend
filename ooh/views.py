@@ -330,7 +330,7 @@ def participate_event(request):
                 
         else:
             # User has to be authenticated
-            return JsonResponse({'error': 'Bitte anmelden'}, status=403)
+            return JsonResponse({'error': 'Bitte anmelden'}, status=401)
     else:
         # Everything else is forbidden
-        return JsonResponse({'error': 'Das darfst du nicht'}, status=404)
+        return JsonResponse({'error': 'Das darfst du nicht'}, status=405)
