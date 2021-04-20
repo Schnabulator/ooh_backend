@@ -1827,7 +1827,7 @@ Primary style
 
 /* The most important information about the product */
 .container .product-details > p {
-	font-family: 'Farsan', cursive;
+	/* font-family: 'Farsan', cursive; */
 	text-align: center;
 	font-size: 80x;
 	color: #7d7d7d;
@@ -1911,7 +1911,7 @@ Primary style
 
 .info {
     background: rgba(27, 26, 26, 0.9);
-    font-family: 'Farsan', cursive;
+    /* font-family: 'Farsan', cursive; */
     transition: all 0.3s ease-out;
     transform: translateX(-100%);
     position: absolute;
