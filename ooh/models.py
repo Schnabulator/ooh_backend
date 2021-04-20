@@ -186,7 +186,7 @@ class Participate(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     probability = models.PositiveSmallIntegerField()
     def __str__(self):
-        return "{0}_{1}".format(self.eventID__name, self.probability)
+        return "{2} {0} [{1}]".format(self.event.eventTemplate.name, self.probability, self.user.email)
 
 class EventRating(models.Model):
     rating = models.PositiveSmallIntegerField()
