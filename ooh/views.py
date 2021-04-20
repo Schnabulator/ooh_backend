@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views import generic
 from django.template import Context
 from .models import Location, EventLocation, Event, OohUser, Participate, Question, ChoiceOption, UserSelection, EventCategory, LocationCategory
-from .forms import UserLoginForm, RegLoginSwitch, OohUserCreationForm, UserLocation
+from .forms import UserLoginForm, RegLoginSwitch, OohUserCreationForm, UserLocation, AddEvent, ParticipateForm
 from django.contrib.auth import authenticate, login
 from django.db.models import Q, Count, Sum
 
@@ -27,7 +27,10 @@ class index(generic.ListView):
         if not self.request.user.is_authenticated:
             return None
         # Evaluation order needed!
-
+        born = self.request.user.birthday
+        today = datetime.date.today()
+        age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+        print("DATE: ", born, today, age)
         lcat = LocationCategory.objects.filter(
             choiceoption__userselection__user=self.request.user,
             choiceoption__userselection__questionRun=self.request.user.currentQuestionRun,
@@ -47,9 +50,9 @@ class index(generic.ListView):
             print("Event:", e)
         
         events1 = Event.objects.filter(
-            Q(starttime__gte=datetime.date.today()) &
+            Q(starttime__gte=datetime.date.today()),
+            Q(eventTemplate__mininumage__lte=age),
             Q(eventTemplate__eventLocation__categories__in=lcat) |
-            Q(starttime__gte=datetime.date.today()) &
             Q(eventTemplate__eventCategory__in=ecat)
         ).annotate(
             num_fitting_location_categories=Count('eventTemplate__eventLocation__categories')
@@ -59,8 +62,7 @@ class index(generic.ListView):
         # ).order_by('num_fitting_location_categories').distinct()
         
         #//TODO seems like the order function does stupid stuff. I think Schnitzeltag has to be before shot friday
-        print("Found {0} matching lcategories and {1} matching ecategories".format(
-            events1[0].num_fitting_location_categories, events1[0].num_fitting_event_categories))
+        #print("Found {0} matching lcategories and {1} matching ecategories".format(events1[0].num_fitting_location_categories, events1[0].num_fitting_event_categories))
                 
         # for ev in events1:
         #     # First print how many matching categories were found
@@ -209,25 +211,22 @@ class UserLoginView(LoginView, ProcessFormView):
                     pw = form.cleaned_data['password1']
                     user = authenticate(request,username=user,password=pw)
                     if user is not None:
-                        # login(request)
                         login(request,user)
                         print("Successful logged in "+ user.email)
-                        # return redirect('index')
                         return JsonResponse({'success': 'Login war erfolgreich.'})
                     else:
                         print("User isnt authenticated")
+                        return JsonResponse({'error': 'E-Mail oder Passwort falsch'})
                 else:
                     print(form.errors)
+                    return JsonResponse({'error': 'Server Error'})
             else:
-                # non of reg or login handler
                 print("Not login and reg")
+                return JsonResponse({'error': 'Server Error'})
         else: 
             print("Form error loginreg")
             print(form.errors)
-        print(request.POST)
-
-        return JsonResponse({'foo': 'bar'})
-    
+            return JsonResponse({'error': 'Server Error'})
 
 class EventLocationView(generic.ListView):
     template_name = 'ooh/eventlocations.html'
@@ -243,7 +242,17 @@ class EventView(generic.ListView):
         # ev = Event.objects.get(name='Schnitzeltag')
         # print(ev.calculatedratings())
         # return EventLocation.objects.filter(locationID__plz=68159)
+        return Event.objects.all().order_by('starttime')
         return Event.objects.filter(Q(starttime__gte=datetime.date.today())).order_by('starttime')
+    def get_context_data(self, **kwargs):
+        context = super(EventView, self).get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            parti = Participate.objects.filter(user=self.request.user, event__in=self.object_list).values_list('event', flat=True)
+            # print(parti)
+            parti = list(parti)
+            context.update({'participating': parti})
+        return context
+
 
 class UserProfile(generic.DetailView):
     template_name = "ooh/profile.html"
@@ -287,3 +296,41 @@ def newsletter(request):
     template_name = 'ooh/newsletter.html'
     context = {"body_id": "b_content"} 
     return render(request, template_name=template_name, context=context)
+
+def add_event(request):
+    if request.method == "POST":
+        pass
+    else:
+        form = AddEvent()
+    return render(request, 'ooh/addevent.html', {'form':form})
+
+def autocomplete_event(request):
+    pass
+
+def participate_event(request):
+    
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            form = ParticipateForm(request.POST)
+            if form.is_valid():
+                try:
+                    ev = Event.objects.get(pk=form.cleaned_data['eventID'])
+                    prob = form.cleaned_data['probability'] 
+                    if prob is None or prob <0 or prob >100:
+                        prob=100
+                    (parti, cr) = Participate.objects.get_or_create(user=request.user, event=ev, probability=prob)
+                    if cr:
+                        # redirect to event page
+                        return JsonResponse({'success': 'Erfolgreich teilgenommen.'})
+                    else:
+                        # redirect to event page
+                        return JsonResponse({'success': 'Bereits teilgenommen.'})
+                except Event.DoesNotExist:
+                    return JsonResponse({'error': 'Dieses Event gibt es nicht'})
+                
+        else:
+            # User has to be authenticated
+            return JsonResponse({'error': 'Bitte anmelden'})
+    else:
+        # Everything else is forbidden
+        return JsonResponse({'error': 'Das darfst du nicht'})
