@@ -17,5 +17,8 @@ urlpatterns = [
     path('questions/finish', views.questionFinish, name='questionFinish'),
     path('impressum/', views.impressum, name='impressum'),
     path('newsletter/', views.newsletter, name='newsletter'),
+    path('event/add/', views.add_event, name='addevent'),
+    path('event/participate/', views.participate_event, name='participateevent'),
+    path('event/autocomplete/', views.autocomplete_event, name='autocomplete_event'),
     # path('profile/register', views.RegisterView.as_view(), name='register'),
 ]

@@ -1,0 +1,30 @@
+{% extends 'ooh/base.html' %}
+{% load static %}
+{% block additional-includes %}
+    <script src="https://cdn.rawgit.com/xcash/bootstrap-autocomplete/3de7ad37/dist/latest/bootstrap-autocomplete.js"></script>
+    <script>
+        $('.basicAutoComplete').autoComplete(
+            {minLength: 3}
+        );
+        $('.dropdown-menu').css({'top': 'auto', 'left': 'auto'})
+
+    </script>
+{% endblock %}
+
+{% block content %}
+
+<div>
+    <form method="POST" action="">
+        {% for field in form %}
+
+            <label for="id_{{field.name}}">{{field.name}}: </label>
+            {{field}}
+            
+        {% endfor %}
+    </form>
+
+    <h1>oder</h1>
+    {{form}}
+</div>
+
+{% endblock %}
