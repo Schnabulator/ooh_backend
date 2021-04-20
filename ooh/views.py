@@ -44,10 +44,10 @@ class index(generic.ListView):
             # choiceoption__question__firstQuestion=True
         ).order_by('choiceoption__question__priority_in_filtering').distinct()
         print(lcat.exists(), "|", ecat.exists())
-        for l in lcat:
-            print("Location:", l)
-        for e in ecat:
-            print("Event:", e)
+        # for l in lcat:
+        #     print("Location:", l)
+        # for e in ecat:
+        #     print("Event:", e)
         
         events1 = Event.objects.filter(
             Q(starttime__gte=datetime.date.today()),
