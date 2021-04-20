@@ -2351,11 +2351,12 @@ Primary style
 	
 }
 .btn.disabled{
-	background-color: gray;
+	background-color:  gray;
 }
 .btn:hover.disabled{
 	transform: none;
-	color: black;
+	color: white;
+	background: gray;
 }
 .btn:hover{
 	transform: translateY(-4px);
