@@ -79,7 +79,7 @@ def questionFinish(request):
     context = {"body_id": "b_content"} 
     return render(request, 'ooh/questionend.html', context=context)
 
-@login_required
+@login_required(login_url="/profile/login")
 def question(request, question_id):
     if question_id is None or question_id < 0:
         question_id = 1
@@ -169,7 +169,6 @@ class UserLoginView(LoginView, ProcessFormView):
         form = RegLoginSwitch(request.POST)
         if form.is_valid():
             print("Form is valid!")
-            
             if form.cleaned_data['formular'] == "reg":
                 # Register handling
                 print("Register")

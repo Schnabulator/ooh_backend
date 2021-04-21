@@ -36,13 +36,15 @@
             <div id="progress-main">
                 <!-- <p id="progress-content"  class="text-center">Step Number 1</p> -->
                 <div class="">
-                    <button class="progress-button" id="previousBtn" ><span>Previous</span></button>
+                    <button class="progress-button" id="previousBtn" ><span>Zurück</span></button>
                 </div>
+                {%if not question.lastQuestion %}
                 <div>
-                    <button class="progress-button" id="nextBtn" ><span>Next</span></button>
+                    <button class="progress-button" id="nextBtn" ><span>Weiter</span></button>
                 </div>
+                {%endif%}
                 <div>
-                    <button class="finish-button" id="finishBtn" >Finish</button>
+                    <button class="finish-button" id="finishBtn" >Fertig</button>
                 </div>
             </div>
            
@@ -61,24 +63,6 @@
         const prevpage = {% if prevquestion > 0 %} "{{prevquestion}}"; {% else %} "{{question}}";{% endif %}
         // let currentStep = {{question.id}};
         const MAX_STEPS = 6;
-        
-        
-
-        nextBtn.addEventListener('click',  ()  =>  {
-            //Get Selection
-            _sel = $("input[type='radio'][name='q{{question.id}}']:checked").data('next');
-            sel  = parseInt(_sel, 10);
-            if(typeof sel == 'number' && sel > 0){
-                url = "{% url 'ooh:questions' 0 %}".slice(0, -1)+sel;
-                document.getElementById("einsNiceForm").action = url;
-                document.getElementById("einsNiceForm").submit();
-            }else{
-                console.log("Keine Auswahl getroffen oder keine Zahl hinterlegt");
-                alert("Keine Auswahl getroffen oder keine Zahl hinterlegt");
-            }
-            
-        });
-
 
         previousBtn.addEventListener('click',  ()  =>  {
             _sel = $("input[type='radio'][name='q{{question.id}}']:checked").data('prev');
@@ -118,11 +102,30 @@
                     finishBtn.classList.remove('finish-success');
                     // $(".finish-button").removeClass("finish-success");
                 }, 5000);
-                url = "{% url 'ooh:questionFinish'  %}";
-                document.getElementById("einsNiceForm").action = url;
-                document.getElementById("einsNiceForm").submit();
+                
+                setTimeout(function(){
+                    url = "{% url 'ooh:questionFinish'  %}";
+                    document.getElementById("einsNiceForm").action = url;
+                    document.getElementById("einsNiceForm").submit();
+                }, 2000);
+                
                 // location.reload();   
             // }
+        });
+        {%else%}
+        nextBtn.addEventListener('click',  ()  =>  {
+            //Get Selection
+            _sel = $("input[type='radio'][name='q{{question.id}}']:checked").data('next');
+            sel  = parseInt(_sel, 10);
+            if(typeof sel == 'number' && sel > 0){
+                url = "{% url 'ooh:questions' 0 %}".slice(0, -1)+sel;
+                document.getElementById("einsNiceForm").action = url;
+                document.getElementById("einsNiceForm").submit();
+            }else{
+                console.log("Keine Auswahl getroffen oder keine Zahl hinterlegt");
+                alert("Keine Auswahl getroffen oder keine Zahl hinterlegt");
+            }
+            
         });
         {% endif %}
         
