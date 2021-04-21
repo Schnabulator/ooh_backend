@@ -68,7 +68,7 @@ class index(generic.ListView):
         context["body_id"] = "b_home"
         return context
 
-# @userloginrequired
+
 def questionFinish(request):
     # if request.method != "POST":
     #     pass #404 oder so
@@ -79,6 +79,7 @@ def questionFinish(request):
     context = {"body_id": "b_content"} 
     return render(request, 'ooh/questionend.html', context=context)
 
+@login_required
 def question(request, question_id):
     if question_id is None or question_id < 0:
         question_id = 1
@@ -324,7 +325,7 @@ def add_event(request):
                 
                 # Then create a Template if necessary
                 try:
-                    
+
                     temp = EventTemplate.objects.get(
                         eventLocation=eloc,
                         name__iexact=form.cleaned_data['eventName'],
