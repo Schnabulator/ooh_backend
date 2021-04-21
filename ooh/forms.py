@@ -40,7 +40,7 @@ class AddEvent(forms.Form):
     room = forms.CharField(required=False)
 
     # EventTemplate itself
-    desciption = forms.CharField(required=True)
+    description = forms.CharField(required=True)
     eventName = forms.CharField(required=True)
     picture = forms.ImageField(required=False)
     pricecat = forms.IntegerField(required=False)
