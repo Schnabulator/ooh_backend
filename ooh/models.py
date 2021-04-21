@@ -185,18 +185,21 @@ class Event(models.Model):
     def save(self, *args, **kwargs):
         this_time = self.starttime
         this_time2 = self.endtime
-        while this_time.date() < self.until:
-            new_ev = Event(
-                eventTemplate = self.eventTemplate,
-                takeplace = self.takeplace,
-                promoted = self.promoted,
-                starttime = this_time,
-                endtime = this_time2,
-            )
-            # print("save", self.eventTemplate.name, this_time)
-            super(Event, new_ev).save(*args, **kwargs)
-            this_time = this_time + datetime.timedelta(self.intervalInDays)
-            this_time2 = this_time2 + datetime.timedelta(self.intervalInDays)
+        if self.until is not None and self.until > self.starttime.date():
+            while this_time.date() < self.until:
+                new_ev = Event(
+                    eventTemplate = self.eventTemplate,
+                    takeplace = self.takeplace,
+                    promoted = self.promoted,
+                    starttime = this_time,
+                    endtime = this_time2,
+                )
+                # print("save", self.eventTemplate.name, this_time)
+                super(Event, new_ev).save(*args, **kwargs)
+                this_time = this_time + datetime.timedelta(self.intervalInDays)
+                this_time2 = this_time2 + datetime.timedelta(self.intervalInDays)
+        else:
+            super(Event, self).save(*args, **kwargs)
 class Participate(models.Model):
     user = models.ForeignKey(OohUser, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)

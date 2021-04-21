@@ -300,7 +300,7 @@ def add_event(request):
                 # First get the location
                 loc = Location.objects.get(
                    plz=form.cleaned_data['plz'],
-                   cityname_icontains=form.cleaned_data['cityname'], 
+                   cityname__icontains=form.cleaned_data['cityname'], 
                 )
                 if form.cleaned_data['room'] is not None and len(form.cleaned_data['room']) > 0:
                     (eloc, cr) = EventLocation.objects.get_or_create(
@@ -324,6 +324,7 @@ def add_event(request):
                 
                 # Then create a Template if necessary
                 try:
+                    
                     temp = EventTemplate.objects.get(
                         eventLocation=eloc,
                         name__iexact=form.cleaned_data['eventName'],
@@ -336,7 +337,7 @@ def add_event(request):
                         description = form.cleaned_data['description'],
                         eventLocation=eloc,
                         organizer=request.user,
-                        pricecat=form.cleaned_data['price'],
+                        pricecat=form.cleaned_data['pricecat'],
                         picture=form.cleaned_data['picture'],
                     )
                     temp.save()
@@ -348,15 +349,26 @@ def add_event(request):
                     endtime=form.cleaned_data['endtime'],
                     intervalInDays=form.cleaned_data['intervalInDays'],
                 )
-                # event.save()
+                print(
+                    "EVENTADDER",
+                    event.starttime, 
+                    event.endtime, 
+                    event.intervalInDays,
+                    event.eventTemplate.name,
+                    event.eventTemplate.eventLocation.name,
+                    event.eventTemplate.eventLocation.location.cityname,
+                )
+                event.save()
             except Location.DoesNotExist:
                 err['location'] = "unknown"
             except EventLocation.DoesNotExist:
                 err['eventlocation'] = "unknown"
-            except EventTemplace.DoesNotExist:
+            except EventTemplate.DoesNotExist:
                 err['eventtemplate'] = "unknown"
             except Event.DoesNotExist:
                 err['event'] = "unknown"
+        else:
+            print("Unvalid formular\n", form.errors)
     else:
         form = AddEvent()
     return redirect('ooh:profile')

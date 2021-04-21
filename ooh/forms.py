@@ -42,8 +42,8 @@ class AddEvent(forms.Form):
     # EventTemplate itself
     desciption = forms.CharField(required=True)
     eventName = forms.CharField(required=True)
-    picture = forms.ImageField()
-    pricecat = forms.IntegerField()
+    picture = forms.ImageField(required=False)
+    pricecat = forms.IntegerField(required=False)
     age = forms.IntegerField(required=False)
     specialcategory = forms.CharField(required=True)
     smoking = forms.CharField(required=False)
@@ -53,8 +53,8 @@ class AddEvent(forms.Form):
     # Event
     starttime = forms.DateTimeField()
     endtime = forms.DateTimeField()
-    intervalInDays = forms.IntegerField()
-
+    intervalInDays = forms.IntegerField(required=False)
+    until = forms.DateField(required=False)
     # categories = forms.ModelMultipleChoiceField(queryset=EventCategory.objects.all(), widget=forms.CheckboxSelectMultiple)
 
 class ParticipateForm(forms.Form):
