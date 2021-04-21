@@ -348,7 +348,7 @@ def add_event(request):
                     endtime=form.cleaned_data['endtime'],
                     intervalInDays=form.cleaned_data['intervalInDays'],
                 )
-                event.save()
+                # event.save()
             except Location.DoesNotExist:
                 err['location'] = "unknown"
             except EventLocation.DoesNotExist:
