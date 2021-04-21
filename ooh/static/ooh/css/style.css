@@ -825,7 +825,11 @@ header {
 	display: flex; 
 	justify-content: center;
 	align-items: center;
-	/* width: 100%; */
+	width: 100%;
+}
+
+#login-box{
+	width: 100%;
 }
 
 #loginRegister {
