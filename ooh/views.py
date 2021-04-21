@@ -229,7 +229,7 @@ class EventLocationView(generic.ListView):
         return EventLocation.objects.all
     
 class EventView(generic.ListView):
-    template_name = 'ooh/events.html'
+    template_name = 'ooh/eventview.html'
     context_object_name = 'recommended_events'
     def get_queryset(self):
         # ev = Event.objects.get(name='Schnitzeltag')
