@@ -475,7 +475,12 @@ footer{
         left: 50px;
         top: 50px;
     }
-    
+    .profile-btn{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
 
     /*
             Ende User Account
