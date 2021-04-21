@@ -348,12 +348,15 @@ def add_event(request):
                     starttime=form.cleaned_data['starttime'],
                     endtime=form.cleaned_data['endtime'],
                     intervalInDays=form.cleaned_data['intervalInDays'],
+                    until=form.cleaned_data['until'],
                 )
                 print(
-                    "EVENTADDER",
+                    "EVENTADDER\n",
                     event.starttime, 
                     event.endtime, 
                     event.intervalInDays,
+                    event.until,
+                    "\nEventtemplate shit\n",
                     event.eventTemplate.name,
                     event.eventTemplate.eventLocation.name,
                     event.eventTemplate.eventLocation.location.cityname,

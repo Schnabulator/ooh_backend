@@ -185,8 +185,9 @@ class Event(models.Model):
     def save(self, *args, **kwargs):
         this_time = self.starttime
         this_time2 = self.endtime
-        if self.until is not None and self.until > self.starttime.date():
-            while this_time.date() < self.until:
+        if self.until is not None: #and self.until > self.starttime.date():
+            print("Create event until ", self.until)
+            while this_time.date() <= self.until:
                 new_ev = Event(
                     eventTemplate = self.eventTemplate,
                     takeplace = self.takeplace,
@@ -199,6 +200,7 @@ class Event(models.Model):
                 this_time = this_time + datetime.timedelta(self.intervalInDays)
                 this_time2 = this_time2 + datetime.timedelta(self.intervalInDays)
         else:
+            print("No valid until provided")
             super(Event, self).save(*args, **kwargs)
 class Participate(models.Model):
     user = models.ForeignKey(OohUser, on_delete=models.CASCADE)
