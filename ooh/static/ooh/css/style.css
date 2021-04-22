@@ -546,7 +546,8 @@ html.menu_altern #b_home .navlist {
 }
 #slideshow {
 	position: relative;
-	height: calc(100vh - 6em);
+	height: 100vh;
+	/* height: calc(100vh - 6em); */
 	max-height: 800px;
 	overflow: hidden;
 }
