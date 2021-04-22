@@ -252,7 +252,6 @@ class UserProfile(generic.DetailView):
     
     @method_decorator(login_required(login_url="/profile/login"))
     def get(self, request, *args, **kwargs):
-        # userloc = request.user.locationID
         context = {"body_id": "b_content"} 
         return render(self.request, template_name=self.template_name, context=context)
 
@@ -276,7 +275,6 @@ class UserProfile(generic.DetailView):
             request.user.street = street
             request.user.housenumber = housenumber
             request.user.save()
-            pass
         context = {"body_id": "b_content"} 
         return render(self.request, template_name=self.template_name, context=context)
 
@@ -350,17 +348,17 @@ def add_event(request):
                     intervalInDays=form.cleaned_data['intervalInDays'],
                     until=form.cleaned_data['until'],
                 )
-                print(
-                    "EVENTADDER\n",
-                    event.starttime, 
-                    event.endtime, 
-                    event.intervalInDays,
-                    event.until,
-                    "\nEventtemplate shit\n",
-                    event.eventTemplate.name,
-                    event.eventTemplate.eventLocation.name,
-                    event.eventTemplate.eventLocation.location.cityname,
-                )
+                # print(
+                #     "EVENTADDER\n",
+                #     event.starttime, 
+                #     event.endtime, 
+                #     event.intervalInDays,
+                #     event.until,
+                #     "\nEventtemplate shit\n",
+                #     event.eventTemplate.name,
+                #     event.eventTemplate.eventLocation.name,
+                #     event.eventTemplate.eventLocation.location.cityname,
+                # )
                 event.save()
             except Location.DoesNotExist:
                 err['location'] = "unknown"

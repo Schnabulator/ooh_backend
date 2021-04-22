@@ -8,3 +8,4 @@ manage.py
 migrations/
 !__init__.py
 media/
+ooh/static/admin/
