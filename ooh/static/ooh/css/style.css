@@ -1060,6 +1060,7 @@ input#houseNumber{
 	display: flex; 
 }
 .text-boxNl i{
+	color: #fff;
 	background: #ff6a00;
 	width: 50px;
 	line-height: 40px;
@@ -1109,7 +1110,7 @@ input#houseNumber{
 }
 
 .btnNl:hover{
-	background: rgb(41, 41, 41);
+	background: #9b4101;
 }
 
 /*
