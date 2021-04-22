@@ -291,7 +291,7 @@ def newsletter(request):
 def add_event(request):
     if request.method == "POST":
         form = AddEvent(request.POST)
-        print(form)
+        # print(form)
         err = {}
         if form.is_valid():
             try:
@@ -301,28 +301,38 @@ def add_event(request):
                    cityname__icontains=form.cleaned_data['cityname'], 
                 )
                 if form.cleaned_data['room'] is not None and len(form.cleaned_data['room']) > 0:
-                    (eloc, cr) = EventLocation.objects.get_or_create(
-                        location=loc,
-                        name=form.cleaned_data['locationName'], 
-                        street__icontains=form.cleaned_data['street'], 
-                        room__iexact=form.cleaned_data['room'],
-                    )
+                    try:
+                        eloc = EventLocation.objects.get(
+                            location=loc,
+                            name=form.cleaned_data['locationName'], 
+                            street__icontains=form.cleaned_data['street'], 
+                            room__iexact=form.cleaned_data['room'],
+                        )
+                    except EventLocation.DoesNotExist:
+                        eloc = EventLocation.objects.create(
+                            location=loc,
+                            name=form.cleaned_data['locationName'], 
+                            street=form.cleaned_data['street'], 
+                            room=form.cleaned_data['room'],
+                        )
+                        print("Added Eventlocation")
                 else:
-                    (eloc, cr) = EventLocation.objects.get_or_create(
-                        location=loc,
-                        name=form.cleaned_data['locationName'], 
-                        street__icontains=form.cleaned_data['street'], 
-                    )
-                if cr:
-                    # New Eventlocation was added
-                    pass
-                else:
-                    # Eventlocation was found
-                    pass
+                    try:
+                        eloc = EventLocation.objects.get(
+                            location=loc,
+                            name=form.cleaned_data['locationName'], 
+                            street__icontains=form.cleaned_data['street'], 
+                        )
+                    except EventLocation.DoesNotExist:
+                        eloc = EventLocation.objects.create(
+                            location=loc,
+                            name=form.cleaned_data['locationName'], 
+                            street=form.cleaned_data['street'], 
+                        )
+                        print("Added Eventlocation")
                 
                 # Then create a Template if necessary
                 try:
-
                     temp = EventTemplate.objects.get(
                         eventLocation=eloc,
                         name__iexact=form.cleaned_data['eventName'],
@@ -339,6 +349,7 @@ def add_event(request):
                         picture=form.cleaned_data['picture'],
                     )
                     temp.save()
+                    print("Added Template")
                 #  Finally add the Event itself
                 event = Event(
                     eventTemplate=temp,
@@ -362,14 +373,13 @@ def add_event(request):
                 event.save()
             except Location.DoesNotExist:
                 err['location'] = "unknown"
-            except EventLocation.DoesNotExist:
-                err['eventlocation'] = "unknown"
             except EventTemplate.DoesNotExist:
                 err['eventtemplate'] = "unknown"
             except Event.DoesNotExist:
                 err['event'] = "unknown"
         else:
-            print("Unvalid formular\n", form.errors)
+            # print("Unvalid formular\n", form.errors)
+            pass
     else:
         form = AddEvent()
     return redirect('ooh:profile')
