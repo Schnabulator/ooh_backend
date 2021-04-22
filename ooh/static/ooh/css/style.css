@@ -1023,12 +1023,12 @@ input#houseNumber{
 
 
 .container-Nl{
-	background: url('/img/allgemein/Hintergrund_Login.jpg') ;
+	background: url('../img/newsletter-background.jpg') ;
 	background-size: cover;
 	padding: 100px 40px;
 	text-align: center;
 	font-family: 'Barlow Semi Condensed', 'Arial Narrow', Arial, Helvetica, sans-serif;
-	height: 400px;
+	min-height: 100vh;
 }
 
 #newsletter-erfolg{
