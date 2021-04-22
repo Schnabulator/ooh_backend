@@ -57,7 +57,7 @@
                         <div class="user-bio">
                             <h4>Bio</h4>
                             <p class="bio" id="bio">
-                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi nostrum vero quaerat corrupti, consequuntur iste, odit, expedita sequi architecto esse fugiat magnam officiis molestiae totam libero ratione voluptate maxime. Nulla.
+                                Hier kannst du deine ausgewählten Fragen einsehen. Zusätzlich kannst du unter dem Reiter "Reviews" deine gegebenen Bewertungen einsehen. Zuletzt kannst du deine Settings anpassen.
                             </p>
                         </div>
                         <div class="profile-btn">
@@ -357,13 +357,13 @@ const locationType = $('#location');
 
         function bioText(){
             bio.innerText = bio.innerText.substring(0, 100) + "...";
-            bio.innerHTML += "&nbsp;" + "<span onclick='addLength()' id='see-more-bio'> [See More]</span>";
+            bio.innerHTML += "&nbsp;" + "<span onclick='addLength()' id='see-more-bio'> [Mehr Anzeigen]</span>";
         }
         bioText();
 
         function addLength(){
             bio.innerHTML = bioOld;
-            bio.innerHTML += "&nbsp;" + "<span onclick='bioText()' id='see-less-bio'> [See Less]</span>";
+            bio.innerHTML += "&nbsp;" + "<span onclick='bioText()' id='see-less-bio'> [Weniger Anzeigen]</span>";
         }
 </script>
 
