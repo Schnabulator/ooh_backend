@@ -2573,6 +2573,62 @@ color: #ff6a00;
   border-radius: 5px;
   background: linear-gradient(135deg, #ff6a00, #ffbd8d);
 }
+
+/* 
+   *  Change user begin
+   ************************************* */
+#form-change-user .user-details{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin: 20px 0 12px 0;
+  }
+#form-change-user .user-details .input-box{
+	margin-bottom: 15px;
+	width: calc(100% / 2 - 20px);
+  }
+#form-change-user .input-box span.details{
+	display: block;
+	font-weight: 500;
+	margin-bottom: 5px;
+  }
+#form-change-user.user-details .input-box input{
+	height: 45px;
+	width: 100%;
+	outline: none;
+	font-size: 16px;
+	border-radius: 5px;
+	padding-left: 15px;
+	border: 1px solid #ccc;
+	border-bottom-width: 2px;
+	transition: all 0.3s ease;
+  }
+#form-change-user .button-add-Event{
+	height: 45px;
+	margin: 35px 0
+  }
+#form-change-user .button-add-Event input{
+	height: 100%;
+	width: 100%;
+	border-radius: 5px;
+	border: none;
+	color: #fff;
+	font-size: 18px;
+	font-weight: 500;
+	letter-spacing: 1px;
+	cursor: pointer;
+	transition: all 0.4s ease-in-out;
+	background: linear-gradient(135deg, #ff6a00, #ffbd8d);
+  }
+#form-change-user .button-add-Event input:hover{
+   transform: scale(0.99);
+   background: linear-gradient(-135deg, #ff6a00, #ffbd8d);
+   }
+
+  /* 
+   *  Change user end
+   ************************************* */
+
 #form-add-Event .user-details{
   display: flex;
   flex-wrap: wrap;

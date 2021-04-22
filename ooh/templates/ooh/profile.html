@@ -61,11 +61,11 @@
                         </div>
                         <div class="profile-btn">
                             <input class="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
-                            <label for="modal-btn">Create a new Event<i class="uil uil-expand-arrows"></i></label>      
+                            <label for="modal-btn">Event hinzufügen <i class="uil uil-expand-arrows"></i></label>      
                             <div class="modal">     
                                 <div class="modal-wrap">
                                 
-                                    <div class="title">Add New Event</div>
+                                    <div class="title">Neues Event hinzufügen</div>
                                     <div class="content">
                                         <form action="{% url 'ooh:addevent' %}" id="form-add-Event" method=POST>
                                         {% csrf_token %}
@@ -112,16 +112,16 @@
                                                 <span class="details">Alter</span>
                                                 <select id="age-cat" name="age">
                                                     <option value="0" disabled selected hidden>Bitte wählen</option>
-                                                    <option value="0">&#060; 18</option>
-                                                    <option value="18">&#062;= 18</option>
+                                                    <option value="0">Für Minderjährige</option>
+                                                    <option value="18">Für Volljährige</option>
                                                 </select>
                                             </div>
                                             <div class="input-box">
                                                 <span class="details">Preiskategorie</span>
                                                 <select id="price-cat" name="pricecat">
                                                     <option value="0" disabled selected hidden>Bitte wählen</option>
-                                                    <option value="1">Cheap</option>
-                                                    <option value="3">Expensive</option>
+                                                    <option value="1">Preiswert</option>
+                                                    <option value="3">Teuer</option>
                                                 </select>
                                             </div>
                                             
@@ -138,7 +138,7 @@
                                             </div>
  
                                             <div class="input-box">
-                                                <span class="details">Event Description</span>
+                                                <span class="details">Event Beschreibung</span>
                                                 <textarea name="description" id="" cols="40" rows="5"></textarea>
                                             </div>
 
@@ -187,7 +187,7 @@
                                         </div>
 
                                         <div class="button-add-Event">
-                                            <input type="submit" value="Add">
+                                            <input type="submit" value="Hinzufügen">
                                         </div>
                                         </form>
                                     </div>
@@ -224,7 +224,7 @@
                        <ul>
                            <li onclick="tabs(0)" class="user-post active" style="margin-bottom: 0em;  list-style-type: none;">Fragen</li>
                            <li onclick="tabs(1)" class="user-review" style="margin-bottom: 0em;list-style-type: none;">Reviews</li>
-                           <li onclick="tabs(2)" class="user-setting" style="margin-bottom: 0em;list-style-type: none;">Settings</li>
+                           <li onclick="tabs(2)" class="user-setting" style="margin-bottom: 0em;list-style-type: none;">Einstellungen</li>
                        </ul>
                    </div>
                    <div class="profile-body">
@@ -237,35 +237,50 @@
                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus earum illo, maxime, magnam commodi temporibus consectetur soluta incidunt quas sequi repudiandae reprehenderit iusto recusandae officiis itaque nobis. Eum, ut ex.</p>
                         </div>
                         <div class="profile-setting tab">
-                            <h4>Account Settings</h4>
+                            <h4>Account Einstellungen</h4>
                             <h3>Profil vervollständigen</h3>
-                            {% if user.location  %}
-                            {#//TODO das ganze sollte über ein ausklappbares menü dargestellt werden, damit es nicht so wirkt, als müsste es ausgefüllt werden#}
-                            <form method=post action=".">
+                            <form action=".{# url 'ooh:addevent' #}" id="form-change-user" method=POST>
                                 {% csrf_token %}
-                                
-                                <input name=data value="chgloc" type="hidden"/>
-                                <input name=plz id=plz placeholder="Postleitzahl" value="{{ user.location.plz }}" />
-                                <input name=cityname id=cityname placeholder="Stadtname" value="{{ user.location.cityname }}"/><br/>
-                                <input name=street id=street placeholder="Straße" value="{{ user.street }}">
-                                <input name=housenumber id=housenumber placeholder="Hausnr" value="{{ user.housenumber }}"><br/>
-                                <input id="allowedit" name="allowedit"  type="checkbox" required />
-                                <label for="allowedit">Wirklich ändern?</label>
-                                <input type=submit value="Addresse ändern">
-                            </form>
-                            {% else %}
-                            <form method=post action=".">
-                                {% csrf_token %}
-                                <input name=data value="addloc" type="hidden"/>
-                                <input name=plz id=plz  placeholder="Postleitzahl">
-                                <!-- Stadtname sollte automatisch auf Basis der PLZ gesetzt werden-->
-                                <input name=cityname id=cityname placeholder="Stadtname"><br/>
-                                <input name=street id=street placeholder="Straße" value="" >
-                                <input name=housenumber id=housenumber placeholder="Hausnr"><br/>
-                                <input type=submit value="Addresse hinzufügen">
-                            </form>
-                            {%endif%}
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, quia sunt explicabo eveniet quod soluta nam nostrum ut tempore! Veritatis itaque repudiandae harum ex facilis. Doloribus ipsam a dolore unde!</p>
+                                <h1 style="margin-top: 1%;">Persönliche Daten</h1>
+                                <div class="user-details">
+                                    <div class="input-box">
+                                        <span class="details">Vorname</span>
+                                        <input type="text" name="firstname" placeholder="Vorname" required value="{{user.firstname}}">
+                                    </div>
+                                    <div class="input-box">
+                                        <span class="details">Nachname</span>
+                                        <input type="text" name="lastname" placeholder="Nachname" required value="{{user.lastname}}">
+                                    </div>
+
+                                    <div class="input-box">
+                                        <span class="details">Geburtstag</span>
+                                        <input type="date" name="birthday" id="birthday" value="{{user.birthday|date:'Y-m-d'}}"/>
+                                    </div>
+                                </div>
+                                <h1 style="margin-top: 1%;">Wohn- bzw. Präferierter Ort</h1>
+                                <div class="user-details">
+                                    <div class="input-box">
+                                        <span class="details">PLZ</span>
+                                        <input type="text" placeholder="PLZ" name="plz" required value="{{user.location.plz}}">
+                                    </div>
+                                    <div class="input-box">
+                                        <span class="details">Ortsname</span>
+                                        <input type="text" name="cityname" placeholder="Ortsname" required value="{{user.location.cityname}}">
+                                    </div>
+                                    <div class="input-box">
+                                        <span class="details">Straße</span>
+                                        <input type="text" placeholder="Straße" name="street" required value="{{user.street}}">
+                                    </div>
+                                    <div class="input-box">
+                                        <span class="details">Hausnummer</span>
+                                        <input type="text" placeholder="Hausnummer" name="housenumber" required value="{{user.housenumber}}">
+                                    </div>
+                                </div>
+                                <div class="button-add-Event">
+                                    <input type="submit" value="Daten ändern">
+                                </div>
+                                </form>
+                            
                         </div>
                    </div>
                </div> 
@@ -287,18 +302,18 @@ const locationType = $('#location');
     locationType.change(function(){
         if ( ($(this).val().toLowerCase() == "bar") || ($(this).val().toLowerCase() == "club") ) { 
             specialType.show();
-            specialTypeDescr.text("Music Genre");
+            specialTypeDescr.text("Musik Genre");
             specialTypeValues.empty();
-            specialTypeValues.append($('<option>').val('Option').text('Choose an option'));
+            specialTypeValues.append($('<option>').val('Option').text('Bitte wählen'));
             specialTypeValues.append($('<option>').val('techno').text('Techno'));
             specialTypeValues.append($('<option>').val('pop').text('Pop'));
             specialTypeValues.append($('<option>').val('rock').text('Rock'));
             specialTypeValues.append($('<option>').val('hip-Hop').text('Hip-Hop'));
         }else if( $(this).val().toLowerCase() == "restaurant" ){
             specialType.show();
-            specialTypeDescr.text("Restaurant type");
+            specialTypeDescr.text("Restauranttyp");
             specialTypeValues.empty();
-            specialTypeValues.append($('<option>').val('Option').text('Choose an option'));
+            specialTypeValues.append($('<option>').val('Option').text('Bitte wählen'));
             specialTypeValues.append($('<option>').val('amerikanisch').text('Amerikanisch'));
             specialTypeValues.append($('<option>').val('europäisch').text('Europäisch'));
             specialTypeValues.append($('<option>').val('asiatisch').text('Asiatisch'));

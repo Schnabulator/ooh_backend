@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views import generic
 from django.template import Context
 from .models import Location, EventLocation, Event, OohUser, Participate, Question, ChoiceOption, UserSelection, EventCategory, LocationCategory, EventTemplate
-from .forms import UserLoginForm, RegLoginSwitch, OohUserCreationForm, UserLocation, AddEvent, ParticipateForm
+from .forms import UserLoginForm, RegLoginSwitch, OohUserCreationForm, UserLocation, AddEvent, ParticipateForm, ChangeUser
 from django.contrib.auth import authenticate, login
 from django.db.models import Q, Count, Sum
 
@@ -257,24 +257,36 @@ class UserProfile(generic.DetailView):
 
     @method_decorator(login_required(login_url="/profile/login"))
     def post(self, request, *args, **kwargs):
-        form = UserLocation(request.POST)
+        form = ChangeUser(request.POST)
+        us = request.user
         if form.is_valid():
-            print("Valid Form for new location of user "+request.user.email)
+            print("Valid Form for change of user "+request.user.email)
             plz = form.cleaned_data['plz']
             cityname = form.cleaned_data['cityname']
             street = form.cleaned_data['street']
             housenumber = form.cleaned_data['housenumber']
+            firstname = form.cleaned_data['firstname']
+            lastname = form.cleaned_data['lastname']
+            birthday = form.cleaned_data['birthday']
             
-            location = Location.objects.get(plz=plz, cityname=cityname)
-            if(location is None):
-                # //TODO Make a error message in se formular
-                context = {"body_id": "b_content"} 
-                return render(self.request, template_name=self.template_name, context=context)
-            print(location)
-            request.user.location = location
-            request.user.street = street
-            request.user.housenumber = housenumber
-            request.user.save()
+            if firstname is not None and len(firstname) > 1:
+                us.firstname = firstname
+            if lastname is not None and len(lastname) > 1:
+                us.lastname = lastname
+            if birthday is not None:
+                us.birthday = birthday
+            if street is not None and len(street) > 1:
+                us.street = street
+            if housenumber is not None and len(housenumber) >= 1:
+                us.housenumber = housenumber
+            if plz is not None and cityname is not None and len(plz)>=4 and len(cityname) >= 2:
+                location = Location.objects.get(plz=plz, cityname=cityname)
+                if location is None:
+                    # //TODO Make a error message in se formular
+                    context = {"body_id": "b_content"} 
+                    return render(self.request, template_name=self.template_name, context=context)
+                us.location = location
+            us.save()
         context = {"body_id": "b_content"} 
         return render(self.request, template_name=self.template_name, context=context)
 

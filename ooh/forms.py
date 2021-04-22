@@ -29,6 +29,14 @@ class UserLocation(forms.Form):
     cityname = forms.CharField(required=True)
     street = forms.CharField(required=True)
     housenumber = forms.IntegerField()
+class ChangeUser(forms.Form):
+    firstname   = forms.CharField(required=False)
+    lastname    = forms.CharField(required=False)
+    birthday    = forms.DateField(required=False)
+    plz         = forms.CharField(required=False, max_length=10)
+    cityname    = forms.CharField(required=False)
+    street      = forms.CharField(required=False)
+    housenumber = forms.CharField(required=False)
 
 class AddEvent(forms.Form):
     # Location 
