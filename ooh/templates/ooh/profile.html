@@ -80,9 +80,9 @@
                                                 <span class="details">Locationart</span>
                                                 <select id="location" name="locationType">
                                                     <option value="" disabled selected hidden name="">Bitte wählen</option>
-                                                    <option value="Bar">Bar</option>
-                                                    <option value="Restaurant">Restaurant</option>
-                                                    <option value="Club">Club</option>
+                                                    <option value="bar">Bar</option>
+                                                    <option value="restaurant">Restaurant</option>
+                                                    <option value="club">Club</option>
                                                 </select>
                                             </div>
                                             <div class="input-box">
@@ -286,24 +286,24 @@ const locationType = $('#location');
     specialType.hide();
  
     locationType.change(function(){
-        if (($(this).val() == "Bar") || ($(this).val() == "Club")) { 
+        if ( ($(this).val().toLowerCase() == "bar") || ($(this).val().toLowerCase() == "club") ) { 
             specialType.show();
             specialTypeDescr.text("Music Genre");
             specialTypeValues.empty();
             specialTypeValues.append($('<option>').val('Option').text('Choose an option'));
-            specialTypeValues.append($('<option>').val('Techno').text('Techno'));
-            specialTypeValues.append($('<option>').val('Pop').text('Pop'));
-            specialTypeValues.append($('<option>').val('Rock').text('Rock'));
-            specialTypeValues.append($('<option>').val('Hip-Hop').text('Hip-Hop'));
-        }else if($(this).val() == "Restaurant"){
+            specialTypeValues.append($('<option>').val('techno').text('Techno'));
+            specialTypeValues.append($('<option>').val('pop').text('Pop'));
+            specialTypeValues.append($('<option>').val('rock').text('Rock'));
+            specialTypeValues.append($('<option>').val('hip-Hop').text('Hip-Hop'));
+        }else if( $(this).val().toLowerCase() == "restaurant" ){
             specialType.show();
             specialTypeDescr.text("Restaurant type");
             specialTypeValues.empty();
             specialTypeValues.append($('<option>').val('Option').text('Choose an option'));
-            specialTypeValues.append($('<option>').val('American').text('American'));
-            specialTypeValues.append($('<option>').val('European').text('European'));
-            specialTypeValues.append($('<option>').val('Asian').text('Asian'));
-            specialTypeValues.append($('<option>').val('African').text('African'));
+            specialTypeValues.append($('<option>').val('amerikanisch').text('Amerikanisch'));
+            specialTypeValues.append($('<option>').val('europäisch').text('Europäisch'));
+            specialTypeValues.append($('<option>').val('asiatisch').text('Asiatisch'));
+            specialTypeValues.append($('<option>').val('afrikanisch').text('Afrikanisch'));
         }
     });
    

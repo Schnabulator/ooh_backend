@@ -300,6 +300,31 @@ def add_event(request):
                    plz=form.cleaned_data['plz'],
                    cityname__icontains=form.cleaned_data['cityname'], 
                 )
+
+                #  Smoking has to be set at the location itself
+                smok = form.cleaned_data['smoking']
+                _scat = LocationCategory.objects.filter(filter_name=smok)
+                if _scat.exists():
+                    scat = _scat.first()
+                else:
+                    scat = LocationCategory.objects.create(
+                        filter_name=smok,
+                        name="Raucht",
+                    )
+
+                special = form.cleaned_data['specialcategory']
+                restaurant = True if form.cleaned_data['locationType'].lower()=="restaurant" else False
+                _scat = LocationCategory.objects.filter(
+                        Q(filter_name__iexact=special) |
+                        Q(name__iexact=special)
+                )
+                if _scat.exists():
+                    spcat = _scat.first()
+                else:
+                    spcat = LocationCategory.objects.create(
+                        filter_name=special,
+                        name=special,
+                    )
                 if form.cleaned_data['room'] is not None and len(form.cleaned_data['room']) > 0:
                     try:
                         eloc = EventLocation.objects.get(
@@ -315,6 +340,9 @@ def add_event(request):
                             street=form.cleaned_data['street'], 
                             room=form.cleaned_data['room'],
                         )
+                        eloc.categories.add(spcat)
+                        eloc.categories.add(scat)
+                        eloc.save()
                         print("Added Eventlocation")
                 else:
                     try:
@@ -329,6 +357,9 @@ def add_event(request):
                             name=form.cleaned_data['locationName'], 
                             street=form.cleaned_data['street'], 
                         )
+                        eloc.categories.add(spcat)
+                        eloc.categories.add(scat)
+                        eloc.save()
                         print("Added Eventlocation")
                 
                 # Then create a Template if necessary
@@ -350,6 +381,23 @@ def add_event(request):
                     )
                     temp.save()
                     print("Added Template")
+                # Add event categories
+                for cat in form.cleaned_data['categories'].split(','):
+                    cat = cat.strip()
+                    c = EventCategory.objects.filter(
+                        Q(name__icontains=cat) |
+                        Q(filter_name__icontains=cat)
+                    )
+                    if not c.exists():
+                        c = EventCategory.objects.create(
+                            name=cat,
+                            filter_name=cat.lower(),
+                        )
+                    else: 
+                        c = c.first()
+                    # if EventCategory.eventTemplate_set.filter(eventCategory=c):
+                    temp.eventCategory.add(c)
+
                 #  Finally add the Event itself
                 event = Event(
                     eventTemplate=temp,
