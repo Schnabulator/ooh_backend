@@ -51,11 +51,15 @@
     <nav id="nav1">
         <div class="inner">
             <ul class="navlist">
-                {# //TODO aktiv class machen #}
-                <li id="n_home" class="{% if request.path == '/' %} aktiv  {% endif %}"><a href="/"><span>Home</span></a></li>
+                {# //TODO Deine Events nur dann anzeigen, wenn der User den Fragekatalog beantwortet hat #}
+                {% if user.is_authenticated %}
+                    <li id="n_home" class="{% if request.path == '/' %} aktiv  {% endif %}"><a href="/"><span>Deine Events</span></a></li>
+                {% else %}
+                    <li id="n_home" class="{% if request.path == '/' %} aktiv  {% endif %}"><a href="/"><span>Home</span></a></li>
+                {% endif %}
                 <li  class="{% if request.path == '/events/' %} aktiv  {% endif %}"><a href="{% url 'ooh:events' %}"><span>Events</span></a></li>
                 {#<li  class="{% if request.path == '/locations/' %} aktiv  {% endif %}"><a href="{% url 'ooh:locations' %}"><span>Locations</span></a></li>#}
-                <li  class="{% if '/questions/' in request.path   %} aktiv  {% endif %}"><a href="{% url 'ooh:questions' 1 %}"><span>Fragekatalog</span></a></li>
+                <li  class="{% if '/questions/' in request.path   %} aktiv  {% endif %}"><a href="{% url 'ooh:questions' 1 %}"><span>Eventfinder</span></a></li>
                 {% if user.is_authenticated %}
                     <li id="" class="{% if request.path == '/profile/' %} aktiv {%endif%}">
                         <a href="{% url 'ooh:profile' %} ">
