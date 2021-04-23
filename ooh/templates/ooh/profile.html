@@ -31,17 +31,17 @@
             <div class="main-bd">
                 <div class="left-side">
                     <div class="profile-side">
-                        <p class="mobile-number">
+                        <!-- <p class="mobile-number">
                             <i class="fa fa-phone"></i>
                             123456789
-                        </p>
+                        </p> -->
                         <p class="user-mail">
                             <i class="fa fa-envelope"></i>
                             {{ user.email }}
                         </p>
                         {% if user.is_staff or user.is_superuser %}
                         <p class="user-status">
-                            <i class="fa fa-id-card-o" ></i>
+                            <i class="far fa-id-card"></i>
                             {% if user.is_superuser  %}
                             Admin
                             {% elif user.is_staff %}
