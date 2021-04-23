@@ -830,6 +830,8 @@ header {
 }
 
 #login-box{
+	margin-top: 30px;
+	margin-bottom: 30px;
 	width: 100%;
 }
 
@@ -1118,167 +1120,6 @@ input#houseNumber{
 		ENDE Newsletter
 ***********************************************/
 
-
-/*
-		ANFANG Inhalt-Seite
-***********************************************/
-.portfolio{
-	font-family: 'Barlow Semi Condensed', 'Arial Narrow', Arial, Helvetica, sans-serif;
-	overflow: hidden;
-	position: relative;
-	color: white !important;
-	background: radial-gradient(#6CE633, #143604);
-}
-
-.page{
-	min-height: 90vh;
-	display: grid;
-	/* mit flex-box wäre es deutlich schwerer das Bild mittig anzuordnen */
-	grid-template-columns: 5% 1fr 1fr 5%;
-}
-
-.segway,
-.e-roller,
-.e-bike,
-.e-scooter{
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 100%;	
-	opacity: 0;
-	pointer-events: none;
-}
-
-.hero{
-	overflow: hidden;
-	align-self: center;
-	justify-self: center;
-	position: relative;
-}
-
-.front, .back{
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-	backface-visibility: hidden;
-	-moz-transition: transform 0.6s linear;
-    -o-transition: transform 0.6s linear;
-    -webkit-transition: transform 0.6s linear;
-	transition: transform 0.6s linear;
-}
-
-.front{
-	-moz-transform: perspective(600px) rotateY(0deg);
-    -webkit-transform: perspective(600px) rotateY(0deg);
-	transform: perspective(600px) rotateY(0deg);
-}
-
-.back{
-	cursor: pointer;
-	background: radial-gradient(rgb(84, 169, 190), #00495c77);
-	position: absolute;
-	bottom: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	-moz-transform: perspective(600px) rotateY(180deg);
-    -webkit-transform: perspective(600px) rotateY(180deg);
-	transform: perspective(600px) rotateY(180deg);
-}
-
-.back-content{
-	font-family: inherit;
-	font-size: 22px;
-	font-weight: 500;
-	width: 80%;
-}
-
-.hero:hover > .front{
-	-moz-transform: perspective(600px) rotateY(-180deg);
-    -webkit-transform: perspective(600px) rotateY(-180deg);
-	transform: perspective(600px) rotateY(-180deg);
-}
-
-.hero:hover > .back{
-	-moz-transform: perspective(600px) rotateY(0deg);
-    -webkit-transform: perspective(600px) rotateY(0deg);
-	transform: perspective(600px) rotateY(0deg);
-}
-
-
-.hero img{
-	height: 500px;
-	width: 450px;
-	cursor: pointer;
-	object-fit: cover;
-}
-
-.details{
-	grid-column: 2/3;
-	align-self: center;
-}
-
-.details>h3, .details > h4{
-	color: white;
-}
-
-.page-nav{
-	position: absolute;
-	right: 3%;
-	top: 45%;
-	-moz-transform: translateY(-50%);
-    -webkit-transform: translateY(-50%);
-	transform: translateY(-50%);
-}
-
-.page-nav p{
-	margin: 0 !important;
-	font-size: 22px;
-	font-weight: 700;
-	padding: 25px;
-}
-
-.page-nav > div{
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-}
-
-.page-nav svg{
-	cursor: pointer;
-	opacity: 0.5;
-	-moz-transform: scale(2);
-    -webkit-transform: scale(2);
-	transform: scale(2);
-}
-
-.page-nav svg:hover{
-	/* infinte = macht es unendlich oft; alternate = die Animation geht auch zurück */
-	animation: dot 0.5s ease-in-out infinite alternate;
-}
-
-.page-nav svg.active{
-	opacity: 1;
-}
-
-@keyframes dot{
-	0%{
-		-moz-transform: scale(2);
-		-webkit-transform: scale(2);	
-		transform: scale(2);
-	}
-	100%{
-		-moz-transform: scale(3.5);
-		-webkit-transform: scale(3.5);	
-		transform: scale(3.5);
-	}
-}
-
-
-
-/*
-		ENDE Inhalt-Seite
-***********************************************/
 
 /*
 		ANFANG Cookie
@@ -1885,7 +1726,7 @@ figcaption p{
 	display: none !important;
 	text-align: center;
   }
-  @media only screen and (min-width: 1000px) {
+  @media only screen and (min-width: 1001px) {
 	.cd-gallery {
 	  padding: 40px 3%;
 	}
