@@ -2537,11 +2537,10 @@ color: #ff6a00;
 .user-details .input-box label[for="file"]:hover{
   background: #ff6a00;
 }
-.user-details .input-box select:focus{
+/* .user-details .input-box select:focus{
   border-color: #ff6a00;
-}
-.user-details .input-box input:focus,
-.user-details .input-box input:valid{
+} */
+.user-details .input-box input:focus{
   border-color: #ff6a00;
 }
  
