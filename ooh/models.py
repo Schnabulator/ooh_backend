@@ -242,6 +242,7 @@ class ChoiceOption(models.Model):
     filter_name = models.CharField(max_length=100, blank=True, null=True)
     nextQuestion = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='nextQuestion', blank=True, null=True)
     prevQuestion = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='prevQuestion', blank=True, null=True)
+    result = models.CharField(max_length=100, blank=True, null=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='question')
     related_event_category = models.ManyToManyField(EventCategory, blank=True)
     related_location_category = models.ManyToManyField(LocationCategory, blank=True)

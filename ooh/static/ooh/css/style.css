@@ -2418,6 +2418,7 @@ color: #ff6a00;
 /* 
    *  Change user begin
    ************************************* */
+
 #form-change-user .user-details{
 	display: flex;
 	flex-wrap: wrap;
