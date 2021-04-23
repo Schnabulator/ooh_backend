@@ -19,50 +19,7 @@
 
   <script type="text/javascript">
         
-        $(document).ready(function(){
-            $.validator.messages.required = "Bitte angeben";
-            $.validator.messages.email = "Bitte gültige E-Mail angeben.";
-
-            $('#Nsubmit').on('click', function() {
-                if ( $("#newsletter").valid() === false ) return false;
-                
-                var bestaetigung = window.confirm("Wollen Sie den Newsletter wirklich abonnieren?");
-
-                if(!bestaetigung) {
-                    $('.tboxNl').val('');
-                    return false;
-                }
-                
-                form_data = $("#newsletter").find(".ed").serialize();
-                form_data = form_data+"&type=newsletter";
-                
-                weiter = false;
-                $.ajax({
-                    type: "POST",
-                    url: "/login.ajax",
-                    data: form_data,
-                    dataType: "text",
-                    success: function(resp){ 
-                        ret = jQuery.parseJSON(resp);
-                        
-                        if (ret.error && ret.error.length > 0) {
-                            alert (ret.error);
-                        } else {
-                            if (ret.success) {
-                                $("#newsletter").html('<div id="newsletter-erfolg" style="color:white;">'+ret.success+'</div>')
-                                setTimeout( function() {window.location.replace("/index.html");}, 1500);
-                            } else
-                                alert("Bei der Datenübergabe ist ein Fehler aufgetreten.\n\nBitte wiederholen Sie den Vorgang noch einmal.");
-                            }
-                        },
-                    error: function(msg) {
-                        alert (msg);
-                    }
-                })
-                $('.tboxNl').val('');
-                return false; 
-            });
-        });
+       //coming soon...
         
     </script>
 
