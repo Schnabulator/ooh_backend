@@ -417,49 +417,6 @@ footer{
 
 
 @media (max-width: 1000px) {
-    
-    /*
-		ANFANG Inhaltsseite
-    ***********************************************/
-    .page	{
-		grid-template-columns: 5% 1fr 5%;
-		grid-template-rows: 1fr 1fr;
-		align-items: center;
-	}
-	.hero{
-		grid-column: 2/3;
-		height: auto;
-		align-self: flex-start;
-		justify-self: center;
-	}
-	.hero img{
-		
-		height: 350px;
-		width: 1024px;
-	}
-	.details{
-		grid-row: 2/3;
-		grid-column: 2/3;
-		text-align: center;
-		justify-self: center;
-	}
-	.page-nav{
-		right: 3%;
-		top: 40%;
-	}
-	.page-nav p{
-		font-size: 20px;
-		padding: 15px;
-    }
-    
-    .back-content{
-        width: 60%;
-        /* font-size: 18px; */
-    }
-
-    /*
-		ENDE Inhaltsseite
-    ***********************************************/
 
     /*
             ANFANG User Account
@@ -488,6 +445,11 @@ footer{
     /*
             Anfang Angebot
     ***********************************************/
+    .cd-gallery {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
     .container{
         display: flex;
         flex-direction: column-reverse;
@@ -515,14 +477,6 @@ footer{
     .product-image img{
         object-fit: cover;
     }
-    /* Daten sollen angezeigt werden, wenn man drauf dappst */
-    /* .info{
-        display: none;
-    }
-    .product-image:hover img {
-        transition: none;
-        transform: none;
-    } */
     /*
             Ende Angebot
     ***********************************************/
@@ -533,16 +487,10 @@ footer{
     #progress-main{
 
         display: flex;
-
         flex-direction: column;
-
         align-items: center;
-
         justify-content: space-evenly;
-
     }
-
-
 
     #nextBtn, #previousBtn{
         margin: 10px;
@@ -601,37 +549,7 @@ footer{
     #canvasID {
 		display: none;
     }
-     /*
-		ANFANG Inhaltsseite
-    ***********************************************/
-    .page{
-		grid-template-rows: 1fr 1fr;
-	}
 
-	.hero img{
-		width: 768px;
-	}
-	.page-nav{
-		right: 1%;
-	}
-
-	.page-nav p{
-		font-size: 18px;
-		padding: 8px;
-	}
-	
-	.page-nav svg{
-		width: 10px;
-		height: 10px;
-    }
-
-    .back-content{
-        width: 50%;
-    }
-    
-    /*
-		ENDE Inhaltsseite
-    ***********************************************/
 
     /*
     		ANFANG User Account
