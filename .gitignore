@@ -6,6 +6,7 @@ zuordnung_plz_ort.csv
 *.sqlite3
 manage.py
 migrations/
+migrations/*
 !__init__.py
 media/
 ooh/static/admin/
