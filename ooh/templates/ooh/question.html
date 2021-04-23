@@ -10,12 +10,13 @@
         <div id="choices" class="radio-buttons">
         <form id="einsNiceForm" action="{% url 'ooh:questions' 0 %}" method="POST">
             {% csrf_token %}
+        {%comment%}
         {% for key, value in request.POST.items %}
             {% if key  != curquestionkey %}
                 <input type="hidden" name="{{ key }}" value="{{ value }}">
             {% endif %}
         {% endfor %}
-        
+        {%endcomment%}
         {% for choice in question.question.all %}
             <label class="custom-radio">
                 <input type="radio" name="q{{question.id}}" value="{{ choice.id }}" data-next="{% if choice.nextQuestion %}{{choice.nextQuestion.id}}{%else%}{{question.id}}{%endif%}" 
@@ -112,7 +113,7 @@
                 // location.reload();   
             // }
         });
-        {%else%}
+        {% else %}
         nextBtn.addEventListener('click',  ()  =>  {
             //Get Selection
             _sel = $("input[type='radio'][name='q{{question.id}}']:checked").data('next');

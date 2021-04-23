@@ -3,15 +3,18 @@
 
 
 {% block content %}
-<div>
-Du bist ein Mensch.
-<!-- <table>
-    {% for key, value in request.POST.items %}
-    <tr>
-            <td> {{ key }} </td>
-            <td> {{ value }} </td>
-    </tr>
-    {% endfor %}
-</table> -->
+<div class="qu-container">
+    <div class="qu-box">
+        <h3>Ergebnis</h3>
+        <p>
+            Hey {{ user.firstname }}, wir stufen dich als einen '{{ result }}' ein. 
+        </p>
+        <p>
+            Schau doch gleich mal nach <a href="{% url 'ooh:index' %}">deinen persönlichen Empfehlungen auf der Startseite</a> vorbei.
+        </p>
+        <p>
+            Wenn dir die Vorschläge nicht gefallen, führe diesen <a href="{% url 'ooh:questions' 1 %}">Eventfinder</a> einfach noch mal durch.
+        </p>
+    </div>    
 </div>
 {% endblock %}
