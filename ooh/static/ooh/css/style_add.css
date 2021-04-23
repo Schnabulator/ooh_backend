@@ -445,10 +445,11 @@ footer{
     /*
             Anfang Angebot
     ***********************************************/
-    .cd-gallery {
+    .cd-gallery ul {
         display: flex;
         justify-content: center;
         align-items: center;
+		flex-direction: column;
     }
     .container{
         display: flex;
