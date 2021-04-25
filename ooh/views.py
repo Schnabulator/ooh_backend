@@ -16,7 +16,30 @@ from django.utils.decorators import method_decorator
 import datetime
 
 User = get_user_model()
+# questionend  return values
+# club_gehoben_elektro = "Disco Fox"
+# club_gehoben_rock = "Heavy Metal Poger"
+# club_gehoben_pop = "Hit Friday Follower"
+# club_gehoben_hiphop = "Gangsta Rapper"
 
+# bar_preiswert_elektro = "Ambient Chiller"
+# bar_preiswert_rock = "Softrocker*in"
+# bar_preiswert_pop = "Jazzer"
+# bar_preiswert_hiphop = "Battle Rapper"
+
+# essen_gehoben_amerikanisch = "Steak Genießer*in"
+# essen_gehoben_europa =  "Pasta Genussmensch"
+# essen_gehoben_asia =  "Sushi Guru"
+# essen_gehoben_afrikanisch =  "Couscous Feinschmecker"
+
+# essen_preiswert_amerikanische = "Burger Schlinger*in"
+# essen_preiswert_europa = "Pizza Verdrücker"
+# essen_preiswert_asia = "Nudelboxsuchti "
+# essen_preiswert_afrikanisch = "Fallafel Nascher"
+
+# kulturelles_vorführungen = "Unterhaltungsfetischist"
+# kulturelles_ausstellungen = "Kunstliebhaber"
+# quenstionend return values end
 class index(generic.ListView):
     model = Event
     template_name = 'ooh/index.html'
@@ -108,7 +131,7 @@ def questionFinish(request):
         print("# club")
         if 'gehoben' in ans:
             print("# gehoben")
-            result = "gehobener "
+            result = "gehobenen "
             # Music
             if 'pop' in ans:
                 print("# pop")
@@ -119,12 +142,12 @@ def questionFinish(request):
             elif 'hip-hop' in ans:
                 print("# hip-hop")
                 result = result + "Gangster Rapper"
-            elif 'techno' in ans:
+            elif 'techno' in ans or 'electro' in ans or 'elektro' in ans:
                 print("# techno")
                 result = result + "Disco Fox"
         elif 'preiswert' in ans:
             print("# billig")
-            result = "preiswerter "
+            result = "preiswerten "
             # Music
             if 'pop' in ans:
                 print("# pop")
@@ -135,7 +158,7 @@ def questionFinish(request):
             elif 'hip-hop' in ans:
                 print("# hip-hop")
                 result = result + "Gangster Rapper"
-            elif 'techno' in ans:
+            elif 'techno' in ans or 'electro' in ans or 'elektro' in ans:
                 print("# techno")
                 result = result + "Disco Fox"
 
@@ -143,7 +166,7 @@ def questionFinish(request):
         print("# bar")
         if 'gehoben' in ans:
             print("# gehoben")#
-            result = "gehobener "
+            result = "gehobenen "
             # Music
             if 'pop' in ans:
                 print("# pop")
@@ -159,7 +182,7 @@ def questionFinish(request):
                 result = result + "Ambient Chiller"
         elif 'preiswert' in ans:
             print("# billig")
-            result = "preiswerter "
+            result = "preiswerten "
             # Music
             if 'pop' in ans:
                 print("# pop")
