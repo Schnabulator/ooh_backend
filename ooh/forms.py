@@ -69,5 +69,8 @@ class ParticipateForm(forms.Form):
     eventID = forms.IntegerField(required=True)
     probability = forms.IntegerField(required=False)
 
+class ResetUserPreferences(forms.Form):
+    submitdelete = forms.CharField(required=True)
+
 # //TODO create form for question and answer validation kaka
 

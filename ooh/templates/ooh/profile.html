@@ -236,9 +236,9 @@
                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus earum illo, maxime, magnam commodi temporibus consectetur soluta incidunt quas sequi repudiandae reprehenderit iusto recusandae officiis itaque nobis. Eum, ut ex.</p>
                         </div>
                         <div class="profile-setting tab">
-                            <h4>Account Einstellungen</h4>
+                            <h2>Account Einstellungen</h2>
                             <h3>Profil vervollständigen</h3>
-                            <form action=".{# url 'ooh:addevent' #}" id="form-change-user" method=POST>
+                            <form action="." id="form-change-user" method=POST>
                                 {% csrf_token %}
                                 <h1 style="margin-top: 1%;">Persönliche Daten</h1>
                                 <div class="user-details">
@@ -279,7 +279,18 @@
                                     <input type="submit" value="Daten ändern">
                                 </div>
                                 </form>
-                            
+                                
+                            <h3>Eventfinder zurücksetzen</h3>
+                            <form action="{% url 'ooh:resetquestions' %}" method="POST">
+                                {%csrf_token%}
+                                <input type="radio" name="submitdelete" id="submitdelete1" value="yes"required>
+                                <label for="submitdelete1">Fragen zurücksetzen</label>
+                                <br/>
+                                <input type="radio" name="submitdelete" id="submitdelete2" value="no" checked>
+                                <label for="submitdelete2">Fragen nicht zurücksetzen</label>
+                                <br/>
+                                <input type="submit" value="Fragenkatalog zurücksetzen">
+                            </form>
                         </div>
                    </div>
                </div> 

@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views import generic
 from django.template import Context
 from .models import Location, EventLocation, Event, OohUser, Participate, Question, ChoiceOption, UserSelection, EventCategory, LocationCategory, EventTemplate
-from .forms import UserLoginForm, RegLoginSwitch, OohUserCreationForm, UserLocation, AddEvent, ParticipateForm, ChangeUser
+from .forms import UserLoginForm, RegLoginSwitch, OohUserCreationForm, UserLocation, AddEvent, ParticipateForm, ChangeUser, ResetUserPreferences
 from django.contrib.auth import authenticate, login
 from django.db.models import Q, Count, Sum
 
@@ -110,6 +110,7 @@ class index(generic.ListView):
 def questionFinish(request):
     # first save the last answer
     # print(request.POST)
+    please_wait_hint = False
     for key, value in request.POST.items():
         if key.startswith("q"):
             question_id = key[1:]
@@ -233,11 +234,13 @@ def questionFinish(request):
                 result = result + "Fallafel Nascher*in"
     elif 'ausstellungen (museum, gallerie)' in ans:
         result = result + "Kunstliebhaber"
+        please_wait_hint = True
     elif 'vorstellungen (theater, oper, kino)' in ans:
         result = result + "Unterhaltungsfetischist"
+        please_wait_hint = True
 
     # result = "Arsch"
-    context = {"body_id": "b_content", "result": result} 
+    context = {"body_id": "b_content", "result": result, "please_wait": please_wait_hint} 
     return render(request, 'ooh/questionend.html', context=context)
 
 @login_required(login_url="/profile/login")
@@ -659,7 +662,19 @@ def participate_event(request):
         # Everything else is forbidden
         return JsonResponse({'error': 'Das darfst du nicht'}, status=405)
 
-
+@login_required(login_url="/profile/login")
+def reset_user_preferences(request):
+    # first check if valid
+    if request.method =="POST":
+        form = ResetUserPreferences(request.POST)
+        if form.is_valid():
+            if form.cleaned_data['submitdelete'] == 'yes':
+                # then delete
+                user = request.user
+                qr = user.currentQuestionRun
+                UserSelection.objects.filter(user=user, questionRun=qr).delete()
+    return redirect('/profile/')
+    
 
 
 
