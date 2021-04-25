@@ -82,7 +82,7 @@ class index(generic.ListView):
             # choiceoption__question__firstQuestion=True
         ).order_by('choiceoption__question__priority_in_filtering').distinct()
         # print(lcat.exists(), "|", ecat.exists())
-        
+        print(ecat, "\n", lcat)
         events1 = Event.objects.filter(
             Q(starttime__gte=datetime.date.today()),
             Q(eventTemplate__mininumage__lte=age),
@@ -94,7 +94,7 @@ class index(generic.ListView):
             num_fitting_event_categories=Count('eventTemplate__eventCategory')
         ).order_by('-num_fitting_location_categories', '-num_fitting_event_categories', 'starttime').distinct()
         # ).order_by('num_fitting_location_categories').distinct()
-        
+        print(events1)
         #//TODO seems like the order function does stupid stuff. I think Schnitzeltag has to be before shot friday
         #print("Found {0} matching lcategories and {1} matching ecategories".format(events1[0].num_fitting_location_categories, events1[0].num_fitting_event_categories))
        
