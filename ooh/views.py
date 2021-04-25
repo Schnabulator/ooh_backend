@@ -275,18 +275,19 @@ def question(request, question_id):
             print("PQ:{0}, PQS: {1}".format(pq, sel))
             
             pquestion = Question.objects.get(pk=pq)
-            pselection = ChoiceOption.objects.get(pk=sel)
-            try:
-                ans = UserSelection.objects.get(user=user, question=pquestion, questionRun=questionrun)
-                ans.selection = pselection
+            if sel is not None:
+                pselection = ChoiceOption.objects.get(pk=sel)
+                try:
+                    ans = UserSelection.objects.get(user=user, question=pquestion, questionRun=questionrun)
+                    ans.selection = pselection
+                    ans.save()
+                    print("Found Userselection and overwrite it")
+                except UserSelection.DoesNotExist:
+                    ans = UserSelection(user=user, question=pquestion, selection=pselection, questionRun=questionrun)
+                    ans.save()
+                    print("Found no Userselection and created it")
+                print(ans)
                 ans.save()
-                print("Found Userselection and overwrite it")
-            except UserSelection.DoesNotExist:
-                ans = UserSelection(user=user, question=pquestion, selection=pselection, questionRun=questionrun)
-                ans.save()
-                print("Found no Userselection and created it")
-            print(ans)
-            ans.save()
         else:
             print("No prev Q ")
     else:
@@ -446,6 +447,7 @@ def newsletter(request):
     context = {"body_id": "b_content"} 
     return render(request, template_name=template_name, context=context)
 
+#  //TODO eventlocation kategorien müssen gesetzt werden 
 def add_event(request):
     if request.method == "POST":
         form = AddEvent(request.POST)
@@ -465,24 +467,27 @@ def add_event(request):
                 if _scat.exists():
                     scat = _scat.first()
                 else:
+                    if smok == "nosmoking":
+                        name="Keinen"
+                    elif smok == "innersmoking":
+                        name="Innen"
+                    elif smok == "outersmoking":
+                        name="Außen"
                     scat = LocationCategory.objects.create(
                         filter_name=smok,
-                        name="Raucht",
+                        name=name,
                     )
-
-                special = form.cleaned_data['specialcategory']
-                restaurant = True if form.cleaned_data['locationType'].lower()=="restaurant" else False
-                _scat = LocationCategory.objects.filter(
-                        Q(filter_name__iexact=special) |
-                        Q(name__iexact=special)
-                )
+                # Location type
+                ltype = form.cleaned_data['locationType']
+                _scat = LocationCategory.objects.filter(filter_name=ltype)
                 if _scat.exists():
-                    spcat = _scat.first()
+                    lcat = _scat.first()
                 else:
-                    spcat = LocationCategory.objects.create(
-                        filter_name=special,
-                        name=special,
+                    lcat = LocationCategory.objects.create(
+                        filter_name=smok.lower(),
+                        name=name,
                     )
+                
                 if form.cleaned_data['room'] is not None and len(form.cleaned_data['room']) > 0:
                     try:
                         eloc = EventLocation.objects.get(
@@ -491,6 +496,7 @@ def add_event(request):
                             street__icontains=form.cleaned_data['street'], 
                             room__iexact=form.cleaned_data['room'],
                         )
+                        # Do not override Categories! or add them 🤔 :thinkingface:
                     except EventLocation.DoesNotExist:
                         eloc = EventLocation.objects.create(
                             location=loc,
@@ -498,7 +504,7 @@ def add_event(request):
                             street=form.cleaned_data['street'], 
                             room=form.cleaned_data['room'],
                         )
-                        eloc.categories.add(spcat)
+                        eloc.categories.add(lcat)
                         eloc.categories.add(scat)
                         eloc.save()
                         print("Added Eventlocation")
@@ -520,6 +526,22 @@ def add_event(request):
                         eloc.save()
                         print("Added Eventlocation")
                 
+                
+                # Food and Music is Eventcategory
+                special = form.cleaned_data['specialcategory']
+                restaurant = True if form.cleaned_data['locationType'].lower()=="restaurant" else False
+                _scat = LocationCategory.objects.filter(
+                        Q(filter_name__iexact=special) |
+                        Q(name__iexact=special)
+                )
+                if _scat.exists():
+                    spcat = _scat.first()
+                else:
+                    spcat = LocationCategory.objects.create(
+                        filter_name=special,
+                        name=special,
+                    )
+
                 # Then create a Template if necessary
                 try:
                     temp = EventTemplate.objects.get(
@@ -540,6 +562,7 @@ def add_event(request):
                     temp.save()
                     print("Added Template")
                 # Add event categories
+                temp.eventCategory.add(spcat)
                 for cat in form.cleaned_data['categories'].split(','):
                     cat = cat.strip()
                     c = EventCategory.objects.filter(
