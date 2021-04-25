@@ -40,7 +40,7 @@ class LocationAdmin(admin.ModelAdmin):
 class ChoiceInline(admin.StackedInline):
     model = ChoiceOption
     fk_name = 'question'
-    extra = 3
+    # extra = 3
 class QuestionAdmin(admin.ModelAdmin):
     readonly_fields=('id',)
     fieldsets = [
