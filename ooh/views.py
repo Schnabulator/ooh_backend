@@ -17,16 +17,29 @@ import datetime
 
 User = get_user_model()
 # questionend  return values
+########## Club ##########
 # club_gehoben_elektro = "Disco Fox"
 # club_gehoben_rock = "Heavy Metal Poger"
 # club_gehoben_pop = "Hit Friday Follower"
 # club_gehoben_hiphop = "Gangsta Rapper"
+
+# club_preiswert_elektro = "Raver*in"
+# club_preiswert_rock = "Garage Rocker*in"
+# club_preiswert_pop = "Spotify Groover*in"
+# club_preiswert_hipHop = "Old Schooler*in"
+
+########## Bars ##########
+# bar_gehoben_elektro = "House Dancer*in"
+# bar_gehoben_rock = "Classic Rocker*in"
+# bar_gehoben_pop = "Jackson Verehrer*in"
+# bar_gehoben_hipHop = "HipHop Fanatiker*in"
 
 # bar_preiswert_elektro = "Ambient Chiller"
 # bar_preiswert_rock = "Softrocker*in"
 # bar_preiswert_pop = "Jazzer"
 # bar_preiswert_hiphop = "Battle Rapper"
 
+########## Essen ##########
 # essen_gehoben_amerikanisch = "Steak Genießer*in"
 # essen_gehoben_europa =  "Pasta Genussmensch"
 # essen_gehoben_asia =  "Sushi Guru"
@@ -37,8 +50,10 @@ User = get_user_model()
 # essen_preiswert_asia = "Nudelboxsuchti "
 # essen_preiswert_afrikanisch = "Fallafel Nascher"
 
+########## Kultur ##########
 # kulturelles_vorführungen = "Unterhaltungsfetischist"
 # kulturelles_ausstellungen = "Kunstliebhaber"
+
 # quenstionend return values end
 class index(generic.ListView):
     model = Event
@@ -131,7 +146,7 @@ def questionFinish(request):
         print("# club")
         if 'gehoben' in ans:
             print("# gehoben")
-            result = "gehobenen "
+            # result = "gehobenen "
             # Music
             if 'pop' in ans:
                 print("# pop")
@@ -147,42 +162,42 @@ def questionFinish(request):
                 result = result + "Disco Fox"
         elif 'preiswert' in ans:
             print("# billig")
-            result = "preiswerten "
+            # result = "preiswerten "
             # Music
             if 'pop' in ans:
                 print("# pop")
-                result = result + "Hit Friday Follower"
+                result = result + "Spotify Groover*in"
             elif 'rock' in ans:
                 print("# rock")
-                result = result + "Heavy Metal Poger"
+                result = result + "Garage Rocker*in"
             elif 'hip-hop' in ans:
                 print("# hip-hop")
-                result = result + "Gangster Rapper"
+                result = result + "Old Schooler*in"
             elif 'techno' in ans or 'electro' in ans or 'elektro' in ans:
                 print("# techno")
-                result = result + "Disco Fox"
+                result = result + "Raver*in"
 
     elif 'bar' in ans:
         print("# bar")
         if 'gehoben' in ans:
             print("# gehoben")#
-            result = "gehobenen "
+            # result = "gehobenen "
             # Music
             if 'pop' in ans:
                 print("# pop")
-                result = result + "Jazzer"
+                result = result + "Jackson Verehrer*in"
             elif 'rock' in ans:
                 print("# rock")
-                result = result + "Softrocker*in"
+                result = result + "Classic Rocker*in"
             elif 'hip-hop' in ans:
                 print("# hip-hop")
-                result = result + "Battle Rapper"
+                result = result + "HipHop Fanatiker*in"
             elif 'techno' in ans:
                 print("# techno")
-                result = result + "Ambient Chiller"
+                result = result + "House Dancer*in"
         elif 'preiswert' in ans:
             print("# billig")
-            result = "preiswerten "
+            # result = "preiswerten "
             # Music
             if 'pop' in ans:
                 print("# pop")
@@ -521,7 +536,7 @@ def add_event(request):
                             name=form.cleaned_data['locationName'], 
                             street=form.cleaned_data['street'], 
                         )
-                        eloc.categories.add(spcat)
+                        eloc.categories.add(lcat)
                         eloc.categories.add(scat)
                         eloc.save()
                         print("Added Eventlocation")
@@ -530,14 +545,14 @@ def add_event(request):
                 # Food and Music is Eventcategory
                 special = form.cleaned_data['specialcategory']
                 restaurant = True if form.cleaned_data['locationType'].lower()=="restaurant" else False
-                _scat = LocationCategory.objects.filter(
+                _scat = EventCategory.objects.filter(
                         Q(filter_name__iexact=special) |
                         Q(name__iexact=special)
                 )
                 if _scat.exists():
                     spcat = _scat.first()
                 else:
-                    spcat = LocationCategory.objects.create(
+                    spcat = EventCategory.objects.create(
                         filter_name=special,
                         name=special,
                     )
@@ -624,8 +639,8 @@ def participate_event(request):
                 try:
                     ev = Event.objects.get(pk=form.cleaned_data['eventID'])
                     prob = form.cleaned_data['probability'] 
-                    if prob is None or prob <0 or prob >100:
-                        prob=100
+                    if prob is None or prob <0 or prob > 100:
+                        prob = 100
                     (parti, cr) = Participate.objects.get_or_create(user=request.user, event=ev, probability=prob)
                     if cr:
                         # redirect to event page

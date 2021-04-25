@@ -65,7 +65,7 @@ class EventLocation(models.Model):
         ret = ""
         qs = self.categories.all()
         for c in qs:
-            ret += c.__str__().lower().replace(' ', '-') + " "
+            ret += c.filterName().lower().replace(' ', '-') + " "
         return ret
 
     # //TODO periodically running functions to calculate rating
@@ -126,18 +126,18 @@ class EventTemplate(models.Model):
         ret = ""
         qs = self.eventCategory.all()
         for c in qs:
-            ret += c.__str__().lower().replace(' ', '-') + " "
+            ret += c.filterName().lower().replace(' ', '-') + " "
         # preisklasse
         if self.pricecat > 0:
             if self.pricecat == 1:
-                return "preiswert"
+                ret += "preiswert"
             else:
-                return "gehoben"
-        else:
+                ret += "gehoben"
+        elif self.eventLocation.pricecat > 0:
             if self.eventLocation.pricecat == 1:
-                return "preiswert"
+                ret += "preiswert"
             else:
-                return "gehoben"
+                ret += "gehoben"
         return ret
 
     def calculatedratings(self):
