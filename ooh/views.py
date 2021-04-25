@@ -68,7 +68,7 @@ class index(generic.ListView):
         born = self.request.user.birthday
         today = datetime.date.today()
         age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
-        print("DATE: ", born, today, age)
+        # print("DATE: ", born, today, age)
         lcat = LocationCategory.objects.filter(
             choiceoption__userselection__user=self.request.user,
             choiceoption__userselection__questionRun=self.request.user.currentQuestionRun,
@@ -82,7 +82,7 @@ class index(generic.ListView):
             # choiceoption__question__firstQuestion=True
         ).order_by('choiceoption__question__priority_in_filtering').distinct()
         # print(lcat.exists(), "|", ecat.exists())
-        print(ecat, "\n", lcat)
+        # print(ecat, "\n", lcat)
         events1 = Event.objects.filter(
             Q(starttime__gte=datetime.date.today()),
             Q(eventTemplate__mininumage__lte=age),
@@ -94,7 +94,7 @@ class index(generic.ListView):
             num_fitting_event_categories=Count('eventTemplate__eventCategory')
         ).order_by('-num_fitting_location_categories', '-num_fitting_event_categories', 'starttime').distinct()
         # ).order_by('num_fitting_location_categories').distinct()
-        print(events1)
+        # print(events1)
         #//TODO seems like the order function does stupid stuff. I think Schnitzeltag has to be before shot friday
         #print("Found {0} matching lcategories and {1} matching ecategories".format(events1[0].num_fitting_location_categories, events1[0].num_fitting_event_categories))
        
@@ -121,11 +121,11 @@ def questionFinish(request):
                     ans = UserSelection.objects.get(user=request.user, question=question, questionRun=request.user.currentQuestionRun)
                     ans.selection = cselection
                     ans.save()
-                    print("Found Userselection and overwrite it")
+                    # print("Found Userselection and overwrite it")
                 except UserSelection.DoesNotExist:
                     ans = UserSelection(user=request.user, question=question, selection=cselection, questionRun=request.user.currentQuestionRun)
                     ans.save()
-                    print("Found no Userselection and created it")
+                    # print("Found no Userselection and created it")
                 break
 
     # Get result
@@ -134,83 +134,83 @@ def questionFinish(request):
         questionRun=request.user.currentQuestionRun,
         valid=1,
     )
-    print(allanswers)
+    # print(allanswers)
     ans =  []
     for a in allanswers:
         ans.append(a.selection.text.lower())
-    print("nommel\n", ans)
+    # print("nommel\n", ans)
     
     result = ""
     #//TODO wenn die damit glücklich sind kann man die kacke auch noch bisschen zusammenfassen und kürzen
     # club
     if 'club' in ans:
-        print("# club")
+      #  print("# club")
         if 'gehoben' in ans:
-            print("# gehoben")
+          #  print("# gehoben")
             # result = "gehobenen "
             # Music
             if 'pop' in ans:
-                print("# pop")
+              #  print("# pop")
                 result = result + "Hit Friday Follower"
             elif 'rock' in ans:
-                print("# rock")
+              #  print("# rock")
                 result = result + "Heavy Metal Poger"
             elif 'hip-hop' in ans:
-                print("# hip-hop")
+              #  print("# hip-hop")
                 result = result + "Gangster Rapper"
             elif 'techno' in ans or 'electro' in ans or 'elektro' in ans:
-                print("# techno")
+              #  print("# techno")
                 result = result + "Disco Fox"
         elif 'preiswert' in ans:
-            print("# billig")
+          #  print("# billig")
             # result = "preiswerten "
             # Music
             if 'pop' in ans:
-                print("# pop")
+              #  print("# pop")
                 result = result + "Spotify Groover*in"
             elif 'rock' in ans:
-                print("# rock")
+              #  print("# rock")
                 result = result + "Garage Rocker*in"
             elif 'hip-hop' in ans:
-                print("# hip-hop")
+              #  print("# hip-hop")
                 result = result + "Old Schooler*in"
             elif 'techno' in ans or 'electro' in ans or 'elektro' in ans:
-                print("# techno")
+              #  print("# techno")
                 result = result + "Raver*in"
 
     elif 'bar' in ans:
-        print("# bar")
+      #  print("# bar")
         if 'gehoben' in ans:
-            print("# gehoben")#
+          #  print("# gehoben")#
             # result = "gehobenen "
             # Music
             if 'pop' in ans:
-                print("# pop")
+              #  print("# pop")
                 result = result + "Jackson Verehrer*in"
             elif 'rock' in ans:
-                print("# rock")
+              #  print("# rock")
                 result = result + "Classic Rocker*in"
             elif 'hip-hop' in ans:
-                print("# hip-hop")
+              #  print("# hip-hop")
                 result = result + "HipHop Fanatiker*in"
             elif 'techno' in ans:
-                print("# techno")
+              #  print("# techno")
                 result = result + "House Dancer*in"
         elif 'preiswert' in ans:
-            print("# billig")
+          #  print("# billig")
             # result = "preiswerten "
             # Music
             if 'pop' in ans:
-                print("# pop")
+              #  print("# pop")
                 result = result + "Jazzer"
             elif 'rock' in ans:
-                print("# rock")
+              #  print("# rock")
                 result = result + "Softrocker*in"
             elif 'hip-hop' in ans:
-                print("# hip-hop")
+              #  print("# hip-hop")
                 result = result + "Battle Rapper"
             elif 'techno' in ans:
-                print("# techno")
+              #  print("# techno")
                 result = result + "Ambient Chiller"
     elif 'essen' in ans:
         # Food Stuff
@@ -688,7 +688,7 @@ def reset_user_preferences(request):
 
 #     # Location
 #     if "kultur" in loc.selection.text.lower():
-#         print("# Kultur")
+#       #  print("# Kultur")
 #         # no price, just different between vorführung und ausstellung
 #     else:
 #         pq = Question.objects.filter(name__icontains="preisklasse")
@@ -700,50 +700,50 @@ def reset_user_preferences(request):
 
 #         if "feiern" in loc.selection.text.lower():
 #             if "nicht" in smok.selection.text.lower():
-#                 print("# nicht raucher")
+#               #  print("# nicht raucher")
 #                 result = "nichtrauchende/r "
 #             else: 
-#                 print("# raucher")
+#               #  print("# raucher")
 #                 result = "rauchende/r "
 
-#             print("# feiern")
+#           #  print("# feiern")
 #             bcq = Question.objects.get(name__icontains="liebsten feier")
 #             barclub = allanswers.get(question=bcq)
 #             if "club" in barclub.selection.text.lower():
-#                 print("# club")
+#               #  print("# club")
 #                 if "preiswert" in price.selection.text.lower():
-#                     print("# preiswert")
+#                   #  print("# preiswert")
 #                     result = result + ""
 #                 else:
-#                     print("# gehoben")
+#                   #  print("# gehoben")
 #             else:
-#                 print("# noclub / bar")
+#               #  print("# noclub / bar")
 #                 if "preiswert" in price.selection.text.lower():
-#                     print("# preiswert")
+#                   #  print("# preiswert")
 #                 else:
-#                     print("# gehoben")
+#                   #  print("# gehoben")
 #         elif "essen" in loc.selection.text.lower():
-#             print("# bar")
+#           #  print("# bar")
 #             kq = Question.objects.get(name__icontains="küche")
 #             kitchen = allanswers.get(question=kq)
 #             if "amerika" in kitchen.selection.text.lower():
 
 #                 if "preiswert" in price.selection.text.lower():
-#                     print("# preiswert")
+#                   #  print("# preiswert")
 #                 else:
-#                     print("# gehoben")
+#                   #  print("# gehoben")
 #             if "asiat" in kitchen.selection.text.lower():
 #                 if "preiswert" in price.selection.text.lower():
-#                     print("# preiswert")
+#                   #  print("# preiswert")
 #                 else:
-#                     print("# gehoben")
+#                   #  print("# gehoben")
 #             if "europ" in kitchen.selection.text.lower():
 #                 if "preiswert" in price.selection.text.lower():
-#                     print("# preiswert")
+#                   #  print("# preiswert")
 #                 else:
-#                     print("# gehoben")
+#                   #  print("# gehoben")
 #             if "afrika" in kitchen.selection.text.lower():
 #                 if "preiswert" in price.selection.text.lower():
-#                     print("# preiswert")
+#                   #  print("# preiswert")
 #                 else:
-#                     print("# gehoben")
+#                   #  print("# gehoben")
