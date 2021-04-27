@@ -106,6 +106,9 @@ class OohUser(AbstractBaseUser, PermissionsMixin):
     location = models.ForeignKey(Location, on_delete=models.PROTECT, blank=True, null=True)    
     admin = models.BooleanField(default=False)
     defaultEventLocation = models.ForeignKey(EventLocation, on_delete=models.SET_NULL, blank=True, null=True, default=None)
+    picture = models.ImageField(default=None, blank=True, null=True, upload_to='profilepictures/%Y/%m')
+    # gender = models.Charfield(max_length=2, default=None, blank=True, null=True)
+
 
     objects = OohUserManager()
 

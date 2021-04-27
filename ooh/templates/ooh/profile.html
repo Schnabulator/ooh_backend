@@ -7,7 +7,11 @@
         <div class="user-container">
             <div class="profile-header">
                 <div class="profile-img">
+                    {% if user.picture %}
+                    <img src="{{ user.picture.url }}" width="200" alt="">
+                    {%else%}
                     <img src="{% static 'ooh/img/avatar.png'%}" width="200" alt="">
+                    {%endif%}
                 </div>
                 <div class="profile-nav-info">
                     <h4 class="user-name">

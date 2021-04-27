@@ -13,7 +13,7 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Permissions', {'fields': ('is_staff', 'is_active')}),
-        ('Personal Data', {'fields': ('birthday', 'firstname', 'lastname','location', 'street', 'housenumber', )}),
+        ('Personal Data', {'fields': ('picture', 'birthday', 'firstname', 'lastname','location', 'street', 'housenumber', 'defaultEventLocation', )}),
     )
     add_fieldsets = (
         # (None, {
@@ -22,7 +22,7 @@ class CustomUserAdmin(UserAdmin):
         # ),
         (None, {'fields': ('email', 'password')}),
         ('Permissions', {'fields': ('is_staff', 'is_active', 'admin')}),
-        ('Personal Data', {'fields': ('birthday', 'firstname', 'lastname','location', 'street', 'housenumber', 'defaultEventLocation', )}),
+        ('Personal Data', {'fields': ('picture', 'birthday', 'firstname', 'lastname','location', 'street', 'housenumber', 'defaultEventLocation', )}),
     )
     search_fields = ('email',)
     ordering = ('email',)
