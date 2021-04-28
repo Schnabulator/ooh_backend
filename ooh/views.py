@@ -418,23 +418,6 @@ class UserProfile(generic.DetailView):
     @method_decorator(login_required(login_url="/profile/login"))
     def get(self, request, *args, **kwargs):
         please_wait_hint = False
-        for key, value in request.POST.items():
-            if key.startswith("q"):
-                question_id = key[1:]
-                question = get_object_or_404(Question, pk=question_id)
-                if value is not None and len(value) > 0:
-                    cselection = ChoiceOption.objects.get(pk=value)
-                    try:
-                        ans = UserSelection.objects.get(user=request.user, question=question, questionRun=request.user.currentQuestionRun)
-                        ans.selection = cselection
-                        ans.save()
-                        # print("Found Userselection and overwrite it")
-                    except UserSelection.DoesNotExist:
-                        ans = UserSelection(user=request.user, question=question, selection=cselection, questionRun=request.user.currentQuestionRun)
-                        ans.save()
-                        # print("Found no Userselection and created it")
-                    break
-
         # Get result
         allanswers = UserSelection.objects.filter(
             user=request.user,
@@ -442,6 +425,9 @@ class UserProfile(generic.DetailView):
             valid=1,
         )
         # print(allanswers)
+        if allanswers.count() < 2:
+            context = {"body_id": "b_content", "please_wait": please_wait_hint, "noresult": True} 
+            return render(self.request, template_name=self.template_name, context=context)
         ans =  []
         for a in allanswers:
             ans.append(a.selection.text.lower())
