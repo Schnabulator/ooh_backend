@@ -417,7 +417,139 @@ class UserProfile(generic.DetailView):
     
     @method_decorator(login_required(login_url="/profile/login"))
     def get(self, request, *args, **kwargs):
-        context = {"body_id": "b_content"} 
+        please_wait_hint = False
+        for key, value in request.POST.items():
+            if key.startswith("q"):
+                question_id = key[1:]
+                question = get_object_or_404(Question, pk=question_id)
+                if value is not None and len(value) > 0:
+                    cselection = ChoiceOption.objects.get(pk=value)
+                    try:
+                        ans = UserSelection.objects.get(user=request.user, question=question, questionRun=request.user.currentQuestionRun)
+                        ans.selection = cselection
+                        ans.save()
+                        # print("Found Userselection and overwrite it")
+                    except UserSelection.DoesNotExist:
+                        ans = UserSelection(user=request.user, question=question, selection=cselection, questionRun=request.user.currentQuestionRun)
+                        ans.save()
+                        # print("Found no Userselection and created it")
+                    break
+
+        # Get result
+        allanswers = UserSelection.objects.filter(
+            user=request.user,
+            questionRun=request.user.currentQuestionRun,
+            valid=1,
+        )
+        # print(allanswers)
+        ans =  []
+        for a in allanswers:
+            ans.append(a.selection.text.lower())
+        # print("nommel\n", ans)
+        
+        result = ""
+        #//TODO wenn die damit glücklich sind kann man die kacke auch noch bisschen zusammenfassen und kürzen
+        # club
+        if 'club' in ans:
+        #  print("# club")
+            if 'gehoben' in ans:
+            #  print("# gehoben")
+                # result = "gehobenen "
+                # Music
+                if 'pop' in ans:
+                #  print("# pop")
+                    result = result + "Hit Friday Follower"
+                elif 'rock' in ans:
+                #  print("# rock")
+                    result = result + "Heavy Metal Poger"
+                elif 'hip-hop' in ans:
+                #  print("# hip-hop")
+                    result = result + "Gangster Rapper"
+                elif 'techno' in ans or 'electro' in ans or 'elektro' in ans:
+                #  print("# techno")
+                    result = result + "Disco Fox"
+            elif 'preiswert' in ans:
+            #  print("# billig")
+                # result = "preiswerten "
+                # Music
+                if 'pop' in ans:
+                #  print("# pop")
+                    result = result + "Spotify Groover*in"
+                elif 'rock' in ans:
+                #  print("# rock")
+                    result = result + "Garage Rocker*in"
+                elif 'hip-hop' in ans:
+                #  print("# hip-hop")
+                    result = result + "Old Schooler*in"
+                elif 'techno' in ans or 'electro' in ans or 'elektro' in ans:
+                #  print("# techno")
+                    result = result + "Raver*in"
+
+        elif 'bar' in ans:
+        #  print("# bar")
+            if 'gehoben' in ans:
+            #  print("# gehoben")#
+                # result = "gehobenen "
+                # Music
+                if 'pop' in ans:
+                #  print("# pop")
+                    result = result + "Jackson Verehrer*in"
+                elif 'rock' in ans:
+                #  print("# rock")
+                    result = result + "Classic Rocker*in"
+                elif 'hip-hop' in ans:
+                #  print("# hip-hop")
+                    result = result + "HipHop Fanatiker*in"
+                elif 'techno' in ans:
+                #  print("# techno")
+                    result = result + "House Dancer*in"
+            elif 'preiswert' in ans:
+            #  print("# billig")
+                # result = "preiswerten "
+                # Music
+                if 'pop' in ans:
+                #  print("# pop")
+                    result = result + "Jazzer"
+                elif 'rock' in ans:
+                #  print("# rock")
+                    result = result + "Softrocker*in"
+                elif 'hip-hop' in ans:
+                #  print("# hip-hop")
+                    result = result + "Battle Rapper"
+                elif 'techno' in ans:
+                #  print("# techno")
+                    result = result + "Ambient Chiller"
+        elif 'essen' in ans:
+            # Food Stuff
+            if 'gehoben' in ans:
+                if 'amerikanisch' in ans:
+                    result = result + "Steak Genießer*in"
+                if 'europäisch' in ans:
+                    result = result + "Pasta Genussmensch"
+                if 'asiatisch' in ans:
+                    result = result + "Sushi Guru"
+                if 'afrikanisch' in ans:
+                    result = result + "Couscous Feinschmecker"
+            if 'preiswert' in ans:
+                if 'amerikanisch' in ans:
+                    result = result + "Burger Schlinger*in"
+                if 'europäisch' in ans:
+                    result = result + "Pizza Verdrücker"
+                if 'asiatisch' in ans:
+                    result = result + "Nudelboxsuchti"
+                if 'afrikanisch' in ans:
+                    result = result + "Fallafel Nascher*in"
+        elif 'ausstellungen (museum, gallerie)' in ans:
+            result = result + "Kunstliebhaber"
+            please_wait_hint = True
+        elif 'vorstellungen (theater, oper, kino)' in ans:
+            result = result + "Unterhaltungsfetischist"
+            please_wait_hint = True
+
+    
+        
+    
+        context = {"body_id": "b_content", "result": result, "please_wait": please_wait_hint} 
         return render(self.request, template_name=self.template_name, context=context)
 
     @method_decorator(login_required(login_url="/profile/login"))

@@ -232,12 +232,25 @@
                    </div>
                    <div class="profile-body">
                        <div class="profile-posts tab">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore vero, accusamus iste impedit delectus sequi unde nostrum porro, dicta illum libero architecto quos neque esse provident. Assumenda a inventore voluptas!</p>    
+                           <h2>Fragen</h2>
+                           <p>
+                            Hey {{ user.firstname }}, wir stufen dich als eine/n {{ result }} ein. 
+                            </p>
+                            <p>
+                                {% if please_wait %}
+                                Deine Nachfrage können wir derzeit noch nicht decken. Vielleicht findest du aber <a href="{% url 'ooh:events' %}">passende Events in der Übersicht.</a>
+                                {%else%}
+                                Schau doch gleich mal nach <a href="{% url 'ooh:index' %}">deinen persönlichen Empfehlungen auf der Startseite</a> vorbei.
+                                {% endif %}
+                            </p>
+                            <p>
+                                Wenn dir die Vorschläge nicht gefallen, führe diesen <a href="{% url 'ooh:questions' 1 %}">Eventfinder</a> einfach noch mal durch.
+                            </p>
                         
                        </div>
                        <div class="profile-review tab">
                            <h4>User Review</h4>
-                           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus earum illo, maxime, magnam commodi temporibus consectetur soluta incidunt quas sequi repudiandae reprehenderit iusto recusandae officiis itaque nobis. Eum, ut ex.</p>
+                           <p>Diese Funktion wird in Zukunft hinzugefügt.</p>
                         </div>
                         <div class="profile-setting tab">
                             <h2>Account Einstellungen</h2>

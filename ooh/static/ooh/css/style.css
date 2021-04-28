@@ -2104,6 +2104,9 @@ color: #ff6a00;
 /*
 		ANFANG User Account
 ***********************************************/
+.right-side{
+	width: inherit;
+}
 
 .user-container-background{
     height: 100%;
