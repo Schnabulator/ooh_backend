@@ -425,9 +425,7 @@ class UserProfile(generic.DetailView):
             valid=1,
         )
         # print(allanswers)
-        if allanswers.count() < 2:
-            context = {"body_id": "b_content", "please_wait": please_wait_hint, "noresult": True} 
-            return render(self.request, template_name=self.template_name, context=context)
+        
         ans =  []
         for a in allanswers:
             ans.append(a.selection.text.lower())

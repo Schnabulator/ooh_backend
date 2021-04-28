@@ -234,15 +234,8 @@
                        <div class="profile-posts tab">
                            <h2>Fragen</h2>
                            
-                            {% if noresult %}
-                                <p>
-                                    Wir können dich leider nicht einstufen, bitte beantworte die Fragen des <a href="{% url 'ooh:questions' 1 %}"> Eventfinders </a>.
-                                </p>
-                                <p>
-                                    Vielleicht findest du aber <a href="{% url 'ooh:events' %}">passende Events in der Übersicht.</a>
-                                </p>
-                            {%else%}
-                                <p>
+                            {% if result %}
+                            <p>
                                 Hey {{ user.firstname }}, wir stufen dich als eine/n {{ result }} ein. 
                                 </p>
                                 <p>
@@ -254,6 +247,14 @@
                                 </p>
                                 <p>
                                     Wenn dir die Vorschläge nicht gefallen, führe diesen <a href="{% url 'ooh:questions' 1 %}">Eventfinder</a> einfach noch mal durch.
+                                </p>    
+                                
+                            {%else%}
+                                <p>
+                                    Wir können dich leider nicht einstufen, bitte beantworte die Fragen des <a href="{% url 'ooh:questions' 1 %}"> Eventfinders </a>.
+                                </p>
+                                <p>
+                                    Vielleicht findest du aber <a href="{% url 'ooh:events' %}">passende Events in der Übersicht.</a>
                                 </p>
                             {% endif %}
                        </div>

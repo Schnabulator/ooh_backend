@@ -6,19 +6,29 @@
 <div class="qu-container">
     <div class="qu-box">
         <h3>Ergebnis</h3>
-        <p>
+        {% if result %}
+            <p>
             Hey {{ user.firstname }}, wir stufen dich als eine/n {{ result }} ein. 
-        </p>
-        <p>
-            {% if please_wait %}
-            Deine Nachfrage können wir derzeit noch nicht decken. Vielleicht findest du aber <a href="{% url 'ooh:events' %}">passende Events in der Übersicht.</a>
-            {%else%}
-            Schau doch gleich mal nach <a href="{% url 'ooh:index' %}">deinen persönlichen Empfehlungen auf der Startseite</a> vorbei.
-            {% endif %}
-        </p>
-        <p>
-            Wenn dir die Vorschläge nicht gefallen, führe diesen <a href="{% url 'ooh:questions' 1 %}">Eventfinder</a> einfach noch mal durch.
-        </p>
+            </p>
+            <p>
+                {% if please_wait %}
+                Deine Nachfrage können wir derzeit noch nicht decken. Vielleicht findest du aber <a href="{% url 'ooh:events' %}">passende Events in der Übersicht.</a>
+                {%else%}
+                Schau doch gleich mal nach <a href="{% url 'ooh:index' %}">deinen persönlichen Empfehlungen auf der Startseite</a> vorbei.
+                {% endif %}
+            </p>
+            <p>
+                Wenn dir die Vorschläge nicht gefallen, führe diesen <a href="{% url 'ooh:questions' 1 %}">Eventfinder</a> einfach noch mal durch.
+            </p>    
+                
+        {%else%}
+            <p>
+                Wir können dich leider nicht einstufen, bitte beantworte die Fragen des <a href="{% url 'ooh:questions' 1 %}"> Eventfinders </a>.
+            </p>
+            <p>
+                Vielleicht findest du aber <a href="{% url 'ooh:events' %}">passende Events in der Übersicht.</a>
+            </p>
+        {% endif %}
     </div>    
 </div>
 {% endblock %}
