@@ -584,7 +584,7 @@ def newsletter(request):
 #  //TODO eventlocation kategorien müssen gesetzt werden 
 def add_event(request):
     if request.method == "POST":
-        form = AddEvent(request.POST)
+        form = AddEvent(request.POST, request.FILES)
         # print(form)
         err = {}
         if form.is_valid():
@@ -691,7 +691,7 @@ def add_event(request):
                         eventLocation=eloc,
                         organizer=request.user,
                         pricecat=form.cleaned_data['pricecat'],
-                        picture=form.cleaned_data['picture'],
+                        picture=request.FILES['picture'],
                     )
                     temp.save()
                     print("Added Template")
@@ -722,6 +722,7 @@ def add_event(request):
                     intervalInDays=form.cleaned_data['intervalInDays'],
                     until=form.cleaned_data['until'],
                 )
+
                 # print(
                 #     "EVENTADDER\n",
                 #     event.starttime, 
@@ -734,6 +735,7 @@ def add_event(request):
                 #     event.eventTemplate.eventLocation.location.cityname,
                 # )
                 event.save()
+                print("Added event")
             except Location.DoesNotExist:
                 err['location'] = "unknown"
             except EventTemplate.DoesNotExist:
