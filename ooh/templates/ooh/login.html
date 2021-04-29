@@ -151,9 +151,9 @@
             $("#loginRegister").validate({
                 debug: true,
                 rules: {
-                    passwd: {
+                    password1: {
                         required: true,
-                        minlength: 4
+                        minlength: 8
                     }
                 }
             });
@@ -230,7 +230,10 @@
                             }
                         },
                     error: function(msg) {
-                        alert (msg);
+                        ret = JSON.parse(msg.responseText);
+                        console.log("Fehler bei der Anmeldung");
+                        console.log(ret);
+                        alert(ret.error);
                     }
                 })
                 return false; 
