@@ -1,5 +1,6 @@
 # Out of Home
-This repository contains ONLY the backend stuff for the dhbw project out of home
+This repository contains stuff for the dhbw project `out of home`
+The project is currently online on my private Server via on [ooh.amatt.de](https://ooh.amatt.de)
 
 # Import all German Cities including plz and federal state
 * `pip install django-csvimport`
