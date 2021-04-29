@@ -11,13 +11,13 @@ This repository contains ONLY the backend stuff for the dhbw project out of home
 * [X] Location URL töten
 * [X] After participating reload page (With filters!!)
 * [X] Login seite bild vergrößern
-* [ ] Add Event from Userprofile page
-* [ ] personalized home site fix
-* [ ] Fragenkatalog und participate leitet zum login weiter, wenn nicht angemeldet
+* [X] Add Event from Userprofile page
+* [X] personalized home site fix
+* [X] Fragenkatalog und participate leitet zum login weiter, wenn nicht angemeldet
 * [ ] Von index auf eventseite muss mit get parametern erweitert werden
 * [ ] Teilnahmen im Benutzerkonto anzeigen
-* [ ] Newsletter reinmachen
-* [ ] Index time filter immer zeigen
+* [X] Newsletter reinmachen
+* [] Index time filter immer zeigen
 
 # Map view mit OpenStreetmaps
 
